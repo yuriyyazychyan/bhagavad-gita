@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бхагавад-гӣта̄ как она есть</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=GFS+Didot&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --paper:   #f5f0e4;
+  --paper2:  #ede7d6;
+  --paper3:  #e4dcc8;
+  --ink:     #1a1208;
+  --ink2:    #3a2e1e;
+  --ink3:    #6a5a45;
+  --rule:    rgba(90,65,30,0.22);
+  --serif:   'IM Fell English', 'Times New Roman', Georgia, serif;
+  --devan:   'Noto Serif Devanagari', serif;
+  --sidebar: 270px;
+  --trans:   0.2s ease;
+}
+[data-theme="dark"] {
+  --paper:  #16100a;
+  --paper2: #1e160c;
+  --paper3: #261c10;
+  --ink:    #e8dcc8;
+  --ink2:   #b8a888;
+  --ink3:   #7a6a55;
+  --rule:   rgba(200,170,100,0.18);
+}
+
+/* ── BASE ── */
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--serif);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.8;
+  transition: background var(--trans), color var(--trans);
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 48px;
+  background: var(--paper2);
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 14px;
+}
+.topbar-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink2);
+  flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tb-btn {
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--ink2);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-family: var(--serif);
+  cursor: pointer;
+  transition: all var(--trans);
+  white-space: nowrap;
+}
+.tb-btn:hover { background: var(--paper3); color: var(--ink); }
+.lang-wrap { display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.lang-wrap button {
+  background: none; border: none;
+  padding: 4px 10px; font-size: 13px;
+  font-family: var(--serif); cursor: pointer;
+  color: var(--ink2); transition: all var(--trans);
+}
+.lang-wrap button.on { background: var(--ink2); color: var(--paper); }
+
+/* ── PROGRESS ── */
+.prog { position: fixed; top: 48px; left: 0; right: 0; height: 2px; background: var(--paper3); z-index: 99; }
+.prog-fill { height: 100%; background: var(--ink3); width: 0; transition: width 0.1s; }
+
+/* ── LAYOUT ── */
+.wrap { display: flex; padding-top: 50px; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar);
+  background: var(--paper2);
+  border-right: 1px solid var(--rule);
+  position: fixed; top: 50px; left: 0; bottom: 0;
+  overflow-y: auto;
+  transition: transform var(--trans);
+  z-index: 50;
+}
+.sidebar.hidden { transform: translateX(calc(-1 * var(--sidebar))); }
+.sb-head {
+  padding: 16px 16px 8px;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink3); border-bottom: 1px solid var(--rule);
+}
+.ch-row {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 8px 16px; cursor: pointer;
+  font-size: 14px; color: var(--ink2);
+  border-left: 2px solid transparent;
+  transition: all var(--trans); line-height: 1.4;
+}
+.ch-row:hover { background: var(--paper3); color: var(--ink); }
+.ch-row.on { background: var(--paper3); color: var(--ink); border-left-color: var(--ink3); }
+.ch-n { font-size: 11px; color: var(--ink3); min-width: 18px; }
+.ch-label { flex: 1; }
+.ch-vcount { font-size: 11px; color: var(--ink3); }
+
+/* ── MAIN ── */
+.main { margin-left: var(--sidebar); flex: 1; transition: margin-left var(--trans); }
+.main.full { margin-left: 0; }
+
+/* ── BOOK PAGE ── */
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 48px 100px;
+}
+@media (max-width: 700px) {
+  .page { padding: 28px 22px 80px; }
+  :root { --sidebar: 82vw; }
+}
+
+/* ── CHAPTER OPENING ── */
+.ch-opening { text-align: center; margin-bottom: 48px; }
+.ch-word {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 12px;
+}
+.ch-word span { margin: 0 6px; }
+.ch-sanskrit-title {
+  font-family: var(--devan);
+  font-size: 26px; color: var(--ink);
+  line-height: 1.6; margin-bottom: 8px;
+}
+.ch-translit-title {
+  font-style: italic; font-size: 19px;
+  color: var(--ink2); margin-bottom: 6px;
+}
+.ch-eng-title {
+  font-size: 22px; font-weight: normal;
+  color: var(--ink); margin-bottom: 20px;
+  letter-spacing: 0.01em;
+}
+.ch-rule { border: none; border-top: 1px solid var(--rule); margin: 20px auto; width: 200px; }
+.ch-intro {
+  font-style: italic; font-size: 16px;
+  color: var(--ink2); line-height: 1.75;
+  max-width: 520px; margin: 0 auto;
+}
+
+/* ── TEXT NUMBER ── */
+.text-label {
+  text-align: center;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 18px;
+}
+
+/* ── VERSE BLOCK ── */
+.verse {
+  margin-bottom: 52px;
+  scroll-margin-top: 70px;
+}
+.verse-top {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 18px;
+}
+.verse-ref {
+  font-size: 11px; letter-spacing: 0.1em;
+  color: var(--ink3); white-space: nowrap;
+}
+.verse-line { flex: 1; height: 1px; background: var(--rule); }
+.verse-acts { display: flex; gap: 6px; }
+.vbtn {
+  background: none; border: 1px solid var(--rule);
+  border-radius: 3px; padding: 2px 7px;
+  font-size: 12px; cursor: pointer; color: var(--ink3);
+  font-family: var(--serif); transition: all var(--trans);
+}
+.vbtn:hover { color: var(--ink); border-color: var(--ink3); }
+.vbtn.bm { color: var(--ink); border-color: var(--ink); }
+
+/* ── SANSKRIT ── */
+.v-sanskrit {
+  font-family: var(--devan);
+  font-size: 21px; line-height: 1.9;
+  text-align: center; color: var(--ink);
+  margin-bottom: 12px;
+}
+
+/* ── TRANSLITERATION ── */
+.v-translit {
+  font-style: italic; font-size: 16px;
+  text-align: center; color: var(--ink2);
+  line-height: 1.75; margin-bottom: 16px;
+}
+.w {
+  cursor: pointer;
+  border-bottom: 1px dotted var(--rule);
+  transition: color var(--trans), border-color var(--trans);
+}
+.w:hover { color: var(--ink); border-color: var(--ink3); }
+
+/* ── WORD-BY-WORD ── */
+.v-wordbyword {
+  font-size: 15px; color: var(--ink2);
+  margin-bottom: 16px; line-height: 1.75;
+  padding: 0 8px;
+}
+.v-wordbyword em { font-style: italic; }
+
+/* ── TRANSLATION ── */
+.v-translation {
+  font-size: 17px; color: var(--ink);
+  line-height: 1.8; margin-bottom: 20px;
+  border-left: 1px solid var(--rule);
+  padding-left: 18px;
+}
+
+/* ── PURPORT ── */
+.purport-tog {
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink3); cursor: pointer; user-select: none;
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 0; transition: color var(--trans);
+}
+.purport-tog:hover { color: var(--ink); }
+.purport-tog::before { content: '▶'; font-size: 8px; transition: transform var(--trans); }
+.purport-tog.open::before { transform: rotate(90deg); }
+.purport-body {
+  display: none; margin-top: 14px;
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+}
+.purport-body.open { display: block; }
+.purport-lbl {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 10px;
+}
+.purport-body p {
+  font-size: 16px; color: var(--ink2);
+  line-height: 1.8; margin-bottom: 12px;
+}
+
+/* ── AUDIO LINK ── */
+.audio-lnk {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 13px; color: var(--ink3);
+  border: 1px solid var(--rule); border-radius: 3px;
+  padding: 3px 9px; cursor: pointer; text-decoration: none;
+  transition: all var(--trans); margin-top: 8px;
+  font-family: var(--serif);
+}
+.audio-lnk:hover { color: var(--ink); border-color: var(--ink3); }
+
+/* ── ORNAMENT ── */
+.orn { text-align: center; color: var(--rule); font-size: 20px; margin: 36px 0; user-select: none; }
+
+/* ── WORD TOOLTIP ── */
+.tip {
+  position: fixed; z-index: 300;
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 10px 14px; max-width: 260px;
+  font-size: 14px; line-height: 1.5;
+  display: none; pointer-events: none;
+}
+.tip.on { display: block; }
+.tip-skr { font-family: var(--devan); font-size: 17px; color: var(--ink); display: block; margin-bottom: 3px; }
+.tip-tr  { font-style: italic; color: var(--ink2); display: block; margin-bottom: 3px; }
+.tip-def { color: var(--ink); }
+
+/* ── BOOKMARKS PANEL ── */
+.bmpanel {
+  position: fixed; right: 0; top: 50px; bottom: 0;
+  width: 280px; background: var(--paper2);
+  border-left: 1px solid var(--rule);
+  z-index: 80; transform: translateX(100%);
+  transition: transform var(--trans);
+  overflow-y: auto; padding: 16px;
+}
+.bmpanel.on { transform: translateX(0); }
+.bm-head { font-style: italic; color: var(--ink2); margin-bottom: 14px; font-size: 15px; border-bottom: 1px solid var(--rule); padding-bottom: 10px; }
+.bm-item {
+  padding: 9px 10px; border: 1px solid var(--rule);
+  border-radius: 4px; margin-bottom: 8px; cursor: pointer;
+  font-size: 13px; background: var(--paper); transition: all var(--trans);
+}
+.bm-item:hover { border-color: var(--ink3); }
+.bm-ref { color: var(--ink3); font-size: 11px; letter-spacing: 0.08em; margin-bottom: 3px; }
+.bm-txt { color: var(--ink2); line-height: 1.4; }
+.bm-empty { font-style: italic; font-size: 14px; color: var(--ink3); }
+
+/* ── OVERLAY ── */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.25); z-index: 45; display: none; }
+.overlay.on { display: block; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+
+/* ── EMPTY STATE ── */
+.empty { text-align: center; padding: 80px 0; color: var(--ink3); font-style: italic; font-size: 16px; }
+</style>
+</head>
+<body data-theme="light">
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <button class="tb-btn" id="menuBtn">☰</button>
+  <div class="topbar-title" id="topTitle"><em>Бхагавад-гӣта̄ как она есть</em></div>
+  <div class="lang-wrap">
+    <button class="on" id="lRu" onclick="setLang('ru')">RU</button>
+    <button id="lEn" onclick="setLang('en')">EN</button>
+  </div>
+  <button class="tb-btn" id="bmBtn">🔖 <span id="bmCnt">0</span></button>
+  <button class="tb-btn" id="themeBtn">🌙</button>
+</header>
+<div class="prog"><div class="prog-fill" id="progFill"></div></div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- LAYOUT -->
+<div class="wrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head" id="sbHead">Содержание</div>
+    <div id="tocList"></div>
+  </aside>
+  <main class="main" id="main">
+    <div class="page" id="page"></div>
+  </main>
+</div>
+
+<!-- BOOKMARKS PANEL -->
+<div class="bmpanel" id="bmpanel">
+  <div class="bm-head" id="bmHead">Закладки</div>
+  <div id="bmList"></div>
+</div>
+
+<!-- WORD TOOLTIP -->
+<div class="tip" id="tip">
+  <span class="tip-skr" id="tipSkr"></span>
+  <span class="tip-tr" id="tipTr"></span>
+  <span class="tip-def" id="tipDef"></span>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   DATA — добавляй главы сюда по мере наполнения
+   ════════════════════════════════════════════ */
+const CHAPTERS = [
+  { n:1,  skr:'अर्जुन विषाद योग',         tr:'Arjuna-viṣāda-yoga',           ru:'Наблюдение армий на Курукшетре',          en:'Observing the Armies on the Battlefield of Kurukṣetra', v:47 },
+  { n:2,  skr:'सांख्य योग',               tr:'Sāṅkhya-yoga',                 ru:'Содержание Гиты вкратце',                  en:'Contents of the Gītā Summarized',                       v:72 },
+  { n:3,  skr:'कर्म योग',                 tr:'Karma-yoga',                   ru:'Карма-йога',                               en:'Karma-yoga',                                             v:43 },
+  { n:4,  skr:'ज्ञान कर्म संन्यास योग',   tr:'Jñāna-karma-sannyāsa-yoga',    ru:'Трансцендентное знание',                  en:'Transcendental Knowledge',                               v:42 },
+  { n:5,  skr:'कर्म संन्यास योग',         tr:'Karma-sannyāsa-yoga',          ru:'Действие в сознании Кришны',               en:'Karma-yoga — Action in Kṛṣṇa Consciousness',            v:29 },
+  { n:6,  skr:'ध्यान योग',               tr:'Dhyāna-yoga',                  ru:'Дхьяна-йога',                              en:'Dhyāna-yoga',                                            v:47 },
+  { n:7,  skr:'ज्ञान विज्ञान योग',        tr:'Jñāna-vijñāna-yoga',           ru:'Знание Абсолюта',                          en:'Knowledge of the Absolute',                              v:30 },
+  { n:8,  skr:'अक्षर ब्रह्म योग',         tr:'Akṣara-brahma-yoga',           ru:'Достижение Верховного',                   en:'Attaining the Supreme',                                  v:28 },
+  { n:9,  skr:'राज विद्या राज गुह्य योग', tr:'Rāja-vidyā-rāja-guhya-yoga',   ru:'Сокровеннейшее знание',                   en:'The Most Confidential Knowledge',                        v:34 },
+  { n:10, skr:'विभूति योग',              tr:'Vibhūti-yoga',                  ru:'Могущество Абсолюта',                      en:'The Opulence of the Absolute',                           v:42 },
+  { n:11, skr:'विश्वरूप दर्शन योग',      tr:'Viśvarūpa-darśana-yoga',        ru:'Вселенская форма',                         en:'The Universal Form',                                     v:55 },
+  { n:12, skr:'भक्ति योग',              tr:'Bhakti-yoga',                   ru:'Преданное служение',                       en:'Devotional Service',                                     v:20 },
+  { n:13, skr:'क्षेत्र क्षेत्रज्ञ विभाग योग', tr:'Kṣetra-kṣetrajña-vibhāga-yoga', ru:'Природа, наслаждающийся и сознание', en:'Nature, the Enjoyer, and Consciousness',                  v:35 },
+  { n:14, skr:'गुणत्रय विभाग योग',       tr:'Guṇa-traya-vibhāga-yoga',       ru:'Три гуны материальной природы',           en:'The Three Modes of Material Nature',                     v:27 },
+  { n:15, skr:'पुरुषोत्तम योग',          tr:'Puruṣottama-yoga',              ru:'Йога Верховной Личности',                  en:'The Yoga of the Supreme Person',                         v:20 },
+  { n:16, skr:'दैवासुर संपद् विभाग योग', tr:'Daivāsura-sampad-vibhāga-yoga', ru:'Божественная и демоническая природа',     en:'The Divine and Demoniac Natures',                        v:24 },
+  { n:17, skr:'श्रद्धात्रय विभाग योग',   tr:'Śraddhā-traya-vibhāga-yoga',    ru:'Три вида веры',                           en:'The Divisions of Faith',                                 v:28 },
+  { n:18, skr:'मोक्ष संन्यास योग',       tr:'Mokṣa-sannyāsa-yoga',           ru:'Совершенство отречения',                  en:'Conclusion — The Perfection of Renunciation',            v:78 },
+];
+
+/* ────────────────────────────────────────────
+   ТЕКСТЫ — здесь только Глава 2 как пример.
+   Остальные главы добавляй в том же формате.
+   ──────────────────────────────────────────── */
+const VERSES = {
+  2: [
+    {
+      n: 1,
+      skr: 'सञ्जय उवाच ।\nतं तथा कृपयाविष्टमश्रुपूर्णाकुलेक्षणम् ।\nविषीदन्तमिदं वाक्यमुवाच मधुसूदनः ॥ १ ॥',
+      tr: 'sañjaya uvāca\ntaṁ tathā kṛpayāviṣṭam\naśru-pūrṇākulekṣaṇam\nviṣīdantam idaṁ vākyam\nuvāca madhusūdanaḥ',
+      wbw_ru: '<em>sañjayaḥ uvāca</em> — Санджая сказал; <em>tam</em> — ему; <em>tathā</em> — так; <em>kṛpayā</em> — состраданием; <em>āviṣṭam</em> — охваченному; <em>aśru-pūrṇa</em> — полными слёз; <em>akula</em> — смущёнными; <em>īkṣaṇam</em> — взором; <em>viṣīdantam</em> — скорбящему; <em>idam</em> — следующие; <em>vākyam</em> — слова; <em>uvāca</em> — сказал; <em>madhusūdanaḥ</em> — Мадхусудана.',
+      wbw_en: '<em>sañjayaḥ uvāca</em> — Sañjaya said; <em>tam</em> — unto him; <em>tathā</em> — thus; <em>kṛpayā</em> — with compassion; <em>āviṣṭam</em> — overwhelmed; <em>aśru-pūrṇa</em> — full of tears; <em>akula</em> — depressed; <em>īkṣaṇam</em> — eyes; <em>viṣīdantam</em> — lamenting; <em>idam</em> — these; <em>vākyam</em> — words; <em>uvāca</em> — said; <em>madhusūdanaḥ</em> — Madhusūdana.',
+      tr_ru: 'Санджая сказал: Видя, как Арджуна, охваченный состраданием, опечален и что глаза его полны слёз, Мадхусудана, Кришна, произнёс следующие слова.',
+      tr_en: 'Sañjaya said: Seeing Arjuna full of compassion, his mind depressed, his eyes full of tears, Madhusūdana, Kṛṣṇa, spoke the following words.',
+      pur_ru: 'Материальное сострадание, скорбь и слёзы являются признаками незнания истинного «я». Тот, кто знает: «я не это тело», не способен скорбеть об уходящих или об умерших. Слово «Мадхусудана» значимо: Кришна убил демона Мадху, и точно так же Он убьёт демона заблуждения, охватившего Арджуну.',
+      pur_en: 'Material compassion, lamentation, and tears are all signs of ignorance of the real self. Compassion for the eternal soul is another matter. The word Madhusūdana is significant: Kṛṣṇa killed the Madhu demon, and similarly He will kill the demon of ignorance that has overtaken Arjuna.',
+      audio: 'https://prabhupadabooks.com/bg/2/1',
+      words: [
+        { tr:'tathā',         skr:'तथा',         ru:'так, подобным образом',      en:'thus, in that manner' },
+        { tr:'kṛpayā',        skr:'कृपया',        ru:'состраданием',               en:'by compassion' },
+        { tr:'āviṣṭam',       skr:'आविष्टम्',     ru:'охваченного',                en:'overwhelmed' },
+        { tr:'madhusūdanaḥ',  skr:'मधुसूदनः',    ru:'Мадхусудана (Кришна)',       en:'Madhusūdana (Kṛṣṇa)' },
+      ]
+    },
+    {
+      n: 11,
+      skr: 'श्रीभगवानुवाच ।\nअशोच्यानन्वशोचस्त्वं प्रज्ञावादांश्च भाषसे ।\nगतासूनगतासूंश्च नानुशोचन्ति पण्डिताः ॥ ११ ॥',
+      tr: 'śrī-bhagavān uvāca\naśocyān anvaśocas tvaṁ\nprajñā-vādāṁś ca bhāṣase\ngatāsūn agatāsūṁś ca\nnānuśocanti paṇḍitāḥ',
+      wbw_ru: '<em>śrī-bhagavān uvāca</em> — Верховная Личность Бога сказал; <em>aśocyān</em> — о тех, о ком не следует скорбеть; <em>anvaśocaḥ</em> — ты скорбишь; <em>tvam</em> — ты; <em>prajñā-vādān</em> — мудрые слова; <em>ca</em> — также; <em>bhāṣase</em> — говоришь; <em>gatāsūn</em> — умерших; <em>agatāsūn</em> — живых; <em>ca</em> — также; <em>na</em> — не; <em>anuśocanti</em> — скорбят; <em>paṇḍitāḥ</em> — мудрецы.',
+      wbw_en: '<em>śrī-bhagavān uvāca</em> — the Supreme Personality of Godhead said; <em>aśocyān</em> — that which is not worthy of lamentation; <em>anvaśocaḥ</em> — you are lamenting; <em>tvam</em> — you; <em>prajñā-vādān</em> — learned words; <em>ca</em> — also; <em>bhāṣase</em> — speaking; <em>gatāsūn</em> — the dead; <em>agatāsūn</em> — the living; <em>ca</em> — also; <em>na</em> — never; <em>anuśocanti</em> — lament; <em>paṇḍitāḥ</em> — the learned.',
+      tr_ru: 'Верховная Личность Бога сказал: Говоря мудрые слова, ты скорбишь о том, что недостойно скорби. Мудрые не сожалеют ни об умерших, ни о живых.',
+      tr_en: 'The Supreme Personality of Godhead said: While speaking learned words, you are mourning for what is not worthy of grief. Those who are wise lament neither for the living nor for the dead.',
+      pur_ru: 'Господь сразу приступил к сути. Кришна обратился к Арджуне как к пандиту — учёному человеку, — однако указал: истинный учёный не скорбит ни о живых, ни о мёртвых. Почему? Ибо он знает, что душа вечна. Это — отправная точка всего учения Гиты.',
+      pur_en: 'The Lord at once took the position of a teacher and chided His student, calling him, although indirectly, a fool. Kṛṣṇa said, in effect, "You are talking like a learned man, but you do not know that one who is learned — one who knows what is body and what is soul — does not lament for any stage of the body, neither in the living nor in the dead condition."',
+      audio: 'https://prabhupadabooks.com/bg/2/11',
+      words: [
+        { tr:'aśocyān',   skr:'अशोच्यान्', ru:'то, о чём не следует скорбеть', en:'that not worthy of grief' },
+        { tr:'prajñā',    skr:'प्रज्ञा',   ru:'мудрость, знание',               en:'wisdom, knowledge' },
+        { tr:'paṇḍitāḥ', skr:'पण्डिताः',  ru:'мудрецы, учёные',                en:'the wise, the learned' },
+      ]
+    },
+    {
+      n: 20,
+      skr: 'न जायते म्रियते वा कदाचि-\nन्नायं भूत्वा भविता वा न भूयः ।\nअजो नित्यः शाश्वतोऽयं पुराणो\nन हन्यते हन्यमाने शरीरे ॥ २० ॥',
+      tr: 'na jāyate mriyate vā kadācin\nnāyaṁ bhūtvā bhavitā vā na bhūyaḥ\najo nityaḥ śāśvato \'yaṁ purāṇo\nna hanyate hanyamāne śarīre',
+      wbw_ru: '<em>na</em> — никогда; <em>jāyate</em> — не рождается; <em>mriyate</em> — не умирает; <em>vā</em> — или; <em>kadācit</em> — когда-либо; <em>na ayam</em> — эта душа не; <em>bhūtvā</em> — возникнув; <em>bhavitā</em> — станет; <em>vā</em> — или; <em>na bhūyaḥ</em> — или вновь не будет; <em>ajaḥ</em> — нерождённый; <em>nityaḥ</em> — вечный; <em>śāśvataḥ</em> — постоянный; <em>ayam</em> — эта; <em>purāṇaḥ</em> — изначальная; <em>na hanyate</em> — не убивается; <em>hanyamāne</em> — когда убито; <em>śarīre</em> — тело.',
+      wbw_en: '<em>na</em> — never; <em>jāyate</em> — takes birth; <em>mriyate</em> — dies; <em>vā</em> — either; <em>kadācit</em> — at any time; <em>na ayam</em> — this soul never; <em>bhūtvā</em> — having come into being; <em>bhavitā</em> — will come to be; <em>vā</em> — or; <em>na bhūyaḥ</em> — or is again; <em>ajaḥ</em> — unborn; <em>nityaḥ</em> — eternal; <em>śāśvataḥ</em> — permanent; <em>ayam</em> — this; <em>purāṇaḥ</em> — the oldest; <em>na hanyate</em> — is not slain; <em>hanyamāne</em> — being killed; <em>śarīre</em> — the body.',
+      tr_ru: 'Для души не существует ни рождения, ни смерти. Она не возникла, не возникает и не возникнет. Она — нерождённая, вечная, всегда существующая и изначальная. Она не умирает, когда умирает тело.',
+      tr_en: 'For the soul there is never birth nor death at any time. It has not come into being, does not come into being, and will not come into being. It is unborn, eternal, ever-existing, and primeval. It is not slain when the body is slain.',
+      pur_ru: 'Качественно атма неотлична от Параматмы. Душа не рождается, как рождается тело, и не умирает, как умирает тело. Она нерождённа, и поэтому слово «нерождённый» применяется к ней, а не к Брахману. Великие мыслители путают Брахман с дживой, но Гита ясно говорит: каждая душа индивидуальна и вечно остаётся таковой.',
+      pur_en: 'Qualitatively, the small atomic soul is one with the Supreme Soul. It is not like the body. Sometimes the soul is called the steady, or kūṭa-stha. The body is subject to six kinds of transformations. It takes its birth in the womb of the mother\'s body, remains for some time, grows, produces some effects, gradually dwindles, and at last vanishes into oblivion. The soul, however, does not go through such changes.',
+      audio: 'https://prabhupadabooks.com/bg/2/20',
+      words: [
+        { tr:'na jāyate', skr:'न जायते',   ru:'не рождается никогда',    en:'is never born' },
+        { tr:'ajaḥ',      skr:'अजः',       ru:'нерождённый',              en:'unborn' },
+        { tr:'nityaḥ',    skr:'नित्यः',    ru:'вечный',                   en:'eternal' },
+        { tr:'śāśvataḥ',  skr:'शाश्वतः',   ru:'постоянный, неизменный',  en:'permanent, ever-existing' },
+        { tr:'purāṇaḥ',   skr:'पुराणः',    ru:'изначальный, древнейший',  en:'primeval, the oldest' },
+      ]
+    },
+  ]
+};
+
+/* ════════════════════════════════════════════
+   STATE
+   ════════════════════════════════════════════ */
+let lang = 'ru';
+let curCh = 2;
+let bookmarks = JSON.parse(localStorage.getItem('bg_bm') || '[]');
+
+/* ════════════════════════════════════════════
+   LANG
+   ════════════════════════════════════════════ */
+function setLang(l) {
+  lang = l;
+  document.getElementById('lRu').classList.toggle('on', l === 'ru');
+  document.getElementById('lEn').classList.toggle('on', l === 'en');
+  document.getElementById('sbHead').textContent = l === 'ru' ? 'Содержание' : 'Contents';
+  document.getElementById('bmHead').textContent = l === 'ru' ? 'Закладки'   : 'Bookmarks';
+  renderToc();
+  renderChapter(curCh);
+}
+
+/* ════════════════════════════════════════════
+   THEME
+   ════════════════════════════════════════════ */
+function toggleTheme() {
+  const dark = document.body.dataset.theme === 'dark';
+  document.body.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('themeBtn').textContent = dark ? '🌙' : '☀️';
+}
+
+/* ════════════════════════════════════════════
+   TOC
+   ════════════════════════════════════════════ */
+function renderToc() {
+  document.getElementById('tocList').innerHTML = CHAPTERS.map(c => `
+    <div class="ch-row ${c.n === curCh ? 'on' : ''}" onclick="renderChapter(${c.n})">
+      <span class="ch-n">${c.n}.</span>
+      <span class="ch-label">${lang === 'ru' ? c.ru : c.en}</span>
+      <span class="ch-vcount">${c.v}</span>
+    </div>
+  `).join('');
+}
+
+/* ════════════════════════════════════════════
+   CHAPTER
+   ════════════════════════════════════════════ */
+function renderChapter(n) {
+  curCh = n;
+  const ch = CHAPTERS.find(c => c.n === n);
+  const verses = VERSES[n] || [];
+  const isRu = lang === 'ru';
+
+  let html = `
+    <div class="ch-opening">
+      <div class="ch-word">
+        <span>${isRu ? 'Глава' : 'Chapter'}</span>
+        <span>${numWord(n)}</span>
+      </div>
+      <div class="ch-sanskrit-title">${ch.skr}</div>
+      <div class="ch-translit-title">${ch.tr}</div>
+      <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
+      <hr class="ch-rule">
+    </div>
+  `;
+
+  if (!verses.length) {
+    html += `<div class="empty">${isRu ? 'Тексты этой главы будут добавлены...' : 'Texts for this chapter coming soon...'}</div>`;
+  } else {
+    verses.forEach((v, i) => {
+      if (i > 0) html += `<div class="orn">✦ ✦ ✦</div>`;
+      html += renderVerse(v, n);
+    });
+  }
+
+  document.getElementById('page').innerHTML = html;
+  document.getElementById('topTitle').innerHTML = `<em>${isRu ? ch.ru : ch.en}</em>`;
+  renderToc();
+  updateBm();
+  closeAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ════════════════════════════════════════════
+   VERSE
+   ════════════════════════════════════════════ */
+function renderVerse(v, chN) {
+  const isRu = lang === 'ru';
+  const key = `${chN}.${v.n}`;
+  const isBm = bookmarks.some(b => b.key === key);
+
+  // build transliteration with clickable words
+  let trLines = v.tr.split('\n').map(line => {
+    return line.split(' ').map(tok => {
+      const wd = v.words?.find(w => tok.startsWith(w.tr.replace(/[''']/g,'')));
+      if (wd) return `<span class="w" onclick="showTip(event,'${esc(wd.skr)}','${esc(wd.tr)}','${esc(isRu ? wd.ru : wd.en)}')">${tok}</span>`;
+      return tok;
+    }).join(' ');
+  }).join('<br>');
+
+  return `
+<div class="verse" id="v${chN}_${v.n}">
+  <div class="verse-top">
+    <span class="verse-ref">${isRu ? 'ТЕКСТ' : 'TEXT'} ${v.n}</span>
+    <div class="verse-line"></div>
+    <div class="verse-acts">
+      <button class="vbtn ${isBm ? 'bm' : ''}" onclick="toggleBm('${key}',event)">${isBm ? '🔖' : '○'}</button>
+      ${v.audio ? `<a class="audio-lnk" href="${v.audio}" target="_blank">▶ ${isRu ? 'Аудио' : 'Audio'}</a>` : ''}
+    </div>
+  </div>
+  <div class="v-sanskrit">${v.skr.replace(/\n/g,'<br>')}</div>
+  <div class="v-translit">${trLines}</div>
+  <div class="v-wordbyword">${isRu ? v.wbw_ru : v.wbw_en}</div>
+  <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
+  <div class="purport-tog" onclick="togPurport(this)">
+    ${isRu ? 'Комментарий Шрилы Прабхупады' : 'Purport by Śrīla Prabhupāda'}
+  </div>
+  <div class="purport-body">
+    <div class="purport-lbl">${isRu ? 'Разъяснение' : 'Purport'}</div>
+    <p>${isRu ? v.pur_ru : v.pur_en}</p>
+  </div>
+</div>`;
+}
+
+function togPurport(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+/* ════════════════════════════════════════════
+   TOOLTIP
+   ════════════════════════════════════════════ */
+function showTip(e, skr, tr, def) {
+  const t = document.getElementById('tip');
+  document.getElementById('tipSkr').textContent = skr;
+  document.getElementById('tipTr').textContent  = tr;
+  document.getElementById('tipDef').textContent = def;
+  t.classList.add('on');
+  const x = Math.min(e.clientX + 12, window.innerWidth - 280);
+  const y = Math.min(e.clientY + 12, window.innerHeight - 110);
+  t.style.left = x + 'px';
+  t.style.top  = y + 'px';
+  setTimeout(() => document.addEventListener('click', hideTip, {once:true}), 10);
+}
+function hideTip() { document.getElementById('tip').classList.remove('on'); }
+
+/* ════════════════════════════════════════════
+   BOOKMARKS
+   ════════════════════════════════════════════ */
+function toggleBm(key, e) {
+  e.stopPropagation();
+  const idx = bookmarks.findIndex(b => b.key === key);
+  if (idx >= 0) {
+    bookmarks.splice(idx, 1);
+  } else {
+    const [ch, vn] = key.split('.');
+    const v = (VERSES[+ch] || []).find(x => x.n === +vn);
+    const txt = v ? (lang === 'ru' ? v.tr_ru : v.tr_en).slice(0, 90) + '…' : '';
+    bookmarks.push({ key, txt });
+  }
+  localStorage.setItem('bg_bm', JSON.stringify(bookmarks));
+  renderChapter(curCh);
+}
+
+function updateBm() {
+  document.getElementById('bmCnt').textContent = bookmarks.length;
+  const list = document.getElementById('bmList');
+  if (!bookmarks.length) {
+    list.innerHTML = `<div class="bm-empty">${lang === 'ru' ? 'Нет закладок' : 'No bookmarks yet'}</div>`;
+    return;
+  }
+  list.innerHTML = bookmarks.map(b => `
+    <div class="bm-item" onclick="goToBm('${b.key}')">
+      <div class="bm-ref">Бх.-г. ${b.key}</div>
+      <div class="bm-txt">${b.txt}</div>
+    </div>
+  `).join('');
+}
+
+function goToBm(key) {
+  const [ch] = key.split('.');
+  renderChapter(+ch);
+  document.getElementById('bmpanel').classList.remove('on');
+  setTimeout(() => {
+    const el = document.getElementById('v' + key.replace('.', '_'));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
+}
+
+/* ════════════════════════════════════════════
+   UI CONTROLS
+   ════════════════════════════════════════════ */
+document.getElementById('menuBtn').addEventListener('click', () => {
+  const sb = document.getElementById('sidebar');
+  const mn = document.getElementById('main');
+  const ov = document.getElementById('overlay');
+  const hidden = sb.classList.toggle('hidden');
+  mn.classList.toggle('full', hidden);
+  if (!hidden && window.innerWidth < 768) ov.classList.add('on');
+  else ov.classList.remove('on');
+});
+
+document.getElementById('bmBtn').addEventListener('click', () => {
+  document.getElementById('bmpanel').classList.toggle('on');
+  updateBm();
+});
+
+document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+
+function closeAll() {
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById('bmpanel').classList.remove('on');
+  if (window.innerWidth < 768) {
+    document.getElementById('sidebar').classList.add('hidden');
+    document.getElementById('main').classList.add('full');
+  }
+}
+
+/* ════════════════════════════════════════════
+   PROGRESS BAR
+   ════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  const pg = document.getElementById('page');
+  if (!pg) return;
+  const pct = Math.min(100, (-pg.getBoundingClientRect().top / (pg.offsetHeight - window.innerHeight)) * 100);
+  document.getElementById('progFill').style.width = Math.max(0, pct) + '%';
+});
+
+/* ════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════ */
+function esc(s) { return String(s).replace(/'/g, "\\'"); }
+
+function numWord(n) {
+  const ru = ['','Первая','Вторая','Третья','Четвёртая','Пятая','Шестая','Седьмая','Восьмая','Девятая','Десятая','Одиннадцатая','Двенадцатая','Тринадцатая','Четырнадцатая','Пятнадцатая','Шестнадцатая','Семнадцатая','Восемнадцатая'];
+  const en = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen'];
+  return lang === 'ru' ? ru[n] : en[n];
+}
+
+/* ════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════ */
+if (window.innerWidth < 768) {
+  document.getElementById('sidebar').classList.add('hidden');
+  document.getElementById('main').classList.add('full');
+}
+renderToc();
+renderChapter(2);
+updateBm();
+</script>
+</body>
+</html>
