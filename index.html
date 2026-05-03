@@ -304,7 +304,6 @@ body {
 .bm-item:hover { border-color: var(--ink3); }
 .bm-ref { color: var(--ink3); font-size: 11px; letter-spacing: 0.08em; margin-bottom: 3px; }
 .bm-txt { color: var(--ink2); line-height: 1.4; }
-.bm-empty { font-style: italic; font-size: 14px; color: var(--ink3); }
 
 /* ── OVERLAY ── */
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.25); z-index: 45; display: none; }
@@ -366,24 +365,24 @@ body {
    DATA — добавляй главы сюда по мере наполнения
    ════════════════════════════════════════════ */
 const CHAPTERS = [
-  { n:1,  skr:'अर्जुन विषाद योग',         tr:'Arjuna-viṣāda-yoga',           ru:'Наблюдение армий на Курукшетре',          en:'Observing the Armies on the Battlefield of Kurukṣetra', v:47 },
-  { n:2,  skr:'सांख्य योग',               tr:'Sāṅkhya-yoga',                 ru:'Содержание Гиты вкратце',                  en:'Contents of the Gītā Summarized',                       v:72 },
-  { n:3,  skr:'कर्म योग',                 tr:'Karma-yoga',                   ru:'Карма-йога',                               en:'Karma-yoga',                                             v:43 },
-  { n:4,  skr:'ज्ञान कर्म संन्यास योग',   tr:'Jñāna-karma-sannyāsa-yoga',    ru:'Трансцендентное знание',                  en:'Transcendental Knowledge',                               v:42 },
-  { n:5,  skr:'कर्म संन्यास योग',         tr:'Karma-sannyāsa-yoga',          ru:'Действие в сознании Кришны',               en:'Karma-yoga — Action in Kṛṣṇa Consciousness',            v:29 },
-  { n:6,  skr:'ध्यान योग',               tr:'Dhyāna-yoga',                  ru:'Дхьяна-йога',                              en:'Dhyāna-yoga',                                            v:47 },
-  { n:7,  skr:'ज्ञान विज्ञान योग',        tr:'Jñāna-vijñāna-yoga',           ru:'Знание Абсолюта',                          en:'Knowledge of the Absolute',                              v:30 },
-  { n:8,  skr:'अक्षर ब्रह्म योग',         tr:'Akṣara-brahma-yoga',           ru:'Достижение Верховного',                   en:'Attaining the Supreme',                                  v:28 },
-  { n:9,  skr:'राज विद्या राज गुह्य योग', tr:'Rāja-vidyā-rāja-guhya-yoga',   ru:'Сокровеннейшее знание',                   en:'The Most Confidential Knowledge',                        v:34 },
-  { n:10, skr:'विभूति योग',              tr:'Vibhūti-yoga',                  ru:'Могущество Абсолюта',                      en:'The Opulence of the Absolute',                           v:42 },
-  { n:11, skr:'विश्वरूप दर्शन योग',      tr:'Viśvarūpa-darśana-yoga',        ru:'Вселенская форма',                         en:'The Universal Form',                                     v:55 },
-  { n:12, skr:'भक्ति योग',              tr:'Bhakti-yoga',                   ru:'Преданное служение',                       en:'Devotional Service',                                     v:20 },
-  { n:13, skr:'क्षेत्र क्षेत्रज्ञ विभाग योग', tr:'Kṣetra-kṣetrajña-vibhāga-yoga', ru:'Природа, наслаждающийся и сознание', en:'Nature, the Enjoyer, and Consciousness',                  v:35 },
-  { n:14, skr:'गुणत्रय विभाग योग',       tr:'Guṇa-traya-vibhāga-yoga',       ru:'Три гуны материальной природы',           en:'The Three Modes of Material Nature',                     v:27 },
-  { n:15, skr:'पुरुषोत्तम योग',          tr:'Puruṣottama-yoga',              ru:'Йога Верховной Личности',                  en:'The Yoga of the Supreme Person',                         v:20 },
-  { n:16, skr:'दैवासुर संपद् विभाग योग', tr:'Daivāsura-sampad-vibhāga-yoga', ru:'Божественная и демоническая природа',     en:'The Divine and Demoniac Natures',                        v:24 },
-  { n:17, skr:'श्रद्धात्रय विभाग योग',   tr:'Śraddhā-traya-vibhāga-yoga',    ru:'Три вида веры',                           en:'The Divisions of Faith',                                 v:28 },
-  { n:18, skr:'मोक्ष संन्यास योग',       tr:'Mokṣa-sannyāsa-yoga',           ru:'Совершенство отречения',                  en:'Conclusion — The Perfection of Renunciation',            v:78 },
+  { n:1,   ru:'Наблюдение армий на Курукшетре',          en:'Observing the Armies on the Battlefield of Kurukṣetra', v:47 },
+  { n:2,   ru:'Содержание Гиты вкратце',                  en:'Contents of the Gītā Summarized',                       v:72 },
+  { n:3,   ru:'Карма-йога',                               en:'Karma-yoga',                                             v:43 },
+  { n:4,   ru:'Трансцендентное знание',                  en:'Transcendental Knowledge',                               v:42 },
+  { n:5,   ru:'Действие в сознании Кришны',               en:'Karma-yoga — Action in Kṛṣṇa Consciousness',            v:29 },
+  { n:6,   ru:'Дхьяна-йога',                              en:'Dhyāna-yoga',                                            v:47 },
+  { n:7,   ru:'Знание Абсолюта',                          en:'Knowledge of the Absolute',                              v:30 },
+  { n:8,   ru:'Достижение Верховного',                   en:'Attaining the Supreme',                                  v:28 },
+  { n:9,   ru:'Сокровеннейшее знание',                   en:'The Most Confidential Knowledge',                        v:34 },
+  { n:10,  ru:'Могущество Абсолюта',                      en:'The Opulence of the Absolute',                           v:42 },
+  { n:11,  ru:'Вселенская форма',                         en:'The Universal Form',                                     v:55 },
+  { n:12,  ru:'Преданное служение',                       en:'Devotional Service',                                     v:20 },
+  { n:13,  ru:'Природа, наслаждающийся и сознание', en:'Nature, the Enjoyer, and Consciousness',                  v:35 },
+  { n:14,  ru:'Три гуны материальной природы',           en:'The Three Modes of Material Nature',                     v:27 },
+  { n:15,  ru:'Йога Верховной Личности',                  en:'The Yoga of the Supreme Person',                         v:20 },
+  { n:16,  ru:'Божественная и демоническая природа',     en:'The Divine and Demoniac Natures',                        v:24 },
+  { n:17,  ru:'Три вида веры',                           en:'The Divisions of Faith',                                 v:28 },
+  { n:18,  ru:'Совершенство отречения',                  en:'Conclusion — The Perfection of Renunciation',            v:78 },
 ];
 
 /* ────────────────────────────────────────────
@@ -449,6 +448,8 @@ const VERSES = {
   ]
 };
 
+
+
 /* ════════════════════════════════════════════
    STATE
    ════════════════════════════════════════════ */
@@ -506,8 +507,6 @@ function renderChapter(n) {
         <span>${isRu ? 'Глава' : 'Chapter'}</span>
         <span>${numWord(n)}</span>
       </div>
-      <div class="ch-sanskrit-title">${ch.skr}</div>
-      <div class="ch-translit-title">${ch.tr}</div>
       <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
       <hr class="ch-rule">
     </div>
@@ -616,14 +615,14 @@ function updateBm() {
   const list = document.getElementById('bmList');
   if (!bookmarks.length) {
     list.innerHTML = `<div class="bm-empty">${lang === 'ru' ? 'Нет закладок' : 'No bookmarks yet'}</div>`;
-    return;
+  } else {
+    list.innerHTML = bookmarks.map(b => `
+      <div class="bm-item" onclick="goToBm('${b.key}')">
+        <div class="bm-ref">Бх.-г. ${b.key}</div>
+        <div class="bm-txt">${b.txt}</div>
+      </div>
+    `).join('');
   }
-  list.innerHTML = bookmarks.map(b => `
-    <div class="bm-item" onclick="goToBm('${b.key}')">
-      <div class="bm-ref">Бх.-г. ${b.key}</div>
-      <div class="bm-txt">${b.txt}</div>
-    </div>
-  `).join('');
 }
 
 function goToBm(key) {
