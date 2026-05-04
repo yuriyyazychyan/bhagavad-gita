@@ -880,7 +880,7 @@ function updateIllustration() {
   const imgs = document.querySelectorAll('.ch-illustration');
   imgs.forEach(img => {
   img.src = 'krishna_arjuna.png';
-  img.style.filter = dark ? 'invert(1)' : 'none';
+  img.style.filter = dark ? 'invert(1) sepia(0.3) hue-rotate(10deg) brightness(0.85)' : 'none';
 });
 }
 
