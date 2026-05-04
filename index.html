@@ -870,7 +870,7 @@ function toggleTheme() {
 
 function updateIllustration() {
   const dark = document.body.dataset.theme === 'dark';
-  const imgs = document.querySelectorAll('img[src^="krishna_arjuna"]');
+  const imgs = document.querySelectorAll('.ch-illustration');
   imgs.forEach(img => img.src = dark ? 'krishna_arjuna_dark.jpg' : 'krishna_arjuna.jpg');
 }
 
@@ -899,7 +899,7 @@ function renderChapter(n, skipScroll = false) {
   let html = `
   <div class="ch-opening">
   <div class="ch-word">${isRu?'Глава':'Chapter'} ${numWord(n)}</div>
-  <img src='krishna_arjuna.jpg' style='width:280px;height:280px;object-fit:cover;border-radius:50%;display:block;margin:0 auto 32px;mix-blend-mode: multiply;'>
+  <img src='krishna_arjuna.jpg' class='ch-illustration' style='width:280px;height:280px;object-fit:cover;border-radius:50%;display:block;margin:0 auto 32px;mix-blend-mode: multiply;'>
   <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
