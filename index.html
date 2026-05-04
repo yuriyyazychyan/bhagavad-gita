@@ -910,6 +910,7 @@ function renderChapter(n, skipScroll = false) {
   localStorage.setItem('bg_lang', lang);
   localStorage.setItem('bg_chapter', n);
   if (!skipScroll) window.scrollTo({ top:0, behavior:'smooth' });
+  updateIllustration();
 }
 
 /* ════════════════════════════════════════════
@@ -1079,7 +1080,6 @@ if (window.innerWidth < 768) {
 const savedTheme = localStorage.getItem('bg_theme') || 'light';
 document.body.dataset.theme = savedTheme;
 document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-updateIllustration();
 const savedLang = localStorage.getItem('bg_lang') || 'ru';
 const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 setLang(savedLang);
