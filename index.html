@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Бхагавад-гӣта̄ как она есть</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=GFS+Didot&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&display=swap" rel="stylesheet">
 <style>
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -947,7 +947,7 @@ function renderVerse(v, chN) {
   return `
 <div class="verse" id="v${chN}_${v.n}">
  <div style='text-align:center;margin:36px 0 20px;'>
-  <span style='font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'} ${v.n}</span>
+  <span style='font-family:"Spectral SC",serif;font-size:16px;font-weight:600;letter-spacing:0.02em;transform:scaleY(1.15);display:inline-block;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'} ${v.n}</span>
 </div>
 <div style='float:right;margin-top:-48px;'>
   <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'🔖':'○'}</button>
