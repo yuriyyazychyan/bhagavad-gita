@@ -24,7 +24,9 @@
   --sidebar: 270px;
   --trans:   0.2s ease;
 }
-[data-theme="dark"] {
+[data-theme="dark"] .ch-illustration {
+  mix-blend-mode: screen;
+  filter: invert(1);
   --paper:  #180c01;
   --paper2: #1b0e01;
   --paper3: #201103;
@@ -138,23 +140,26 @@ body {
 /* ── CHAPTER OPENING ── */
 .ch-opening { text-align: center; margin-bottom: 48px; }
 .ch-word {
-  font-size: 12px;
-  letter-spacing: 0.28em;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--ink);
   margin-bottom: 24px;
-  font-weight: 400;
-  font-style: normal;
+  text-align: center;
 }
 .ch-word span { margin: 0 6px; }
 .ch-eng-title {
-  font-size: 30px;
-  font-weight: 700;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-size: 32px;
+  font-weight: 900;
   font-style: normal;
   color: var(--ink);
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: 0.01em;
-  margin: 28px 0 0;
+  margin: 24px 0 0;
+  text-align: center;
 }
 .ch-rule { border: none; border-top: 1px solid var(--rule); margin: 20px auto; width: 200px; }
 .ch-intro {
@@ -165,15 +170,16 @@ body {
 
 /* ── TEXT NUMBER ── */
 .text-label {
-  font-size: 12px;
-  letter-spacing: 0.22em;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink);
   text-align: center;
-  margin: 40px 0 22px;
-  font-weight: 400;
-  font-style: normal;
+  margin: 40px 0 24px;
   cursor: default;
+  display: block;
 }
 
 /* ── VERSE BLOCK ── */
@@ -204,23 +210,24 @@ body {
 .v-sanskrit {
   font-family: var(--devan);
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 2.1;
-  text-align: left;
+  text-align: center;
   color: var(--ink);
-  margin-bottom: 16px;
-  letter-spacing: 0.02em;
+  margin-bottom: 20px;
 }
 
 /* ── TRANSLITERATION ── */
 .v-translit {
+  font-family: 'IM Fell English', Georgia, serif;
   font-style: italic;
-  font-size: 15.5px;
+  font-size: 17px;
+  font-weight: 600;
   text-align: center;
   color: var(--ink);
-  line-height: 2.0;
-  margin-bottom: 18px;
-  letter-spacing: 0.005em;
+  line-height: 1.65;
+  margin-bottom: 20px;
+  letter-spacing: 0.01em;
 }
 .w {
   cursor: pointer;
@@ -231,18 +238,21 @@ body {
 
 /* ── WORD-BY-WORD ── */
 .v-wbw {
+  font-family: 'IM Fell English', Georgia, serif;
   font-size: 15px;
   color: var(--ink2);
-  line-height: 1.75;
-  margin-bottom: 18px;
+  line-height: 1.65;
+  margin-bottom: 16px;
   padding: 0;
   border-left: none;
   display: none;
+  text-indent: 2em;
 }
-.v-wordbyword em { font-style: italic; }
+.v-wbw.open { display: block; }
 
 /* ── TRANSLATION ── */
 .v-translation {
+  font-family: 'IM Fell English', Georgia, serif;
   font-size: 17px;
   font-weight: 700;
   color: var(--ink);
@@ -255,10 +265,12 @@ body {
 
 /* ── PURPORT ── */
 .purport-tog {
-  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink3); cursor: pointer; user-select: none;
-  display: flex; align-items: center; gap: 6px;
-  margin-bottom: 0; transition: color var(--trans);
+  text-align: center;
+  justify-content: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 .purport-tog:hover { color: var(--ink); }
 .purport-tog::before { content: '▶'; font-size: 8px; transition: transform var(--trans); }
@@ -866,7 +878,7 @@ function renderChapter(n) {
   let html = `
   <div class="ch-opening">
   <div class="ch-word">${isRu?'Глава':'Chapter'} ${numWord(n)}</div>
-  <img src='krishna_arjuna.jpg' style='width:280px;height:280px;object-fit:cover;border-radius:50%;display:block;margin:0 auto 32px;filter:contrast(1.15) brightness(0.97);'>
+  <img src='krishna_arjuna.jpg' style='width:280px;height:280px;object-fit:cover;border-radius:50%;display:block;margin:0 auto 32px;mix-blend-mode: multiply;'>
   <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
@@ -875,7 +887,7 @@ function renderChapter(n) {
     html += `<div class="empty">${isRu ? 'Тексты этой главы будут добавлены...' : 'Texts for this chapter coming soon...'}</div>`;
   } else {
     verses.forEach((v, i) => {
-      if (i > 0) html += `<div class="orn">✦ ✦ ✦</div>`;
+      if (i > 0) html += `<div style='margin:40px 0;border-top:1px solid var(--rule);'></div>`;
       html += renderVerse(v, n);
     });
   }
@@ -918,6 +930,7 @@ function renderVerse(v, chN) {
   <div class="v-sanskrit">${v.skr.replace(/\n/g,'<br>')}</div>
   <div class="v-translit">${trLines}</div>
   <div class="v-wordbyword">${isRu ? v.wbw_ru : v.wbw_en}</div>
+  <div style='font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
   <div class="purport-tog" onclick="togPurport(this)">
     ${isRu ? 'Комментарий Шрилы Прабхупады' : 'Purport by Śrīla Prabhupāda'}
