@@ -34,7 +34,7 @@
   --rule:   rgba(200,170,100,0.18);
 }
 [data-theme="dark"] img[src='krishna_arjuna.jpg'] {
-  filter: invert(1);
+  filter: invert(1) brightness(0.85);
 }
 
 /* ── BASE ── */
@@ -902,6 +902,8 @@ function renderChapter(n) {
   renderToc();
   updateBm();
   closeAll();
+  localStorage.setItem('bg_lang', lang);
+  localStorage.setItem('bg_chapter', n);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1069,8 +1071,10 @@ if (window.innerWidth < 768) {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
 }
-renderToc();
-renderChapter(2);
+const savedLang = localStorage.getItem('bg_lang') || 'ru';
+const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
+setLang(savedLang);
+renderChapter(savedChapter);
 updateBm();
 </script>
 </body>
