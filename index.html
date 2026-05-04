@@ -356,6 +356,7 @@ body {
 
 /* ── EMPTY STATE ── */
 .empty { text-align: center; padding: 80px 0; color: var(--ink3); font-style: italic; font-size: 16px; }
+[data-theme="dark"] img[src='krishna_arjuna.jpg'] { mix-blend-mode: screen; filter: invert(1); }
 </style>
 </head>
 <body data-theme="light">
@@ -884,10 +885,6 @@ function renderChapter(n) {
   <div class="ch-opening">
   <div class="ch-word">${isRu?'Глава':'Chapter'} ${numWord(n)}</div>
   <img src='krishna_arjuna.jpg' style='width:280px;height:280px;object-fit:cover;border-radius:50%;display:block;margin:0 auto 32px;mix-blend-mode: multiply;'>
-  [data-theme="dark"] img[src='krishna_arjuna.jpg'] {
-  mix-blend-mode: screen;
-  filter: invert(1);
-}
   <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
