@@ -820,14 +820,11 @@ function renderChapter(n) {
   const isRu = lang === 'ru';
 
   let html = `
-    <div class="ch-opening">
-      <div class="ch-word">
-        <span>${isRu ? 'Глава' : 'Chapter'}</span>
-        <span>${numWord(n)}</span>
-      </div>
-      <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
-      <hr class="ch-rule">
-    </div>
+  <div class="ch-opening">
+  <div class="ch-word">${R?'Глава':'Chapter'} ${numWord(n)}</div>
+  <img src="krishna_arjuna.jpg" style="width:220px;height:220px;object-fit:cover;border-radius:50%;margin:20px auto;display:block;filter:contrast(1.1);">
+  <div class="ch-eng-title">${R ? ch.ru : ch.en}</div>
+  </div>
   `;
 
   if (!verses.length) {
