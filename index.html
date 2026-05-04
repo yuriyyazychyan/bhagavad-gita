@@ -858,6 +858,13 @@ function toggleTheme() {
   document.body.dataset.theme = dark ? 'light' : 'dark';
   document.getElementById('themeBtn').textContent = dark ? '🌙' : '☀️';
   localStorage.setItem('bg_theme', dark ? 'light' : 'dark');
+  updateIllustration();
+}
+
+function updateIllustration() {
+  const dark = document.body.dataset.theme === 'dark';
+  const imgs = document.querySelectorAll('img[src^="krishna_arjuna"]');
+  imgs.forEach(img => img.src = dark ? 'krishna_arjuna_dark.jpg' : 'krishna_arjuna.jpg');
 }
 
 /* ════════════════════════════════════════════
@@ -1075,6 +1082,7 @@ if (window.innerWidth < 768) {
 const savedTheme = localStorage.getItem('bg_theme') || 'light';
 document.body.dataset.theme = savedTheme;
 document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+updateIllustration();
 const savedLang = localStorage.getItem('bg_lang') || 'ru';
 const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 setLang(savedLang);
