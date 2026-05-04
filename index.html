@@ -141,24 +141,24 @@ body {
 .ch-opening { text-align: center; margin-bottom: 48px; }
 .ch-word {
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 400;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink);
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   text-align: center;
 }
 .ch-word span { margin: 0 6px; }
 .ch-eng-title {
   font-family: 'IM Fell English', Georgia, serif;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 900;
   font-style: normal;
   color: var(--ink);
   line-height: 1.2;
   letter-spacing: 0.01em;
-  margin: 24px 0 0;
+  margin: 20px 0 0;
   text-align: center;
 }
 .ch-rule { border: none; border-top: 1px solid var(--rule); margin: 20px auto; width: 200px; }
@@ -265,12 +265,10 @@ body {
 
 /* ── PURPORT ── */
 .purport-tog {
-  text-align: center;
-  justify-content: center;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink3); cursor: pointer; user-select: none;
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 0; transition: color var(--trans);
 }
 .purport-tog:hover { color: var(--ink); }
 .purport-tog::before { content: '▶'; font-size: 8px; transition: transform var(--trans); }
