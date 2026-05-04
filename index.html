@@ -847,7 +847,7 @@ function setLang(l) {
   document.getElementById('sbHead').textContent = l === 'ru' ? 'Содержание' : 'Contents';
   document.getElementById('bmHead').textContent = l === 'ru' ? 'Закладки'   : 'Bookmarks';
   renderToc();
-  renderChapter(curCh);
+  renderChapter(curCh, true);
 }
 
 /* ════════════════════════════════════════════
@@ -857,6 +857,7 @@ function toggleTheme() {
   const dark = document.body.dataset.theme === 'dark';
   document.body.dataset.theme = dark ? 'light' : 'dark';
   document.getElementById('themeBtn').textContent = dark ? '🌙' : '☀️';
+  localStorage.setItem('bg_theme', dark ? 'light' : 'dark');
 }
 
 /* ════════════════════════════════════════════
@@ -875,7 +876,7 @@ function renderToc() {
 /* ════════════════════════════════════════════
    CHAPTER
    ════════════════════════════════════════════ */
-function renderChapter(n) {
+function renderChapter(n, skipScroll = false) {
   curCh = n;
   const ch = CHAPTERS.find(c => c.n === n);
   const verses = VERSES[n] || [];
@@ -904,7 +905,7 @@ function renderChapter(n) {
   closeAll();
   localStorage.setItem('bg_lang', lang);
   localStorage.setItem('bg_chapter', n);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!skipScroll) window.scrollTo({ top:0, behavior:'smooth' });
 }
 
 /* ════════════════════════════════════════════
@@ -1071,6 +1072,9 @@ if (window.innerWidth < 768) {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
 }
+const savedTheme = localStorage.getItem('bg_theme') || 'light';
+document.body.dataset.theme = savedTheme;
+document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 const savedLang = localStorage.getItem('bg_lang') || 'ru';
 const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 setLang(savedLang);
