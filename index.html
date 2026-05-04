@@ -33,6 +33,10 @@
   --ink3:   #eeeae2;
   --rule:   rgba(200,170,100,0.18);
 }
+[data-theme="dark"] .ch-illustration {
+  box-shadow: 0 0 20px rgba(200,160,60,0.25);
+  border-radius: 50%;
+}
 
 /* ── BASE ── */
 html { scroll-behavior: smooth; }
@@ -880,7 +884,7 @@ function updateIllustration() {
   const imgs = document.querySelectorAll('.ch-illustration');
   imgs.forEach(img => {
   img.src = 'krishna_arjuna.png';
-  img.style.filter = dark ? 'drop-shadow(0 0 6px rgba(200,160,60,0.4))' : 'none';
+  img.style.filter = 'none';
 });
 }
 
