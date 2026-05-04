@@ -74,6 +74,13 @@ body {
   transition: all var(--trans);
   white-space: nowrap;
 }
+#themeBtn {
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  filter: drop-shadow(0 0 4px rgba(255,200,50,0.8));
+}
 .tb-btn:hover { background: var(--paper3); color: var(--ink); }
 .lang-wrap { display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
 .lang-wrap button {
@@ -367,7 +374,7 @@ body {
     <button id="lEn" onclick="setLang('en')">EN</button>
   </div>
   <button class="tb-btn" id="bmBtn">🔖 <span id="bmCnt">0</span></button>
-  <button class="tb-btn" id="themeBtn">🌙</button>
+  <button class="tb-btn" id="themeBtn" style="font-size:16px;"></button>
 </header>
 <div class="prog"><div class="prog-fill" id="progFill"></div></div>
 
@@ -853,7 +860,10 @@ function setLang(l) {
 function toggleTheme() {
   const dark = document.body.dataset.theme === 'dark';
   document.body.dataset.theme = dark ? 'light' : 'dark';
-  document.getElementById('themeBtn').textContent = dark ? '🌙' : '☀️';
+  document.getElementById('themeBtn').textContent = dark ? '🌕' : '☀️';
+  document.getElementById('themeBtn').style.filter = dark 
+  ? 'drop-shadow(0 0 5px rgba(180,210,255,0.9))' 
+  : 'drop-shadow(0 0 5px rgba(255,200,50,0.9))';
   localStorage.setItem('bg_theme', dark ? 'light' : 'dark');
   updateIllustration();
 }
@@ -1079,7 +1089,10 @@ if (window.innerWidth < 768) {
 }
 const savedTheme = localStorage.getItem('bg_theme') || 'light';
 document.body.dataset.theme = savedTheme;
-document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '🌕' : '☀️';
+document.getElementById('themeBtn').style.filter = savedTheme === 'dark'
+  ? 'drop-shadow(0 0 5px rgba(180,210,255,0.9))'
+  : 'drop-shadow(0 0 5px rgba(255,200,50,0.9))';
 const savedLang = localStorage.getItem('bg_lang') || 'ru';
 const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 setLang(savedLang);
