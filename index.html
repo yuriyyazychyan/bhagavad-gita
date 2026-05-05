@@ -56,6 +56,12 @@
   font-weight: 400;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Momentum';
+  src: url('Momentum_Extended.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── TOKENS ── */
@@ -285,9 +291,9 @@ body {
 /* ── SANSKRIT ── */
 .v-sanskrit {
   font-family: var(--devan);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.4;
   text-align: center;
   color: var(--ink);
   margin-top: 0px;
@@ -300,7 +306,7 @@ body {
 
 /* ── TRANSLITERATION ── */
 .v-translit {
-  font-family: 'IM Fell English', Georgia, serif;
+  font-family: 'Momentum', serif;
   font-style: italic;
   font-size: 16px;
   font-weight: 400;
