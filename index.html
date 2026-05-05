@@ -1144,7 +1144,7 @@ function updateBm() {
   }
   list.innerHTML = bookmarks.map(b => `
     <div class="bm-item" onclick="goToBm('${b.key}')">
-      <div class="bm-ref">Бх.-г. ${b.key}</div>
+      <div class="bm-ref">${lang==='ru' ? 'Бг' : 'Bg'} ${b.key}</div>
       <div class="bm-txt">${b.txt}</div>
     </div>
   `).join('');
