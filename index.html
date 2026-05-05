@@ -253,7 +253,7 @@ body {
   text-transform: uppercase;
   color: var(--ink);
   text-align: center;
-  margin: 20px 0 2px;
+  margin: 20px 0 0px;
   cursor: default;
   display: block;
 }
@@ -291,12 +291,12 @@ body {
 /* ── SANSKRIT ── */
 .v-sanskrit {
   font-family: var(--devan);
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 600;
   line-height: 1.4;
   text-align: center;
   color: var(--ink);
-  margin-top: 0px;
+  margin-top: -8px;
   margin-bottom: 16px;
 }
 .v-sanskrit-inner {
@@ -312,7 +312,7 @@ body {
   font-weight: 400;
   text-align: center;
   color: var(--ink);
-  line-height: 1.7;
+  line-height: 1.55;
   margin-bottom: 20px;
 }
 .w {
@@ -322,13 +322,15 @@ body {
 }
 .w:hover { color: var(--ink); border-color: var(--ink3); }
 
-/* ── WORD-BY-WORD ── */
+/* ── WORD-BY-WORD ── 
+   ── ПОСЛОВНЫЙ ПЕРЕВОД ── */
 .v-wbw {
-  font-family: 'IM Fell English', Georgia, serif;
-  font-size: 15px;
+  font-family: 'Momentum', serif;
+  font-size: 16px;
+  font-weight: 400;
   font-style: normal;
   color: var(--ink);
-  line-height: 1.6;
+  line-height: 1.4;
   margin-bottom: 16px;
   padding: 0;
   border-left: none;
@@ -1099,11 +1101,7 @@ function renderVerse(v, chN) {
   <div style='font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
   <div class="purport-tog" onclick="togPurport(this)">
-    ${isRu ? 'Комментарий Шрилы Прабхупады' : 'Purport by Śrīla Prabhupāda'}
-  </div>
-  <div class="purport-body">
-    <div class="purport-lbl">${isRu ? 'Разъяснение' : 'Purport'}</div>
-    <p>${isRu ? v.pur_ru : v.pur_en}</p>
+    ${isRu ? 'РАЗЪЯСНЕНИЕ' : 'PURPORT'}
   </div>
 </div>`;
 }
