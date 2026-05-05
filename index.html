@@ -416,7 +416,16 @@ body {
   font-size: 13px; background: var(--paper); transition: all var(--trans);
 }
 .bm-item:hover { border-color: var(--ink3); }
-.bm-ref { color: var(--ink3); font-size: 11px; letter-spacing: 0.08em; margin-bottom: 3px; }
+.bm-ref { 
+  font-family: 'Spectral SC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  margin-bottom: 3px;
+  display: inline-block;
+  transform: scaleY(1.15);
+}
 .bm-txt { color: var(--ink2); line-height: 1.4; }
 .bm-empty { font-style: italic; font-size: 14px; color: var(--ink3); }
 
@@ -443,7 +452,7 @@ body {
     <button class="on" id="lRu" onclick="setLang('ru')">RU</button>
     <button id="lEn" onclick="setLang('en')">EN</button>
   </div>
-  <button class="tb-btn" id="bmBtn">🔖 <span id="bmCnt">0</span></button>
+  <button class="tb-btn" id="bmBtn"><img src="love.png" style="width:16px;height:16px;vertical-align:middle;"> <span id="bmCnt">0</span></button>
   <button class="tb-btn" id="themeBtn"></button>
 </header>
 <div class="prog"><div class="prog-fill" id="progFill"></div></div>
@@ -934,7 +943,7 @@ function setThemeIcon(dark) {
     btn.style.filter = 'none';
   } else {
     btn.innerHTML = '<img src="full-moon.png" style="width:20px;height:20px;vertical-align:middle;">';
-    btn.style.filter = 'none';
+    btn.style.filter = 'drop-shadow(0 0 5px rgba(140,180,255,0.9))';
   }
 }
    function toggleTheme() {
