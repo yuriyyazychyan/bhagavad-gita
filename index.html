@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Бхагавад-гӣта̄ как она есть</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&family=Lora:wght@700&display=swap" rel="stylesheet">
 <style>
   .toc-verses {
   padding: 4px 0 8px 32px;
@@ -345,7 +345,7 @@ body {
   font-size: 17px;
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.7;
+  line-height: 1.4;
   margin-bottom: 16px;
   text-align: left;
   border-left: none;
@@ -367,8 +367,8 @@ body {
   text-align: center;
   margin: 20px 0 0;
 }
-.purport-tog::before { content: '▶ '; font-size: 8px; }
-.purport-tog.open::before { content: '▼ '; }
+.purport-tog::before { content: ''; }
+.purport-tog.open::before { content: ''; }
 .purport-tog.open::before { transform: rotate(90deg); }
 .purport-body {
   display: none; margin-top: 14px;
@@ -381,8 +381,11 @@ body {
   color: var(--ink3); margin-bottom: 10px;
 }
 .purport-body p {
-  font-size: 16px; color: var(--ink2);
-  line-height: 1.8; margin-bottom: 12px;
+  font-size: 16px;
+  color: var(--ink2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  text-indent: 1.5em;
 }
 
 /* ── AUDIO LINK ── */
@@ -1088,7 +1091,7 @@ function renderVerse(v, chN) {
   return `
 <div class="verse" id="v${chN}_${v.n}">
  <div style='text-align:center;margin:36px 0 20px;'>
-  <span style='font-family:"Spectral SC",serif;font-size:16px;font-weight:600;letter-spacing:0.02em;transform:scaleY(1.15);display:inline-block;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'} ${v.n}</span>
+  <span style='font-family:"Spectral SC",serif;font-size:16px;font-weight:600;letter-spacing:0.02em;transform:scaleY(1.15);display:inline-block;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'} </span><span style='font-family:"Lora",serif;font-weight:700;font-size:16px;color:var(--ink);'>${v.n}</span>
 </div>
 <div style='float:right;margin-top:-48px;display:flex;align-items:center;gap:12px;'>
   <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'<img src="love.png" style="width:14px;height:14px;vertical-align:middle;">':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}</button>
