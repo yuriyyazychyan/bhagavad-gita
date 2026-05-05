@@ -930,11 +930,11 @@ function setLang(l) {
 function setThemeIcon(dark) {
   const btn = document.getElementById('themeBtn');
   if (dark) {
-    btn.innerHTML = '☀️';
-    btn.style.filter = 'drop-shadow(0 0 5px rgba(255,200,50,0.9))';
+    btn.innerHTML = '<img src="sun.png" style="width:20px;height:20px;vertical-align:middle;">';
+    btn.style.filter = 'none';
   } else {
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="#7a8fa8" stroke="#5d7088" stroke-width="1.5"/><circle cx="13" cy="12" r="5" fill="#6a7f96" stroke="#5d7088" stroke-width="1"/><circle cx="13" cy="12" r="3.5" fill="#8099b0"/><circle cx="23" cy="22" r="4" fill="#6a7f96" stroke="#5d7088" stroke-width="0.8"/><circle cx="23" cy="22" r="2.8" fill="#8099b0"/><circle cx="12" cy="23" r="3" fill="#6a7f96" stroke="#5d7088" stroke-width="0.8"/><circle cx="12" cy="23" r="2" fill="#8099b0"/><circle cx="24" cy="12" r="2" fill="#6a7f96" stroke="#5d7088" stroke-width="0.6"/></svg>';
-    btn.style.filter = 'drop-shadow(0 0 4px rgba(120,150,200,0.7))';
+    btn.innerHTML = '<img src="full-moon.png" style="width:20px;height:20px;vertical-align:middle;">';
+    btn.style.filter = 'none';
   }
 }
    function toggleTheme() {
@@ -961,7 +961,7 @@ function renderToc() {
       const isBm = bookmarks.some(b => b.key === key);
       return `
         <div class="toc-verse" onclick="goToVerse(${c.n}, ${v.n})">
-          <span class="toc-bm">${isBm ? '🔖' : '&nbsp;&nbsp;&nbsp;'}</span>
+          <span class="toc-bm">${isBm ? '<img src="love.png" style="width:12px;height:12px;vertical-align:middle;">' : '&nbsp;&nbsp;&nbsp;'}</span>
           ${lang==='ru' ? 'Текст' : 'Text'} ${v.n}
         </div>
       `;
@@ -1067,7 +1067,7 @@ function renderVerse(v, chN) {
   <span style='font-family:"Spectral SC",serif;font-size:16px;font-weight:600;letter-spacing:0.02em;transform:scaleY(1.15);display:inline-block;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'} ${v.n}</span>
 </div>
 <div style='float:right;margin-top:-48px;'>
-  <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'🔖':'○'}</button>
+  <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'<img src="love.png" style="width:14px;height:14px;vertical-align:middle;">':'○'}</button>
   <a class='audio-lnk' href='${v.audio}' target='_blank'>▶ ${isRu?'Аудио':'Audio'}</a>
 </div>
   </div>
