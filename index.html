@@ -246,10 +246,10 @@ body {
 
 /* ── TEXT NUMBER ── */
 .text-label {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
+  font-family: 'Spectral SC', serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--ink);
   text-align: center;
@@ -341,9 +341,9 @@ body {
 
 /* ── TRANSLATION ── */
 .v-translation {
-  font-family: 'IM Fell English', Georgia, serif;
-  font-size: 17px;
-  font-weight: 700;
+  font-family: 'Spectral SC', serif;
+  font-size: 16px;
+  font-weight: 800;
   color: var(--ink);
   line-height: 1.4;
   margin-bottom: 16px;
@@ -355,10 +355,10 @@ body {
 
 /* ── PURPORT ── */
 .purport-tog {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.15em;
+  font-family: 'Spectral SC', serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--ink);
   cursor: pointer;
@@ -369,7 +369,6 @@ body {
 }
 .purport-tog::before { content: ''; }
 .purport-tog.open::before { content: ''; }
-.purport-tog.open::before { transform: rotate(90deg); }
 .purport-body {
   display: none; margin-top: 14px;
   border-top: 1px solid var(--rule);
@@ -1100,8 +1099,8 @@ function renderVerse(v, chN) {
   </div>
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
   <div class="v-translit">${trLines}</div>
-  <div class="v-wordbyword">${isRu ? v.wbw_ru : v.wbw_en}</div>
-  <div style='font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
+  <div class="v-wbw open">${isRu ? v.wbw_ru : v.wbw_en}</div>
+  <div style='font-family:"Spectral SC",serif;font-size:16px;font-weight:800;letter-spacing:0.02em;transform:scaleY(1.15);display:block;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
   <div class="purport-tog" onclick="togPurport(this)">
     ${isRu ? 'РАЗЪЯСНЕНИЕ' : 'PURPORT'}
