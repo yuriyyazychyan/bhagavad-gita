@@ -7,6 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&display=swap" rel="stylesheet">
 <style>
+  .ch-eng-title .hyphen {
+  font-weight: 100;
+  font-size: 0.55em;
+  display: inline-block;
+}
 /* ── RESET ── */
 @font-face {
   font-family: 'Windsor';
@@ -425,10 +430,10 @@ body {
 const CHAPTERS = [
   { n:1,   ru:'Наблюдение за Армиями на<br>поле Битвы Курукш̣етра',          en:'Observing the Armies on the<br>Battlefield of Kurukṣetra', v:47 },
   { n:2,   ru:'Сумированное Содержание Гиты',                            en:'Contents of the Gītā Summarized',                       v:72 },
-  { n:3,   ru:'Карма-йога',                                              en:'Karma-yoga',                                             v:43 },
+  { n:3,   ru:'Карма-йога',                                              en:'Karma<span class="hyphen">-</span>yoga',                                             v:43 },
   { n:4,   ru:'Трансцендентальное Знание',                               en:'Transcendental Knowledge',                               v:42 },
-  { n:5,   ru:'Карма-йога —<br>Действие в Сознании Кришны',                 en:'Karma-yoga <span style="font-weight:100;font-size:0.7em;opacity:0.6;">—</span><br>Action in Kṛṣṇa Consciousness',            v:29 },
-  { n:6,   ru:'Са̄н̇кхйа-йога',                                            en:'Sāṅkhya-yoga',                                            v:47 },
+  { n:5,   ru:'Карма-йога —<br>Действие в Сознании Кришны',                 en:'Karma<span class="hyphen">-</span>yoga <span style="font-weight:100;font-size:0.7em;opacity:0.6;">—</span><br>Action in Kṛṣṇa Consciousness',            v:29 },
+  { n:6,   ru:'Са̄н̇кхйа-йога',                                            en:'Sāṅkhya<span class="hyphen">-</span>yoga',                                            v:47 },
   { n:7,   ru:'Знание Абсолюта',                                         en:'Knowledge of the Absolute',                              v:30 },
   { n:8,   ru:'Достижение Высшего',                                      en:'Attaining the Supreme',                                  v:28 },
   { n:9,   ru:'Самое Конфиденциальное Знание',                           en:'The Most Confidential Knowledge',                        v:34 },
