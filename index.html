@@ -13,6 +13,20 @@
   margin: 0 16px 4px;
 }
 .toc-verse {
+  font-family: 'Spectral SC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transform: scaleY(1.15);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.toc-bm {
+  font-size: 10px;
+  min-width: 16px;
+}
+.toc-verse {
   font-size: 12px;
   color: var(--ink3);
   padding: 4px 8px;
@@ -251,9 +265,13 @@ body {
   font-size: 20px;
   font-weight: 600;
   line-height: 2.0;
-  text-align: left;
+  text-align: center;
   color: var(--ink);
   margin-bottom: 16px;
+}
+.v-sanskrit-inner {
+  display: inline-block;
+  text-align: left;
 }
 
 /* ── TRANSLITERATION ── */
@@ -920,14 +938,19 @@ function renderToc() {
     const isActive = c.n === curCh;
     const verses = VERSES[c.n] || [];
     const verseList = isActive && verses.length ? `
-      <div class="toc-verses">
-        ${verses.map(v => `
-          <div class="toc-verse" onclick="goToVerse(${c.n}, ${v.n})">
-            ${lang==='ru' ? 'Текст' : 'Text'} ${v.n}
-          </div>
-        `).join('')}
-      </div>
-    ` : '';
+  <div class="toc-verses">
+    ${verses.map(v => {
+      const key = `${c.n}.${v.n}`;
+      const isBm = bookmarks.some(b => b.key === key);
+      return `
+        <div class="toc-verse" onclick="goToVerse(${c.n}, ${v.n})">
+          <span class="toc-bm">${isBm ? '🔖' : '&nbsp;&nbsp;&nbsp;'}</span>
+          ${lang==='ru' ? 'Текст' : 'Text'} ${v.n}
+        </div>
+      `;
+    }).join('')}
+  </div>
+` : '';
     return `
       <div class="ch-row ${isActive ? 'on' : ''}" onclick="toggleChapter(${c.n})">
         <span class="ch-n">${c.n}.</span>
@@ -1031,7 +1054,7 @@ function renderVerse(v, chN) {
   <a class='audio-lnk' href='${v.audio}' target='_blank'>▶ ${isRu?'Аудио':'Audio'}</a>
 </div>
   </div>
-  <div class="v-sanskrit">${v.skr.replace(/\n/g,'<br>')}</div>
+  <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
   <div class="v-translit">${trLines}</div>
   <div class="v-wordbyword">${isRu ? v.wbw_ru : v.wbw_en}</div>
   <div style='font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
