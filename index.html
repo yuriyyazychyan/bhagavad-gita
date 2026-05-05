@@ -7,6 +7,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&display=swap" rel="stylesheet">
 <style>
+  .toc-verses {
+  padding: 4px 0 8px 32px;
+  border-left: 2px solid var(--rule);
+  margin: 0 16px 4px;
+}
+.toc-verse {
+  font-size: 12px;
+  color: var(--ink3);
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all var(--trans);
+}
+.toc-verse:hover {
+  color: var(--ink);
+  background: var(--paper3);
+}
 .ch-eng-title .hyphen {
   font-size: 0.55em;
   display: inline-block;
@@ -899,13 +916,56 @@ function updateIllustration() {}
    TOC
    ════════════════════════════════════════════ */
 function renderToc() {
-  document.getElementById('tocList').innerHTML = CHAPTERS.map(c => `
-    <div class="ch-row ${c.n === curCh ? 'on' : ''}" onclick="renderChapter(${c.n})">
-      <span class="ch-n">${c.n}.</span>
-      <span class="ch-label">${lang === 'ru' ? c.ru : c.en}</span>
-      <span class="ch-vcount">${c.v}</span>
-    </div>
-  `).join('');
+  document.getElementById('tocList').innerHTML = CHAPTERS.map(c => {
+    const isActive = c.n === curCh;
+    const verses = VERSES[c.n] || [];
+    const verseList = isActive && verses.length ? `
+      <div class="toc-verses">
+        ${verses.map(v => `
+          <div class="toc-verse" onclick="goToVerse(${c.n}, ${v.n})">
+            ${lang==='ru' ? 'Текст' : 'Text'} ${v.n}
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+    return `
+      <div class="ch-row ${isActive ? 'on' : ''}" onclick="toggleChapter(${c.n})">
+        <span class="ch-n">${c.n}.</span>
+        <span class="ch-label">${lang==='ru' ? c.ru : c.en}</span>
+        <span class="ch-vcount">${c.v}</span>
+      </div>
+      ${verseList}
+    `;
+  }).join('');
+}
+
+function toggleChapter(n) {
+  if (n === curCh) {
+    // Уже открыта — просто скрываем/показываем тексты
+    const existing = document.querySelector('.toc-verses');
+    if (existing) {
+      existing.remove();
+    } else {
+      renderToc();
+    }
+  } else {
+    renderChapter(n);
+  }
+}
+
+function goToVerse(ch, vn) {
+  if (ch !== curCh) {
+    renderChapter(ch);
+    setTimeout(() => scrollToVerse(ch, vn), 300);
+  } else {
+    scrollToVerse(ch, vn);
+  }
+  if (window.innerWidth < 768) closeAll();
+}
+
+function scrollToVerse(ch, vn) {
+  const el = document.getElementById(`v${ch}_${vn}`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /* ════════════════════════════════════════════
