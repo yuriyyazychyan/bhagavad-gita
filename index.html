@@ -172,9 +172,26 @@ body {
 }
 .ch-row:hover { background: var(--paper3); color: var(--ink); }
 .ch-row.on { background: var(--paper3); color: var(--ink); border-left-color: var(--ink3); }
-.ch-n { font-size: 11px; color: var(--ink3); min-width: 18px; }
+.ch-n { 
+  font-family: 'Spectral SC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  min-width: 18px;
+  display: inline-block;
+  transform: scaleY(1.15);
+}
+.ch-vcount { 
+  font-family: 'Spectral SC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink3);
+  display: inline-block;
+  transform: scaleY(1.15);
+}
 .ch-label { flex: 1; }
-.ch-vcount { font-size: 11px; color: var(--ink3); }
 
 /* ── MAIN ── */
 .main { margin-left: var(--sidebar); flex: 1; transition: margin-left var(--trans); }
