@@ -307,16 +307,15 @@ body {
 /* ── TRANSLITERATION ── */
 .v-translit {
   font-family: 'Momentum', serif;
-  font-size: 16px;
-  font-weight: 400;
   font-style: normal;
+  font-size: 21px;
+  font-weight: 400;
+  text-align: center;
   color: var(--ink);
-  line-height: 1.4;
+  line-height: 1.3;
   margin-bottom: 16px;
-  padding: 0;
-  border-left: none;
   text-indent: 1.5em;
-}
+} 
 .w {
   cursor: pointer;
   border-bottom: 1px dotted var(--rule);
@@ -1586,7 +1585,8 @@ function renderVerse(v, chN) {
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
   <div class="v-translit">${trLines}</div>
   <div class="v-wbw">${isRu ? v.wbw_ru : v.wbw_en}</div>
-  <div style='font-family:"Spectral SC",serif;font-size:16px;font-weight:800;letter-spacing:0.02em;transform:scaleY(1.15);display:block;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
+  <div style='font-family:"Spectral SC",serif;font-size:16px;font-weight:900;letter-spacing:0.02em;transform:scaleY(1.15);display:block;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
+  <div style='font-family:"Spectral SC",serif;font-size:16px;font-weight:900;letter-spacing:0.02em;transform:scaleY(1.15);display:block;text-align:center;margin:24px 0 16px;color:var(--ink);'>PURPORT</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
   <div class="purport-tog" onclick="togPurport(this)">
     ${isRu ? 'РАЗЪЯСНЕНИЕ' : 'PURPORT'}
