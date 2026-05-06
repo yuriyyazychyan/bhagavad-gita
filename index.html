@@ -359,7 +359,7 @@ body {
 .purport-tog {
   font-family: 'Spectral SC', serif;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--ink);
@@ -372,25 +372,29 @@ body {
 .purport-tog::before { content: ''; }
 .purport-tog.open::before { content: ''; }
 .purport-body {
-  display: none; margin-top: 14px;
+  display: none;
+  margin-top: 14px;
   border-top: 1px solid var(--rule);
   padding-top: 14px;
   
 }
 .purport-body.open { display: block; }
 .purport-lbl {
-  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink3); margin-bottom: 10px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 10px;
 }
-.purport-body p {
+.purport-body {
   font-size: 16px;
   color: var(--ink2);
   line-height: 1.5;
   margin-bottom: 8px;
   text-indent: 1.5em;
-      white-space: pre-line; /* Превращает \n в новые строки */
-    text-indent: 30px;     /* Красная строка */
-    text-align: justify;   /* Ровные края текста по бокам */
+  white-space: pre-line; /* Превращает \n в новые строки */
+  text-indent: 30px;     /* Красная строка */
+  text-align: justify;   /* Ровные края текста по бокам */
 
 }
 
