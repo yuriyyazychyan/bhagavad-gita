@@ -214,65 +214,48 @@ body {
   :root { --sidebar: 82vw; }
 }
 
-/* "CHAPTER OPENING" — капитель с линиями по бокам */
-.ch-opening { text-align: center; margin-bottom: 48px; }
+/* ── CHAPTER OPENING ── */
+.ch-opening { text-align: center; margin-bottom: 36px; }
 .ch-word {
-  font-family: 'Spectral SC', serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
+  font-family: 'Barmeno', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--ink);
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
+  margin-bottom: 14px;
+  text-align: center;
 }
-.ch-word::before,
-.ch-word::after {
-  content: '';
-  display: block;
-  height: 1px;
-  width: 40px;
-  background: var(--rule);
-}
+.ch-word span { margin: 0 6px; }
 .ch-eng-title {
   font-family: 'Windsor', serif;
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 900;
+  font-style: normal;
   color: var(--ink);
   line-height: 1.2;
-  margin: 20px auto 0;
+  margin: 20px 0 0;
   text-align: center;
-  max-width: 500px;
 }
-.ch-rule { border: none; border-top: 1px solid var(--rule); margin: 24px auto; width: 160px; }
+.ch-rule { border: none; border-top: 1px solid var(--rule); margin: 20px auto; width: 200px; }
 .ch-intro {
-  font-style: italic; font-size: 15px;
+  font-style: italic; font-size: 16px;
   color: var(--ink2); line-height: 1.75;
-  max-width: 500px; margin: 0 auto;
+  max-width: 520px; margin: 0 auto;
 }
-/* "TEXT NUMBER" — капитель с линиями по бокам */
+
+/* ── TEXT NUMBER ── */
 .text-label {
   font-family: 'Spectral SC', serif;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--ink);
   text-align: center;
-  margin: 52px 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-.text-label::before,
-.text-label::after {
-  content: '';
+  margin: 20px 0 0px;
+  cursor: default;
   display: block;
-  height: 1px;
-  width: 40px;
-  background: var(--rule);
 }
 
 /* ── VERSE BLOCK ── */
@@ -305,122 +288,103 @@ body {
 .vbtn:hover { color: var(--ink); border-color: var(--ink3); }
 .vbtn.bm { color: var(--ink); border-color: var(--ink); }
 
-/* Sanskrit — крупно, по центру */
+/* ── SANSKRIT ── */
 .v-sanskrit {
   font-family: var(--devan);
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 600;
-  line-height: 1.6;
+  line-height: 1.4;
   text-align: center;
   color: var(--ink);
-  margin-bottom: 20px;
+  margin-top: -8px;
+  margin-bottom: 16px;
 }
 .v-sanskrit-inner {
   display: inline-block;
   text-align: left;
 }
 
-/* Транслитерация — курсив, по центру */
+/* ── TRANSLITERATION ── */
 .v-translit {
-  font-family: 'Momentum', Georgia, serif;
-  font-style: italic;
-  font-size: 15px;
-  line-height: 1.7;
+  font-family: 'Momentum', serif;
+  font-style: normal;
+  font-size: 21px;
+  font-weight: 400;
   text-align: center;
   color: var(--ink);
-  margin-bottom: 24px;
-  letter-spacing: 0.01em;
+  line-height: 1.3;
+  margin-bottom: 16px;
+  text-indent: 1.5em;
+} 
+.w {
+  cursor: pointer;
+  border-bottom: 1px dotted var(--rule);
+  transition: color var(--trans), border-color var(--trans);
 }
+.w:hover { color: var(--ink); border-color: var(--ink3); }
 
 /* ── WORD-BY-WORD ── 
    ── ПОСЛОВНЫЙ ПЕРЕВОД ── */
 .v-wbw {
-  font-family: 'IM Fell English', Georgia, serif;
-  font-size: 15px;
-  font-style: italic;
-  color: var(--ink2);
-  line-height: 1.7;
-  text-align: justify;
-  hyphens: auto;
-  margin-bottom: 20px;
-  display: block;
+  font-family: 'Momentum', serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 16px;
+  padding: 0;
+  border-left: none;
+  text-indent: 1.5em;
 }
+.v-wbw.open { display: block; }
 
 /* ── TRANSLATION ── */
 .v-translation {
-  font-family: 'IM Fell English', Georgia, serif;
-  font-size: 15px;
+  font-family: 'Momentum', serif;
+  font-size: 16px;
+  font-weight: 600;
   font-style: normal;
   color: var(--ink);
-  line-height: 1.75;
-  text-align: justify;
-  hyphens: auto;
-  text-indent: 1.5em;
-  margin-bottom: 24px;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  padding: 0;
   border-left: none;
-  padding-left: 0;
+  text-indent: 1.5em;
 }
 
-/* Кнопка сворачивания пурпорта */
+/* ── PURPORT ── */
 .purport-tog {
   font-family: 'Spectral SC', serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  color: var(--ink3);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
   cursor: pointer;
   user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 28px 0 16px;
-  transition: color var(--trans);
-}
-.purport-tog:hover { color: var(--ink); }
-
-/* Стрелка — поворачивается при сворачивании */
-.purport-tog::after {
-  content: '↑';
-  font-size: 11px;
-  transition: transform 0.25s ease;
-  display: inline-block;
-}
-.purport-tog.closed::after {
-  transform: rotate(180deg);
-}
-
-/* Линии по бокам текста PURPORT */
-.purport-tog::before {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--rule);
-}
-
-/* Тело пурпорта */
-.purport-body {
   display: block;
-  overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.3s ease;
-  max-height: 9999px;
-  opacity: 1;
+  text-align: center;
+  margin: 20px 0 0;
 }
-.purport-body.closed {
-  max-height: 0;
-  opacity: 0;
+.purport-tog::before { content: ''; }
+.purport-tog.open::before { content: ''; }
+.purport-body {
+  display: none; margin-top: 14px;
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
 }
-
-/* Абзацы пурпорта */
+.purport-body.open { display: block; }
+.purport-lbl {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 10px;
+}
 .purport-body p {
-  font-family: 'IM Fell English', Georgia, serif;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--ink2);
-  line-height: 1.75;
-  text-align: justify;
-  hyphens: auto;
+  line-height: 1.5;
+  margin-bottom: 8px;
   text-indent: 1.5em;
-  margin-bottom: 12px;
 }
 
 /* ── AUDIO LINK ── */
@@ -1599,6 +1563,7 @@ function renderVerse(v, chN) {
   const key = `${chN}.${v.n}`;
   const isBm = bookmarks.some(b => b.key === key);
 
+  // build transliteration with clickable words
   let trLines = v.tr.split('\n').map(line => {
     return line.split(' ').map(tok => {
       const wd = v.words?.find(w => tok.startsWith(w.tr.replace(/[''']/g,'')));
@@ -1607,47 +1572,34 @@ function renderVerse(v, chN) {
     }).join(' ');
   }).join('<br>');
 
-  const wbw = isRu ? v.wbw_ru : v.wbw_en;
-  const translation = isRu ? v.tr_ru : v.tr_en;
-  const purport = isRu ? v.pur_ru : v.pur_en;
-
   return `
 <div class="verse" id="v${chN}_${v.n}">
-
-  <div class="text-label">
-    ${isRu ? 'Текст' : 'Text'} ${v.n}
-    <button class="vbtn ${isBm ? 'bm' : ''}" onclick="toggleBm('${key}',event)" title="${isRu ? 'Закладка' : 'Bookmark'}">
-      ${isBm
-        ? '<img src="love.png" style="width:13px;height:13px;vertical-align:middle;">'
-        : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}
-    </button>
+ <div style='text-align:center;margin:36px 0 20px;'>
+  <span style='font-family:"Spectral SC",serif;font-size:16px;font-weight:600;letter-spacing:0.02em;transform:scaleY(1.15);display:inline-block;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'} </span><span style='font-family:"Lora",serif;font-weight:700;font-size:16px;color:var(--ink);'>${v.n}</span>
+</div>
+<div style='float:right;margin-top:-48px;display:flex;align-items:center;gap:12px;'>
+  <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'<img src="love.png" style="width:14px;height:14px;vertical-align:middle;">':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}</button>
+  <a class='audio-lnk' href='${v.audio}' target='_blank'>▶ ${isRu?'Аудио':'Audio'}</a>
+</div>
   </div>
-
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
-
   <div class="v-translit">${trLines}</div>
-
-  ${wbw && wbw !== '—' ? `<div class="v-wbw">${wbw}</div>` : ''}
-
-  <hr class="ch-rule" style="margin: 20px auto;">
-
-  <div class="v-translation">${translation}</div>
-
+  <div class="v-wbw">${isRu ? v.wbw_ru : v.wbw_en}</div>
+  <div style='font-family:"Spectral SC",serif;font-size:16px;font-weight:900;letter-spacing:0.02em;transform:scaleY(1.15);display:block;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
+  <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
   <div class="purport-tog" onclick="togPurport(this)">
-    ${isRu ? 'Разъяснение' : 'Purport'} <a class="audio-lnk" href="${v.audio}" target="_blank" onclick="event.stopPropagation()">▶ ${isRu ? 'Аудио' : 'Audio'}</a>
+    ${isRu ? 'РАЗЪЯСНЕНИЕ' : 'PURPORT'}
   </div>
   <div class="purport-body">
-    ${purport && purport !== '—'
-      ? purport.split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('')
-      : `<p style="color:var(--ink3);font-style:italic;">${isRu ? 'Вскоре будет добавлено...' : 'Coming soon...'}</p>`}
+    <p>${isRu ? v.pur_ru : v.pur_en}</p>
   </div>
-
+  </div>
 </div>`;
 }
 
 function togPurport(el) {
-  el.classList.toggle('closed');
-  el.nextElementSibling.classList.toggle('closed');
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
 }
 
 /* ════════════════════════════════════════════
