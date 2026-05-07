@@ -376,7 +376,7 @@ body {
   word-spacing: normal;
   margin-bottom: 16px;
   text-indent: 2em;
-  text-align: justify;
+  text-align: left;
 }
 
 /* ── PURPORT ── */
@@ -1615,7 +1615,7 @@ function renderVerse(v, chN) {
 <div class="verse" id="v${chN}_${v.n}">
  <div style='text-align:center;margin:24px 0 16px;position:relative;'>
   <span 
-    style='font-family:"CA Moskow",serif;font-size:18px;letter-spacing:-0.02em;color:var(--ink);cursor:pointer;'
+    style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;color:var(--ink);cursor:pointer;'
     onmouseenter="showVerseTooltip(this)"
     onmouseleave="hideVerseTooltip(this)"
     ontouchstart="toggleVerseTooltip(this)"
@@ -1776,12 +1776,13 @@ function numWord(n) {
   return lang === 'ru' ? ru[n] : en[n];
 }
 function showHintIfNeeded() {
-  if (localStorage.getItem('bg_hint_shown')) return;
+  const key = 'bg_hint_shown_' + lang;
+  if (localStorage.getItem(key)) return;
   setTimeout(() => {
     alert(lang === 'ru'
       ? 'Подсказка (показывается один раз): наведи на номер текста, чтобы добавить его в любимые или прослушать лекцию по этому тексту'
       : 'Tip (shown once): hover over a text number to add it to favorites or listen to a lecture on this text');
-    localStorage.setItem('bg_hint_shown', '1');
+    localStorage.setItem(key, '1');
     const d = document.querySelector('.pulse-dot');
     if (d) d.remove();
   }, 2000);
