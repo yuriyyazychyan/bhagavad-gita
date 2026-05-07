@@ -378,10 +378,9 @@ body {
 .purport-tog.open::before { content: ''; }
 .purport-body {
   display: none;
-  margin-top: 14px;
-  border-top: 1px solid var(--rule);
-  padding-top: 14px;
-  
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 .purport-body.open { display: block; }
 .purport-lbl {
@@ -392,15 +391,15 @@ body {
   margin-bottom: 10px;
 }
 .purport-body p {
+  font-family: 'Bodoni Antiqua', serif;
   font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 24px;
   color: var(--ink2);
-  line-height: 1.5;
-  margin-bottom: 8px;
-  text-indent: 1.5em;
-  white-space: pre-line; /* Превращает \n в новые строки */
-  text-indent: 30px;     /* Красная строка */
-  text-align: justify;   /* Ровные края текста по бокам */
-
+  text-indent: 2em;
+  margin-bottom: 12px;
+  text-align: justify;
 }
 
 /* ── AUDIO LINK ── */
