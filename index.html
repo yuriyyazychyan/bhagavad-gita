@@ -1652,7 +1652,10 @@ function showVerseTooltip(el) {
   el.nextElementSibling.style.display = 'block';
 }
 function hideVerseTooltip(el) {
-  setTimeout(() => { el.nextElementSibling.style.display = 'none'; }, 300);
+  const tooltip = el.nextElementSibling;
+  tooltip.addEventListener('mouseenter', () => clearTimeout(tooltip._hideTimer));
+  tooltip.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+  tooltip._hideTimer = setTimeout(() => { tooltip.style.display = 'none'; }, 600);
 }
 function toggleVerseTooltip(el) {
   const t = el.nextElementSibling;
@@ -1772,24 +1775,21 @@ function numWord(n) {
   const en = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen'];
   return lang === 'ru' ? ru[n] : en[n];
 }
-
-/* ════════════════════════════════════════════
-   INIT
-   ════════════════════════════════════════════ */
-   function showHintIfNeeded() {
+function showHintIfNeeded() {
   if (localStorage.getItem('bg_hint_shown')) return;
-  const dot = document.querySelector('.pulse-dot');
-  if (!dot) return;
-  const msg = lang === 'ru'
-    ? 'Подсказка (показывается один раз): наведи на номер текста, чтобы добавить его в любимые или прослушать лекцию по этому тексту'
-    : 'Tip (shown once): Hover over a text number to add it to favorites or listen to a lecture on this text';
   setTimeout(() => {
-    alert(msg);
+    alert(lang === 'ru'
+      ? 'Подсказка (показывается один раз): наведи на номер текста, чтобы добавить его в любимые или прослушать лекцию по этому тексту'
+      : 'Tip (shown once): hover over a text number to add it to favorites or listen to a lecture on this text');
     localStorage.setItem('bg_hint_shown', '1');
     const d = document.querySelector('.pulse-dot');
     if (d) d.remove();
   }, 2000);
 }
+/* ════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════ */
+  
 showHintIfNeeded();
 if (window.innerWidth < 768) {
   document.getElementById('sidebar').classList.add('hidden');
