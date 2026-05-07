@@ -374,15 +374,29 @@ body {
   text-align: center;
   margin: 0;
 }
+.purport-tog::after {
+  content: ' ↑';
+  font-size: 11px;
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+.purport-tog.closed::after {
+  transform: rotate(180deg);
+}
 .purport-tog::before { content: ''; }
 .purport-tog.open::before { content: ''; }
 .purport-body {
-  display: none;
+  display: block;
   margin-top: 0;
   padding-top: 0;
   border-top: none;
+  overflow: hidden;
+  max-height: 9999px;
+  transition: max-height 0.35s ease;
 }
-.purport-body.open { display: block; }
+.purport-body.closed {
+  max-height: 0;
+}
 .purport-lbl {
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -394,7 +408,7 @@ body {
   font-size: 18px;
   color: var(--ink2);
   line-height: 24px;
-  margin-bottom: 12px;
+  margin-bottom: 0px;
   text-indent: 1.5em;
   white-space: pre-line; /* Превращает \n в новые строки */
   text-indent: 2em;     /* Красная строка */
@@ -1609,8 +1623,8 @@ function renderVerse(v, chN) {
 }
 
 function togPurport(el) {
-  el.classList.toggle('open');
-  el.nextElementSibling.classList.toggle('open');
+  el.classList.toggle('closed');
+  el.nextElementSibling.classList.toggle('closed');
 }
 
 /* ════════════════════════════════════════════
