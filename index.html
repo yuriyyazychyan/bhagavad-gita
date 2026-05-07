@@ -7,6 +7,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&family=Lora:wght@700&display=swap" rel="stylesheet">
 <style>
+  @keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pulse-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--ink);
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+  animation: pulse 1.5s ease infinite;
+}
   .toc-verses {
   padding: 4px 0 8px 32px;
   border-left: 2px solid var(--rule);
@@ -1598,14 +1613,26 @@ function renderVerse(v, chN) {
 
   return `
 <div class="verse" id="v${chN}_${v.n}">
- <div style='text-align:center;margin:24px 0 16px;'>
-  <span style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'}&nbsp;&nbsp;${v.n}</span>
-</div>
-<div style='margin-top:-48px;display:flex;align-items:center;gap:12px;'>
-  <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'<img src="love.png" style="width:14px;height:14px;vertical-align:middle;">':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}</button>
-  <a class='audio-lnk' href='${v.audio}' target='_blank'>▶ ${isRu?'Аудио':'Audio'}</a>
-</div>
+ <div style='text-align:center;margin:24px 0 16px;position:relative;'>
+  <span 
+    style='font-family:"CA Moskow",serif;font-size:18px;letter-spacing:-0.02em;color:var(--ink);cursor:pointer;'
+    onmouseenter="showVerseTooltip(this)"
+    onmouseleave="hideVerseTooltip(this)"
+    ontouchstart="toggleVerseTooltip(this)"
+  >${isRu?'ТЕКСТ':'TEXT'}&nbsp;&nbsp;${v.n}${chN === curCh && v.n === (VERSES[curCh]?.[0]?.n) && !localStorage.getItem('bg_hint_shown') ? '<span class="pulse-dot"></span>' : ''}</span>
+<div class="verse-tooltip" style='display:none;position:absolute;top:130%;left:50%;transform:translateX(-50%);background:var(--paper2);border:0.5px solid var(--rule);border-radius:8px;padding:10px 16px;white-space:nowrap;z-index:200;'>
+    <div style='display:flex;align-items:center;gap:16px;'>
+      <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' style='display:flex;align-items:center;gap:6px;font-size:13px;'>
+        ${isBm?'<img src="love.png" style="width:13px;height:13px;vertical-align:middle;">':'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}
+        ${isRu?'Добавить в любимые':'Add to favorites'}
+      </button>
+      <div style='width:0.5px;height:20px;background:var(--rule);'></div>
+      <a class='audio-lnk' href='${v.audio}' target='_blank' style='display:flex;align-items:center;gap:6px;font-size:13px;border:none;padding:0;margin:0;'>
+        ▶ ${isRu?'Прослушать лекцию':'Listen to lecture'}
+      </a>
+    </div>
   </div>
+</div>
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
   <div class="v-translit">${trLines}</div>
   <div class="v-wbw">${isRu ? v.wbw_ru : v.wbw_en}</div>
@@ -1621,6 +1648,16 @@ function renderVerse(v, chN) {
 </div>`;
 }
 
+function showVerseTooltip(el) {
+  el.nextElementSibling.style.display = 'block';
+}
+function hideVerseTooltip(el) {
+  setTimeout(() => { el.nextElementSibling.style.display = 'none'; }, 300);
+}
+function toggleVerseTooltip(el) {
+  const t = el.nextElementSibling;
+  t.style.display = t.style.display === 'none' ? 'block' : 'none';
+}
 function togPurport(el) {
   el.classList.toggle('closed');
   el.nextElementSibling.classList.toggle('closed');
@@ -1665,7 +1702,7 @@ function updateBm() {
   document.getElementById('bmCnt').textContent = bookmarks.length;
   const list = document.getElementById('bmList');
   if (!bookmarks.length) {
-    list.innerHTML = `<div class="bm-empty">${lang === 'ru' ? 'Нет закладок' : 'No bookmarks yet'}</div>`;
+    list.innerHTML = `<div class="bm-empty">${lang === 'ru' ? 'Наведи на номер любого текста и нажми ♡ чтобы добавить его сюда' : 'Hover over any text number and tap ♡ to add it here'}</div>`;
     return;
   }
   list.innerHTML = bookmarks.map(b => `
@@ -1739,6 +1776,21 @@ function numWord(n) {
 /* ════════════════════════════════════════════
    INIT
    ════════════════════════════════════════════ */
+   function showHintIfNeeded() {
+  if (localStorage.getItem('bg_hint_shown')) return;
+  const dot = document.querySelector('.pulse-dot');
+  if (!dot) return;
+  const msg = lang === 'ru'
+    ? 'Подсказка (показывается один раз): наведи на номер текста, чтобы добавить его в любимые или прослушать лекцию по этому тексту'
+    : 'Tip (shown once): Hover over a text number to add it to favorites or listen to a lecture on this text';
+  setTimeout(() => {
+    alert(msg);
+    localStorage.setItem('bg_hint_shown', '1');
+    const d = document.querySelector('.pulse-dot');
+    if (d) d.remove();
+  }, 2000);
+}
+showHintIfNeeded();
 if (window.innerWidth < 768) {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
