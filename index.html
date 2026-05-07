@@ -353,55 +353,40 @@ body {
 
 /* ── TRANSLATION ── */
 .v-translation {
-  font-family: 'Bodoni Antiqua', serif;
-  font-size: 15px;
+  font-family: 'Momentum', serif;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: 0em;
-  line-height: 17.5px;
+  font-style: normal;
   color: var(--ink);
-  margin-bottom: 24px;
-  text-indent: 5em;
-  text-align: left;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  padding: 0;
+  border-left: none;
+  text-indent: 1.5em;
 }
 
 /* ── PURPORT ── */
 .purport-tog {
-  font-family: 'CA Moskow', serif;
-  font-size: 17px;
-  font-weight: 400;
-  letter-spacing: 0em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-align: center;
-  margin: 24px 0 24px;
+  font-family: 'Spectral SC', serif;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--ink);
   cursor: pointer;
   user-select: none;
-}
-.purport-tog::after {
-  content: '↑';
-  font-size: 11px;
-  display: inline-block;
-  transition: transform 0.25s ease;
-}
-.purport-tog.closed::after {
-  transform: rotate(180deg);
+  display: block;
+  text-align: center;
+  margin: 20px 0 0;
 }
 .purport-tog::before { content: ''; }
 .purport-tog.open::before { content: ''; }
 .purport-body {
-  display: block;
-  margin-top: 0;
-  padding-top: 0;
-  border-top: none;
-  overflow: hidden;
-  transition: max-height 0.35s ease;
-  max-height: 9999px;
-}
-.purport-body.closed {
-  max-height: 0;
+  display: none;
+  margin-top: 14px;
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+  
 }
 .purport-body.open { display: block; }
 .purport-lbl {
@@ -412,16 +397,15 @@ body {
   margin-bottom: 10px;
 }
 .purport-body p {
-  font-family: 'Bodoni Antiqua', serif;
   font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 17.5px;
-  word-spacing: 0.12em;
   color: var(--ink2);
-  text-indent: 5em;
-  margin-bottom: 0;
-  text-align: justify;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  text-indent: 1.5em;
+  white-space: pre-line; /* Превращает \n в новые строки */
+  text-indent: 30px;     /* Красная строка */
+  text-align: justify;   /* Ровные края текста по бокам */
+
 }
 
 /* ── AUDIO LINK ── */
@@ -579,7 +563,7 @@ const VERSES = {
   // TEXT 1/47
     n: 1,
     skr: 'धृतराष्ट्र उवाच ।\nधर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः ।\nमामकाः पाण्डवाश्चैव किमकुर्वत सञ्जय ॥ १ ॥',
-    tr: 'dhṛtarāṣṭra uvāca\ndharma-kṣetre kuru-kṣetre\n\u00A0\u00A0\u00A0\u00A0\u00A0samavetā yuyutsavaḥ\nmāmakāḥ pāṇḍavāś caiva\n\u00A0\u00A0\u00A0\u00A0\u00A0kim akurvata sañjaya',
+    tr: 'dhṛtarāṣṭra uvāca\ndharma-kṣetre kuru-kṣetre\nsamavetā yuyutsavaḥ\nmāmakāḥ pāṇḍavāś caiva\nkim akurvata sañjaya',
     wbw_en: 'dhṛtarāṣṭraḥ—King Dhṛtarāṣṭra; uvāca—said; dharma-kṣetre—in the place of pilgrimage; kuru-kṣetre—in the place named Kurukṣetra; samavetāḥ—assembled; yuyutsavaḥ—desiring to fight; māmakāḥ—my party (sons); pāṇḍavāḥ—the sons of Pāṇḍu; ca—and; eva—certainly; kim—what; akurvata—did they do; sañjaya—O Sañjaya.',
     wbw_ru: '—',
     tr_en: 'Dhṛtarāṣṭra said: O Sañjaya, after assembling in the place of pilgrimage at Kurukṣetra, what did my sons and the sons of Pāṇḍu do, being desirous to fight?',
@@ -1564,7 +1548,7 @@ function renderChapter(n, skipScroll = false) {
   let html = `
   <div class="ch-opening">
   <div class="ch-word">${isRu?'Глава':'Chapter'} ${numWord(n)}</div>
-  <img src='krishna_arjuna.jpg' class='ch-illustration' style='width:240px;height:242px;display:block;margin:24px auto 0;'>
+  <img src='krishna_arjuna.png' class='ch-illustration' style='width:240px;height:242px;display:block;margin:24px auto 0;'>
   <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
@@ -1606,22 +1590,23 @@ function renderVerse(v, chN) {
   }).join('<br>');
 
   return `
-<div style='margin:32px 0 24px;position:relative;text-align:center;'>
-  <span style='font-family:"CA Moskow",serif;font-size:18px;letter-spacing:-0.02em;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'}&nbsp;${v.n}</span>
-  <div style='position:absolute;right:0;top:50%;transform:translateY(-50%) translateY(1px);display:flex;align-items:center;gap:12px;'>
-    <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'<img src="love.png" style="width:14px;height:14px;vertical-align:middle;">':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}</button>
-    <a class='audio-lnk' href='${v.audio}' target='_blank'>▶ ${isRu?'Аудио':'Audio'}</a>
-  </div>
+<div class="verse" id="v${chN}_${v.n}">
+ <div style='text-align:center;margin:32px 0 24px;'>
+  <span style='font-family:"CA Moskow",serif;font-size:18px;letter-spacing:-0.02em;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'}&nbsp;&nbsp;${v.n}</span>
+</div>
+<div style='margin-top:-48px;display:flex;align-items:center;gap:12px;'>
+  <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'<img src="love.png" style="width:14px;height:14px;vertical-align:middle;">':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}</button>
+  <a class='audio-lnk' href='${v.audio}' target='_blank'>▶ ${isRu?'Аудио':'Audio'}</a>
 </div>
   </div>
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
   <div class="v-translit">${trLines}</div>
   <div class="v-wbw">${isRu ? v.wbw_ru : v.wbw_en}</div>
-  <div style='font-family:"CA Moskow",serif;font-size:18px;font-weight:400;letter-spacing:-0.01em;display:block;text-align:center;margin:24px 0 24px;color:var(--ink);'>TRANSLATION</div>
+  <div style='font-family:"Spectral SC",serif;font-size:16px;font-weight:900;letter-spacing:0.02em;transform:scaleY(1.15);display:block;text-align:center;margin:24px 0 16px;color:var(--ink);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
-  <div class="purport-tog" onclick="togPurport(this)" style='font-family:"CA Moskow",serif;font-size:17px;font-weight:400;letter-spacing:0em;display:block;text-align:center;margin:24px 0 24px;color:var(--ink);cursor:pointer;user-select:none;'>
+  <div class="purport-tog" onclick="togPurport(this)">
     ${isRu ? 'РАЗЪЯСНЕНИЕ' : 'PURPORT'}
-</div>
+  </div>
   <div class="purport-body">
     <p>${isRu ? v.pur_ru : v.pur_en}</p>
   </div>
@@ -1630,8 +1615,8 @@ function renderVerse(v, chN) {
 }
 
 function togPurport(el) {
-  el.classList.toggle('closed');
-  el.nextElementSibling.classList.toggle('closed');
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
 }
 
 /* ════════════════════════════════════════════
