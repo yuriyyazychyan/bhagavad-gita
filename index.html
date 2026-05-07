@@ -373,10 +373,10 @@ body {
 .v-wbw.open { display: block; }
 
 .v-translation {
-  font-family: 'Momentum', serif;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: normal;
   font-size: 18px;
   font-weight: 600;
-  font-style: normal;
   color: var(--ink);
   line-height: 24px;
   word-spacing: normal;
@@ -1599,6 +1599,16 @@ function renderChapter(n, skipScroll = false) {
   if (!skipScroll) window.scrollTo({ top:0, behavior:'smooth' });
   updateIllustration();
 }
+function formatWbw(text) {
+  if (!text || text === '—') return text;
+  return text.split(';').map(part => {
+    const idx = part.indexOf('—');
+    if (idx === -1) return part;
+    const sanskrit = part.substring(0, idx);
+    const english = part.substring(idx + 1);
+    return `<span style="font-family:'Momentum',serif;font-style:italic;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
+  }).join('; ');
+}
 
 /* ════════════════════════════════════════════
    VERSE
@@ -1641,7 +1651,7 @@ function renderVerse(v, chN) {
 </div>
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
   <div class="v-translit">${trLines}</div>
-  <div class="v-wbw">${isRu ? v.wbw_ru : v.wbw_en}</div>
+  <div class="v-wbw">${formatWbw(isRu ? v.wbw_ru : v.wbw_en)}</div>
   <div style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
   <div class="purport-tog" onclick="togPurport(this)" style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);cursor:pointer;user-select:none;'>
