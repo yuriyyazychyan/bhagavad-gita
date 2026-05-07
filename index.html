@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Бхагавад-гӣта̄ как она есть</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&family=Lora:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&family=EB+Garamond:ital,wght@1,400;1,500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">
 <style>
   @keyframes pulse {
   0% { transform: scale(1); opacity: 1; }
@@ -339,9 +339,9 @@ body {
 
 /* ── TRANSLITERATION ── */
 .v-translit {
-  font-family: 'Momentum', serif;
+  font-family: 'EB Garamond', serif;
   font-style: italic;
-  font-size: 19px;
+  font-size: 22px;
   font-weight: 500;
   letter-spacing: -0.024em;
   line-height: 17.5px;
@@ -360,7 +360,7 @@ body {
    ── ПОСЛОВНЫЙ ПЕРЕВОД ── */
 .v-wbw {
   font-family: 'Momentum', serif;
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 500;
   font-style: normal;
   color: var(--ink);
@@ -1606,8 +1606,34 @@ function formatWbw(text) {
     if (idx === -1) return part;
     const sanskrit = part.substring(0, idx);
     const english = part.substring(idx + 1);
-    return `<span style="font-family:'Momentum',serif;font-style:italic;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
+    return `<span style="font-family:'EB Garamond',serif;font-style:italic;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
   }).join('; ');
+}
+function formatPurport(text) {
+  if (!text || text === '—') return '<p style="color:var(--ink3);font-style:italic;">Вскоре будет добавлено...</p>';
+  
+  // Имена собственные — остаются прямыми (добавляй сюда новые)
+  const straightNames = new Set([
+    'Kṛṣṇa','Krishna','Arjuna','Sañjaya','Dhṛtarāṣṭra','Pāṇḍu',
+    'Kurukṣetra','Vyāsa','Yudhiṣṭhira','Bhīma','Draupadī',
+    'Droṇa','Droṇācārya','Duryodhana','Bhīṣma','Karṇa',
+    'Śrī','Śrīmad','Brahmā','Viṣṇu','Śiva','Nārāyaṇa',
+    'Pāṇḍavas','Kauravas','Arjuna\'s','Kṛṣṇa\'s',
+  ]);
+
+  const diacritics = /[āīūṭḍṇśṣḥṃṁḷñĀĪŪṬḌṆŚṢḤṂṀḶÑ]/;
+
+  return text.split('\n').filter(p => p.trim()).map(para => {
+    const formatted = para.replace(/[\w\u0100-\u024F\u1E00-\u1EFF][\w\u0100-\u024F\u1E00-\u1EFF\-']*/g, (word) => {
+      const clean = word.replace(/[',\.]/g, '');
+      if (straightNames.has(clean)) return word;
+      if (diacritics.test(word)) {
+        return `<span style="font-family:'EB Garamond',serif;font-style:italic;">${word}</span>`;
+      }
+      return word;
+    });
+    return `<p>${formatted}</p>`;
+  }).join('');
 }
 
 /* ════════════════════════════════════════════
@@ -1629,7 +1655,7 @@ function renderVerse(v, chN) {
 
   return `
 <div class="verse" id="v${chN}_${v.n}">
- <div style='text-align:center;margin:24px 0 16px;position:relative;'>
+ <div style='text-align:center;margin:16px 0 16px;position:relative;'>
   <span 
     style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;color:var(--ink);cursor:pointer;'
     onmouseenter="showVerseTooltip(this)"
@@ -1658,7 +1684,7 @@ function renderVerse(v, chN) {
   ${isRu ? 'РАЗЪЯСНЕНИЕ' : 'PURPORT'}
   </div>
   <div class="purport-body">
-    <p>${isRu ? v.pur_ru : v.pur_en}</p>
+    ${formatPurport(isRu ? v.pur_ru : v.pur_en)}
   </div>
   </div>
 </div>`;
