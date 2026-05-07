@@ -62,6 +62,18 @@
   font-weight: 400;
   font-style: italic;
 }
+@font-face {
+  font-family: 'Bodoni Antiqua';
+  src: url('Bodoni_Antiqua_W01_Demi_Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CA Moskow';
+  src: url('CA_Moskow_has_a_plan_W00_Reg.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── TOKENS ── */
@@ -215,36 +227,33 @@ body {
 }
 
 /* ── CHAPTER OPENING ── */
-.ch-opening { text-align: center; margin-bottom: 36px; }
+/* ── CHAPTER OPENING ── */
+.ch-opening { text-align: center; margin-bottom: 0; padding-top: 90px; }
 .ch-word {
   font-family: 'Barmeno', sans-serif;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  transform: scaleX(1.12);
-  display: inline-block;
+  letter-spacing: -0.04em;
+  word-spacing: 0.6em;
   color: var(--ink);
-  margin-bottom: 14px;
+  margin-bottom: 24px;
   text-align: center;
+  display: inline-block;
+  transform: scaleX(1.12);
 }
-.ch-word span { margin: 0 6px; }
 .ch-eng-title {
   font-family: 'Windsor', serif;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 900;
-  font-style: normal;
+  letter-spacing: -0.02em;
+  line-height: 34px;
   color: var(--ink);
-  line-height: 1.2;
-  margin: 20px 0 0;
+  margin: 24px auto 0;
   text-align: center;
+  max-width: 500px;
 }
-.ch-rule { border: none; border-top: 1px solid var(--rule); margin: 20px auto; width: 200px; }
-.ch-intro {
-  font-style: italic; font-size: 16px;
-  color: var(--ink2); line-height: 1.75;
-  max-width: 520px; margin: 0 auto;
-}
+.ch-rule { display: none; }
+.ch-intro { display: none; }
 
 /* ── TEXT NUMBER ── */
 .text-label {
@@ -309,15 +318,15 @@ body {
 /* ── TRANSLITERATION ── */
 .v-translit {
   font-family: 'Momentum', serif;
-  font-style: normal;
-  font-size: 21px;
-  font-weight: 400;
+  font-style: italic;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.024em;
+  line-height: 17.5px;
   text-align: center;
   color: var(--ink);
-  line-height: 1.3;
-  margin-bottom: 16px;
-  text-indent: 1.5em;
-} 
+  margin-bottom: 24px;
+}
 .w {
   cursor: pointer;
   border-bottom: 1px dotted var(--rule);
@@ -1538,7 +1547,7 @@ function renderChapter(n, skipScroll = false) {
   let html = `
   <div class="ch-opening">
   <div class="ch-word">${isRu?'Глава':'Chapter'} ${numWord(n)}</div>
-  <img src='krishna_arjuna.png' class='ch-illustration' style='width:260px;height:260px;display:block;margin:0 auto 24px;'>
+  <img src='krishna_arjuna.png' class='ch-illustration' style='width:240px;height:242px;display:block;margin:24px auto 0;'>
   <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
@@ -1581,10 +1590,10 @@ function renderVerse(v, chN) {
 
   return `
 <div class="verse" id="v${chN}_${v.n}">
- <div style='text-align:center;margin:36px 0 20px;'>
-  <span style='font-family:"Spectral SC",serif;font-size:16px;font-weight:600;letter-spacing:0.02em;transform:scaleY(1.15);display:inline-block;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'} </span><span style='font-family:"Lora",serif;font-weight:700;font-size:16px;color:var(--ink);'>${v.n}</span>
+ <div style='text-align:center;margin:32px 0 24px;'>
+  <span style='font-family:"CA Moskow",serif;font-size:18px;letter-spacing:-0.02em;color:var(--ink);'>${isRu?'ТЕКСТ':'TEXT'}&nbsp;&nbsp;${v.n}</span>
 </div>
-<div style='float:right;margin-top:-48px;display:flex;align-items:center;gap:12px;'>
+<div style='margin-top:-48px;display:flex;align-items:center;gap:12px;'>
   <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' title='${isRu?"Закладка":"Bookmark"}'>${isBm?'<img src="love.png" style="width:14px;height:14px;vertical-align:middle;">':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'}</button>
   <a class='audio-lnk' href='${v.audio}' target='_blank'>▶ ${isRu?'Аудио':'Audio'}</a>
 </div>
