@@ -391,15 +391,15 @@ body {
   margin-bottom: 10px;
 }
 .purport-body p {
-  font-family: 'Bodoni Antiqua', serif;
   font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 24px;
   color: var(--ink2);
-  text-indent: 2em;
+  line-height: 24px;
   margin-bottom: 12px;
-  text-align: justify;
+  text-indent: 1.5em;
+  white-space: pre-line; /* Превращает \n в новые строки */
+  text-indent: 2em;     /* Красная строка */
+  text-align: justify;   /* Ровные края текста по бокам */
+
 }
 
 /* ── AUDIO LINK ── */
@@ -1542,7 +1542,7 @@ function renderChapter(n, skipScroll = false) {
   let html = `
   <div class="ch-opening">
   <div class="ch-word">${isRu?'Глава':'Chapter'} ${numWord(n)}</div>
-  <img src='krishna_arjuna.jpg' class='ch-illustration' style='width:240px;height:242px;display:block;margin:24px auto 0;'>
+  <img src='krishna_arjuna.jpg' class='ch-illustration' style='width:240px;height:240px;display:block;margin:24px auto 0;'>
   <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
