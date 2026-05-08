@@ -1628,7 +1628,7 @@ function formatPurport(text) {
       const clean = word.replace(/[',\.]/g, '');
       if (straightNames.has(clean)) return word;
       if (diacritics.test(word)) {
-        return `<span style="font-family:'EB Garamond',serif!important;font-style:italic;">${word}</span>`;
+        return `<span style="font-family:'EB Garamond',serif;font-style:italic;font-weight:400;">${word}</span>`;
       }
       return word;
     });
