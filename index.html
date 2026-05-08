@@ -339,7 +339,7 @@ body {
 
 /* ── TRANSLITERATION ── */
 .v-translit {
-  font-family: 'EB Garamond', serif;
+  font-family: 'Times New Roman', Times, serif;
   font-style: italic;
   font-size: 22px;
   font-weight: 500;
@@ -1628,7 +1628,7 @@ function formatPurport(text) {
       const clean = word.replace(/[',\.]/g, '');
       if (straightNames.has(clean)) return word;
       if (diacritics.test(word)) {
-        return `<span style="font-family:'EB Garamond',serif;font-style:italic;font-weight:400;">${word}</span>`;
+        return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${word}</span>`;
       }
       return word;
     });
