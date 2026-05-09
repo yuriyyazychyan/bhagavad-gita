@@ -342,10 +342,12 @@ body {
   font-family: 'Times New Roman', Times, serif;
   font-style: italic;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0em;
   line-height: 28px;
-  text-align: center;
+  text-align: left;
+  display: flex;
+  justify-content: center;
   color: var(--ink);
   margin-bottom: 24px;
 }
@@ -361,7 +363,7 @@ body {
 .v-wbw {
   font-family: 'Momentum', serif;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 700;
   font-style: normal;
   color: var(--ink);
   line-height: 1.4;
@@ -376,7 +378,7 @@ body {
   font-family: 'IM Fell English', Georgia, serif;
   font-style: normal;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink);
   line-height: 24px;
   word-spacing: normal;
@@ -426,6 +428,7 @@ body {
 }
 .purport-body p {
   font-size: 18px;
+  font-weight: 700;
   color: var(--ink2);
   line-height: 24px;
   margin-bottom: 0px;
@@ -591,7 +594,7 @@ const VERSES = {
   // TEXT 1/47
     n: 1,
     skr: 'धृतराष्ट्र उवाच ।\nधर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः ।\nमामकाः पाण्डवाश्चैव किमकुर्वत सञ्जय ॥ १ ॥',
-    tr: 'dhṛtarāṣṭra uvāca\ndharma-kṣetre kuru-kṣetre\nsamavetā yuyutsavaḥ\nmāmakāḥ pāṇḍavāś caiva\nkim akurvata sañjaya',
+    tr: 'dhṛtarāṣṭra uvāca\ndharma-kṣetre kuru-kṣetre\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;samavetā yuyutsavaḥ\nmāmakāḥ pāṇḍavāś caiva\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kim akurvata sañjaya',
     wbw_en: 'dhṛtarāṣṭraḥ—King Dhṛtarāṣṭra; uvāca—said; dharma-kṣetre—in the place of pilgrimage; kuru-kṣetre—in the place named Kurukṣetra; samavetāḥ—assembled; yuyutsavaḥ—desiring to fight; māmakāḥ—my party (sons); pāṇḍavāḥ—the sons of Pāṇḍu; ca—and; eva—certainly; kim—what; akurvata—did they do; sañjaya—O Sañjaya.',
     wbw_ru: '—',
     tr_en: 'Dhṛtarāṣṭra said: O Sañjaya, after assembling in the place of pilgrimage at Kurukṣetra, what did my sons and the sons of Pāṇḍu do, being desirous to fight?',
@@ -1676,7 +1679,7 @@ function renderVerse(v, chN) {
   </div>
 </div>
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
-  <div class="v-translit">${trLines}</div>
+  <div class="v-translit"><div style="display:inline-block;text-align:left;">${trLines}</div></div>
   <div class="v-wbw">${formatWbw(isRu ? v.wbw_ru : v.wbw_en)}</div>
   <div style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;font-weight:600;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);transform:scaleX(0.9);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
