@@ -557,6 +557,7 @@ body {
   <span class="tip-tr" id="tipTr"></span>
   <span class="tip-def" id="tipDef"></span>
 </div>
+<script src="ch1.js"></script>
 <script>
 /* ════════════════════════════════════════════
    DATA — добавляй главы сюда по мере наполнения
@@ -582,7 +583,7 @@ const CHAPTERS = [
   { n:18,  ru:'Заключение —<br>Совершенство Отречения',                     en:'Conclusion <span class="hyphen">—</span><br>The Perfection of Renunciation',            v:78 },
 ];
 
-const VERSES = {
+var VERSES = window.VERSES || {
   
   2: [
     {
