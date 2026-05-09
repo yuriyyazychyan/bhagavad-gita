@@ -28,26 +28,18 @@
   margin: 0 16px 4px;
 }
 .toc-verse {
-  font-family: 'Spectral SC', serif;
+  font-family: 'CA Moskow', serif;
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  transform: scaleY(1.15);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.toc-bm {
-  font-size: 10px;
-  min-width: 16px;
-}
-.toc-verse {
-  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   color: var(--ink3);
   padding: 4px 8px;
   cursor: pointer;
   border-radius: 3px;
   transition: all var(--trans);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .toc-verse:hover {
   color: var(--ink);
@@ -143,8 +135,8 @@ body {
   padding: 0 14px;
 }
 .topbar-title {
-  font-family: var(--serif);
-  font-style: italic;
+  font-family: 'Windsor', serif;
+  font-style: normal;
   font-size: 15px;
   color: var(--ink2);
   flex: 1;
@@ -1572,7 +1564,13 @@ function scrollToVerse(ch, vn) {
 /* ════════════════════════════════════════════
    CHAPTER
    ════════════════════════════════════════════ */
-function renderChapter(n, skipScroll = false) {
+function scrollToVerse(ch, vn) {
+  const el = document.getElementById(`v${ch}_${vn}`);
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - 56;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
   curCh = n;
   const ch = CHAPTERS.find(c => c.n === n);
   const verses = VERSES[n] || [];
