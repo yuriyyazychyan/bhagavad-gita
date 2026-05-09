@@ -344,7 +344,7 @@ body {
   font-size: 22px;
   font-weight: 500;
   letter-spacing: 0em;
-  line-height: 24px;
+  line-height: 26px;
   text-align: left;
   display: flex;
   justify-content: center;
@@ -1851,10 +1851,9 @@ const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 setLang(savedLang);
 renderChapter(savedChapter);
 const savedTocOpen = localStorage.getItem('bg_toc_open');
-if (savedTocOpen && parseInt(savedTocOpen) !== savedChapter) {
-  curCh = parseInt(savedTocOpen);
-  renderToc();
-  curCh = savedChapter;
+if (!savedTocOpen || savedTocOpen === '') {
+  const verses = document.querySelector('.toc-verses');
+  if (verses) verses.remove();
 }
 updateBm();
 </script>
