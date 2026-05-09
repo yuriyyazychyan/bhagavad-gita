@@ -3097,11 +3097,14 @@ function formatPurport(text) {
   const diacritics = /[āīūṭḍṇśṣḥṃṁḷñĀĪŪṬḌṆŚṢḤṂṀḶÑ]/;
 
   function isSanskritQuote(para) {
-    const words = para.trim().split(/\s+/);
-    if (words.length < 3) return false;
-    const sanskritCount = words.filter(w => diacritics.test(w)).length;
-    return sanskritCount / words.length > 0.45 && words.length >= 2;
-  }
+  const trimmed = para.trim();
+  if (trimmed.length < 5) return false;
+  const words = trimmed.split(/\s+/);
+  if (words.length < 2) return false;
+  const sanskritCount = words.filter(w => diacritics.test(w)).length;
+  const hasEnglishSentence = /[A-Z][a-z]/.test(trimmed) || /[,;]/.test(trimmed);
+  return sanskritCount >= 1 && !hasEnglishSentence;
+}
 
   function formatPara(para) {
     return para.replace(/[\w\u0100-\u024F\u1E00-\u1EFF][\w\u0100-\u024F\u1E00-\u1EFF\-']*/g, (word) => {
