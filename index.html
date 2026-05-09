@@ -342,7 +342,8 @@ body {
   font-family: 'Georgia', serif;
   font-style: italic;
   font-size: 18px;
-  font-weight: 500;
+  transform: scaleX(0.93);
+  font-weight: 600;
   letter-spacing: 0em;
   line-height: 26px;
   text-align: left;
@@ -3081,7 +3082,7 @@ function formatWbw(text) {
     if (idx === -1) return part;
     const sanskrit = part.substring(0, idx);
     const english = part.substring(idx + 1);
-    return `<span style="font-family:'Georgia',serif;font-style:italic;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
+    return `<span style="font-family:'Georgia',serif;font-style:italic;font-weight:600;transform:scaleX(0.93);display:inline-block;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
   }).join('; ');
 }
 function formatPurport(text) {
@@ -3112,7 +3113,7 @@ function formatPurport(text) {
       const clean = word.replace(/[',\.]/g, '');
       if (straightNames.has(clean)) return word;
       if (diacritics.test(word)) {
-        return `<span style="font-family: 'Georgia', serif;font-style:italic;">${word}</span>`;
+        return `<span style="font-family:'Georgia',serif;font-style:italic;font-weight:600;transform:scaleX(0.93);display:inline-block;">${word}</span>`;
       }
       return word;
     });
