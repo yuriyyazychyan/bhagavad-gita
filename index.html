@@ -557,7 +557,6 @@ body {
   <span class="tip-tr" id="tipTr"></span>
   <span class="tip-def" id="tipDef"></span>
 </div>
-<script src="ch1.js"></script>
 <script>
 /* ════════════════════════════════════════════
    DATA — добавляй главы сюда по мере наполнения
@@ -1607,6 +1606,18 @@ function renderChapter(n, skipScroll = false) {
   if (!skipScroll) window.scrollTo({ top:0, behavior:'smooth' });
   updateIllustration();
 }
+function applySheetData() {
+  if (!window.SHEET_DATA) return;
+  Object.keys(window.SHEET_DATA).forEach(chN => {
+    const chData = window.SHEET_DATA[chN];
+    const verses = window.VERSES[chN];
+    if (!verses) return;
+    verses.forEach(v => {
+      const row = chData[String(v.n)];
+      if (row) Object.assign(v, row);
+    });
+  });
+}
 function formatWbw(text) {
   if (!text || text === '—') return text;
   return text.split(';').map(part => {
@@ -1852,6 +1863,7 @@ setThemeIcon(savedTheme === 'dark');
 const savedLang = localStorage.getItem('bg_lang') || 'ru';
 const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 setLang(savedLang);
+applySheetData();
 renderChapter(savedChapter);
 const savedTocOpen = localStorage.getItem('bg_toc_open');
 if (!savedTocOpen || savedTocOpen === '') {
@@ -1860,5 +1872,6 @@ if (!savedTocOpen || savedTocOpen === '') {
 }
 updateBm();
 </script>
+<script src="ch1.js"></script>
 </body>
 </html>
