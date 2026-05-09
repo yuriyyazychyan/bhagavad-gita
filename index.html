@@ -191,14 +191,14 @@ body {
 .sidebar.hidden { transform: translateX(calc(-1 * var(--sidebar))); }
 .sb-head {
   padding: 16px 16px 8px;
-  font-family: 'Barmeno', sans-serif;
-  font-size: 11px;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: -0.04em;
-  word-spacing: 0.6em;
-  transform: scaleX(1.12);
-  display: inline-block;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: normal;
+  transform: none;
+  display: block;
   color: var(--ink3);
   border-bottom: 1px solid var(--rule);
 }
@@ -521,7 +521,7 @@ body {
 <!-- TOPBAR -->
 <header class="topbar">
   <button class="tb-btn" id="menuBtn">☰</button>
-  <div class="topbar-title" id="topTitle"><em>Бхагавад-гӣта̄ как она есть</em></div>
+  <div class="topbar-title" id="topTitle">Бхагавад-гӣта̄ как она есть</div>
   <div class="lang-wrap">
     <button class="on" id="lRu" onclick="setLang('ru')">RU</button>
     <button id="lEn" onclick="setLang('en')">EN</button>
@@ -1598,7 +1598,7 @@ function renderChapter(n, skipScroll = false) {
   }
 
   document.getElementById('page').innerHTML = html;
-  document.getElementById('topTitle').innerHTML = `<em>${isRu ? ch.ru : ch.en}</em>`;
+  document.getElementById('topTitle').innerHTML = `${isRu ? ch.ru : ch.en}`;
   renderToc();
   updateBm();
   closeAll();
