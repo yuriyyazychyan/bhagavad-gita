@@ -1558,19 +1558,16 @@ function goToVerse(ch, vn) {
 
 function scrollToVerse(ch, vn) {
   const el = document.getElementById(`v${ch}_${vn}`);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-/* ════════════════════════════════════════════
-   CHAPTER
-   ════════════════════════════════════════════ */
-function scrollToVerse(ch, vn) {
-  const el = document.getElementById(`v${ch}_${vn}`);
   if (el) {
     const top = el.getBoundingClientRect().top + window.scrollY - 56;
     window.scrollTo({ top, behavior: 'smooth' });
   }
 }
+
+/* ════════════════════════════════════════════
+   CHAPTER
+   ════════════════════════════════════════════ */
+function renderChapter(n, skipScroll = false) {
   curCh = n;
   const ch = CHAPTERS.find(c => c.n === n);
   const verses = VERSES[n] || [];
