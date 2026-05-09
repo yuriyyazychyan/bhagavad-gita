@@ -1734,7 +1734,7 @@ function renderToc() {
       return `
         <div class="toc-verse" onclick="goToVerse(${c.n}, ${v.n})">
           <span class="toc-bm">${isBm ? '<img src="love.png" style="width:12px;height:12px;vertical-align:middle;">' : '&nbsp;&nbsp;&nbsp;'}</span>
-          ${lang==='ru' ? 'Текст' : 'Text'} ${v.nLabel || v.n}
+          ${lang==='ru' ? (v.nLabel?'Тексты':'Текст') : (v.nLabel?'Texts':'Text')} ${v.nLabel || v.n}
         </div>
       `;
     }).join('')}
@@ -1882,7 +1882,7 @@ function renderVerse(v, chN) {
     onmouseenter="showVerseTooltip(this)"
     onmouseleave="hideVerseTooltip(this)"
     ontouchstart="toggleVerseTooltip(this)"
-  >${isRu?'ТЕКСТ':'TEXT'}&nbsp;&nbsp;${v.nLabel || v.n}${chN === curCh && v.n === (VERSES[curCh]?.[0]?.n) && !localStorage.getItem('bg_hint_shown') ? '<span class="pulse-dot"></span>' : ''}</span>
+  >${isRu?(v.nLabel?'ТЕКСТЫ':'ТЕКСТ'):(v.nLabel?'TEXTS':'TEXT')}&nbsp;&nbsp;${v.nLabel || v.n}${chN === curCh && v.n === (VERSES[curCh]?.[0]?.n) && !localStorage.getItem('bg_hint_shown') ? '<span class="pulse-dot"></span>' : ''}</span>
 <div class="verse-tooltip" style='display:none;position:absolute;top:130%;left:50%;transform:translateX(-50%);background:var(--paper2);border:0.5px solid var(--rule);border-radius:8px;padding:10px 16px;white-space:nowrap;z-index:200;'>
     <div style='display:flex;align-items:center;gap:16px;'>
       <button class='vbtn ${isBm?"bm":""}' onclick='toggleBm("${key}",event)' style='display:flex;align-items:center;gap:6px;font-size:13px;'>
