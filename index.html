@@ -342,7 +342,7 @@ body {
   font-family: 'Times New Roman', Times, serif;
   font-style: italic;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0em;
   line-height: 28px;
   text-align: left;
@@ -363,7 +363,7 @@ body {
 .v-wbw {
   font-family: 'Momentum', serif;
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 600;
   font-style: normal;
   color: var(--ink);
   line-height: 1.4;
@@ -428,7 +428,7 @@ body {
 }
 .purport-body p {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink2);
   line-height: 24px;
   margin-bottom: 0px;
@@ -1681,9 +1681,9 @@ function renderVerse(v, chN) {
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
   <div class="v-translit"><div style="display:inline-block;text-align:left;">${trLines}</div></div>
   <div class="v-wbw">${formatWbw(isRu ? v.wbw_ru : v.wbw_en)}</div>
-  <div style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;font-weight:600;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);transform:scaleX(0.9);'>TRANSLATION</div>
+  <div style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;font-weight:500;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);transform:scaleX(0.9);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
-  <div class="purport-tog" onclick="togPurport(this)" style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;font-weight:600;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);transform:scaleX(0.9);cursor:pointer;user-select:none;'>
+  <div class="purport-tog" onclick="togPurport(this)" style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;font-weight:500;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);transform:scaleX(0.9);cursor:pointer;user-select:none;'>
     ${isRu ? 'РАЗЪЯСНЕНИЕ' : 'PURPORT'}
   </div>
   <div class="purport-body">
