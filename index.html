@@ -7655,6 +7655,69 @@ function renderChapter(n, skipScroll = false) {
   if (!skipScroll) window.scrollTo({ top:0, behavior:'smooth' });
   updateIllustration();
 }
+function iastToRu(text) {
+  if (!text) return text;
+  const map = [
+    // Двухсимвольные сначала
+    ['kh','кх'], ['gh','гх'], ['ch','чх'], ['jh','джх'],
+    ['ṭh','т̣х'], ['ḍh','д̣х'], ['th','тх'], ['dh','дх'],
+    ['ph','пх'], ['bh','бх'],
+    ['ai','аи'], ['au','ау'],
+    // Односимвольные
+    ['ā','а̄'], ['Ā','А̄'],
+    ['ī','ӣ'], ['Ī','Ӣ'],
+    ['ū','ӯ'], ['Ū','Ӯ'],
+    ['ṛ','р̣'], ['ṝ','р̣̄'],
+    ['ḷ','л̣'],
+    ['ṅ','н̇'],
+    ['ñ','н̃'],
+    ['ṭ','т̣'], ['Ṭ','Т̣'],
+    ['ḍ','д̣'], ['Ḍ','Д̣'],
+    ['ṇ','н̣'], ['Ṇ','Н̣'],
+    ['ś','ш́'], ['Ś','Ш́'],
+    ['ṣ','ш̣'], ['Ṣ','Ш̣'],
+    ['ṃ','м̣'], ['Ṃ','М̣'],
+    ['ḥ','х̣'], ['Ḥ','Х̣'],
+    ['a','а'], ['A','А'],
+    ['i','и'], ['I','И'],
+    ['u','у'], ['U','У'],
+    ['e','е'], ['E','Е'],
+    ['o','о'], ['O','О'],
+    ['k','к'], ['K','К'],
+    ['g','г'], ['G','Г'],
+    ['c','ч'], ['C','Ч'],
+    ['j','дж'], ['J','Дж'],
+    ['t','т'], ['T','Т'],
+    ['d','д'], ['D','Д'],
+    ['n','н'], ['N','Н'],
+    ['p','п'], ['P','П'],
+    ['b','б'], ['B','Б'],
+    ['m','м'], ['M','М'],
+    ['y','й'], ['Y','Й'],
+    ['r','р'], ['R','Р'],
+    ['l','л'], ['L','Л'],
+    ['v','в'], ['V','В'],
+    ['s','с'], ['S','С'],
+    ['h','х'], ['H','Х'],
+  ];
+  
+  let result = text;
+  // Сохраняем HTML теги и nbsp
+  const tags = [];
+  result = result.replace(/(<[^>]+>|&[a-z]+;)/g, (m) => {
+    tags.push(m);
+    return `\x00${tags.length - 1}\x00`;
+  });
+  
+  for (const [from, to] of map) {
+    result = result.split(from).join(to);
+  }
+  
+  // Восстанавливаем теги
+  result = result.replace(/\x00(\d+)\x00/g, (_, i) => tags[i]);
+  
+  return result;
+}
 function formatWbw(text) {
   if (!text || text === '—') return text;
   return text.split(';').map(part => {
@@ -7747,7 +7810,7 @@ function renderVerse(v, chN) {
   </div>
 </div>
   <div class="v-sanskrit"><div class="v-sanskrit-inner">${v.skr.replace(/\n/g,'<br>')}</div></div>
-  <div class="v-translit"><div style="display:inline-block;text-align:left;">${trLines}</div></div>
+  <div class="v-translit"><div style="display:inline-block;text-align:left;">${isRu ? iastToRu(trLines) : trLines}</div></div>
   <div class="v-wbw">${formatWbw(isRu ? v.wbw_ru : v.wbw_en)}</div>
   <div style='font-family:"CA Moskow",serif;font-size:22px;letter-spacing:-0.02em;font-weight:500;display:block;text-align:center;margin:16px 0 16px;color:var(--ink);transform:scaleX(0.9);'>TRANSLATION</div>
   <div class="v-translation">${isRu ? v.tr_ru : v.tr_en}</div>
