@@ -447,6 +447,27 @@ body {
 
 /* ── ORNAMENT ── */
 .orn { text-align: center; color: var(--rule); font-size: 20px; margin: 36px 0; user-select: none; }
+.scroll-top {
+  position: fixed;
+  bottom: 32px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--ink2);
+  opacity: 0;
+  transition: opacity var(--trans);
+  z-index: 90;
+}
+.scroll-top.visible { opacity: 1; }
+.scroll-top:hover { background: var(--paper3); color: var(--ink); }
 
 /* ── WORD TOOLTIP ── */
 .tip {
@@ -541,6 +562,7 @@ body {
 </div>
 
 <!-- BOOKMARKS PANEL -->
+ <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <div class="bmpanel" id="bmpanel">
   <div class="bm-head" id="bmHead">Закладки</div>
   <div id="bmList"></div>
@@ -12444,6 +12466,7 @@ window.addEventListener('scroll', () => {
   if (!pg) return;
   const pct = Math.min(100, (-pg.getBoundingClientRect().top / (pg.offsetHeight - window.innerHeight)) * 100);
   document.getElementById('progFill').style.width = Math.max(0, pct) + '%';
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
 });
 
 /* ════════════════════════════════════════════
