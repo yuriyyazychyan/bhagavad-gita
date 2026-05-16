@@ -12184,7 +12184,11 @@ function renderChapter(n, skipScroll = false) {
       html += renderVerse(v, n);
     });
   }
-
+html += `
+<div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--rule);">
+  ${n > 1 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n-1})">← ${lang==='ru' ? 'Глава' : 'Chapter'} ${n-1}</div>` : '<div></div>'}
+  ${n < 18 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n+1})">${lang==='ru' ? 'Глава' : 'Chapter'} ${n+1} →</div>` : '<div></div>'}
+</div>`;
   document.getElementById('page').innerHTML = html;
   document.getElementById('topTitle').innerHTML = `${isRu ? ch.ru : ch.en}`;
   renderToc();
