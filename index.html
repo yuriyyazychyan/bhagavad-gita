@@ -30,7 +30,7 @@
 .toc-verse {
   font-family: 'CA Moskow', serif;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--ink3);
   padding: 4px 8px;
@@ -12047,7 +12047,7 @@ function setLang(l) {
   lang = l;
   document.getElementById('lRu').classList.toggle('on', l === 'ru');
   document.getElementById('lEn').classList.toggle('on', l === 'en');
-  document.getElementById('sbHead').innerHTML = 'Bhagavad-gītā As It Is <span style="font-family:\'CA Moskow\',serif;font-size:14px;">1972</span>';
+  document.getElementById('sbHead').innerHTML = '<span onclick="toggleBook()" style="cursor:pointer;">Bhagavad-gītā As It Is <span style="font-family:\'CA Moskow\',serif;font-size:14px;">1972</span></span>';
   document.getElementById('bmHead').textContent = l === 'ru' ? 'Любимые тексты'   : 'Favourites texts';
   renderToc();
   renderChapter(curCh, true);
@@ -12079,6 +12079,11 @@ function updateIllustration() {}
 /* ════════════════════════════════════════════
    TOC
    ════════════════════════════════════════════ */
+let bookOpen = true;
+function toggleBook() {
+  bookOpen = !bookOpen;
+  document.getElementById('tocList').style.display = bookOpen ? 'block' : 'none';
+}
 function renderToc() {
   document.getElementById('tocList').innerHTML = CHAPTERS.map(c => {
     const isActive = c.n === curCh;
