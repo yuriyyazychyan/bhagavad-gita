@@ -12185,9 +12185,9 @@ function renderChapter(n, skipScroll = false) {
     });
   }
 html += `
-<div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--rule);">
-  ${n > 1 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n-1})">← ${lang==='ru' ? 'Глава' : 'Chapter'} ${n-1}</div>` : '<div></div>'}
-  ${n < 18 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n+1})">${lang==='ru' ? 'Глава' : 'Chapter'} ${n+1} →</div>` : '<div></div>'}
+<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--rule);">
+  ${n > 1 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n-1})">← ${lang==='ru' ? 'ГЛАВА' : 'CHAPTER'} <span style="font-family:'Windsor',serif;font-weight:900;">${n-1}</span></div>` : '<div></div>'}
+  ${n < 18 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n+1})">${lang==='ru' ? 'ГЛАВА' : 'CHAPTER'} <span style="font-family:'Windsor',serif;font-weight:900;">${n+1}</span> →</div>` : '<div></div>'}
 </div>`;
   document.getElementById('page').innerHTML = html;
   document.getElementById('topTitle').innerHTML = `${isRu ? ch.ru : ch.en}`;
@@ -12275,6 +12275,8 @@ function formatWbw(text) {
 }
 function formatPurport(text) {
   if (!text || text.trim() === '—' || text.trim() === '') return '';
+  const endPhrase = /Thus end the Bhaktivedanta Purports[^.]+\./;
+text = text.replace(endPhrase, (match) => `\n[[END]]${match}[[/END]]`);
   
   const straightNames = new Set([
     'Kṛṣṇa','Kṛṣṇa\'s','Krishna','Arjuna','Sañjaya','Dhṛtarāṣṭra','Pāṇḍu','Madhusūdana','Parāśara','Vyāsadeva','Bhagavan','Paramatma','non-Āryans','Pṛthā','Sāndīpani','Vaiṣṇava','Dhṛtarāṣṭra\'s','Guḍākeśa','Hṛṣīkeśa','Māyāvādī','Rāmānuja','Māyāvādīs','Bhārata',
@@ -12312,7 +12314,7 @@ function formatPurport(text) {
       return `<p style="text-align:center;text-indent:0;margin:16px 0;line-height:24px;font-family:'Times New Roman',Times,serif;font-style:italic;">${para.trim()}</p>`;
     }
     return `<p>${formatPara(para)}</p>`;
-  }).join('');
+  }).join('').replace(/\[\[END\]\](.*?)\[\[\/END\]\]/gs, '<p style="margin-top:1em;font-style:italic;font-weight:700;">$1</p>');
 }
 
 /* ════════════════════════════════════════════
@@ -12522,7 +12524,10 @@ function showHintIfNeeded() {
   
 showHintIfNeeded();
 const sbState = localStorage.getItem('bg_sidebar');
-if (sbState === 'hidden' || (sbState === null && window.innerWidth < 768)) {
+if (sbState === 'hidden') {
+  document.getElementById('sidebar').classList.add('hidden');
+  document.getElementById('main').classList.add('full');
+} else if (sbState === null && window.innerWidth < 768) {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
 }
