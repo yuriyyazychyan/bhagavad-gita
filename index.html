@@ -12472,7 +12472,7 @@ document.getElementById('themeBtn').addEventListener('click', toggleTheme);
 
 function closeAll() {
   document.getElementById('overlay').classList.remove('on');
-  localStorage.setItem('bg_sidebar', 'hidden');
+  if (window.innerWidth < 768) localStorage.setItem('bg_sidebar', 'hidden');
   document.getElementById('bmpanel').classList.remove('on');
   if (window.innerWidth < 768) {
     document.getElementById('sidebar').classList.add('hidden');
