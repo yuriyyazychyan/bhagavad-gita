@@ -12067,7 +12067,7 @@ function setThemeIcon(dark) {
     btn.style.filter = 'drop-shadow(0 0 5px rgba(140,180,255,0.9))';
   }
 }
-  function toggleTheme() {
+function toggleTheme() {
   const dark = document.body.dataset.theme === 'dark';
   document.body.dataset.theme = dark ? 'light' : 'dark';
   setThemeIcon(dark);
