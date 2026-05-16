@@ -12457,22 +12457,14 @@ document.getElementById('menuBtn').addEventListener('click', () => {
   const sb = document.getElementById('sidebar');
   const mn = document.getElementById('main');
   const ov = document.getElementById('overlay');
-const scrollY = window.scrollY;
-const hidden = sb.classList.toggle('hidden');
-setTimeout(() => window.scrollTo(0, scrollY), 50);
-setTimeout(() => window.scrollTo(0, scrollY), 50);
-localStorage.setItem('bg_sidebar', hidden ? 'hidden' : 'open');
+  const scrollY = window.scrollY;
+  const hidden = sb.classList.toggle('hidden');
+  localStorage.setItem('bg_sidebar', hidden ? 'hidden' : 'open');
   mn.classList.toggle('full', hidden);
   if (!hidden && window.innerWidth < 768) ov.classList.add('on');
   else ov.classList.remove('on');
+  setTimeout(() => window.scrollTo(0, scrollY), 250);
 });
-
-document.getElementById('bmBtn').addEventListener('click', () => {
-  document.getElementById('bmpanel').classList.toggle('on');
-  updateBm();
-});
-
-document.getElementById('themeBtn').addEventListener('click', toggleTheme);
 
 function closeAll() {
   document.getElementById('overlay').classList.remove('on');
