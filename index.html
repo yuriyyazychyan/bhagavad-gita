@@ -12456,7 +12456,9 @@ document.getElementById('menuBtn').addEventListener('click', () => {
   const sb = document.getElementById('sidebar');
   const mn = document.getElementById('main');
   const ov = document.getElementById('overlay');
-  const hidden = sb.classList.toggle('hidden');
+  const scrollY = window.scrollY;
+const hidden = sb.classList.toggle('hidden');
+setTimeout(() => window.scrollTo(0, scrollY), 50);
 localStorage.setItem('bg_sidebar', hidden ? 'hidden' : 'open');
   mn.classList.toggle('full', hidden);
   if (!hidden && window.innerWidth < 768) ov.classList.add('on');
@@ -12522,7 +12524,7 @@ const sbState = localStorage.getItem('bg_sidebar');
 if (sbState === 'hidden') {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
-} else if (sbState === null && window.innerWidth < 768) {
+} else if (sbState !== 'open' && window.innerWidth < 768) {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
 } else if (sbState === 'open') {
