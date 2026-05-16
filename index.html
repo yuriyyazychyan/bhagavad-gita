@@ -12465,7 +12465,12 @@ document.getElementById('menuBtn').addEventListener('click', () => {
   else ov.classList.remove('on');
   setTimeout(() => window.scrollTo(0, scrollY), 250);
 });
+document.getElementById('bmBtn').addEventListener('click', () => {
+  document.getElementById('bmpanel').classList.toggle('on');
+  updateBm();
+});
 
+document.getElementById('themeBtn').addEventListener('click', () => toggleTheme());
 function closeAll() {
   document.getElementById('overlay').classList.remove('on');
   document.getElementById('bmpanel').classList.remove('on');
