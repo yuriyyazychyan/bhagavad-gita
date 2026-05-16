@@ -12128,10 +12128,10 @@ function toggleChapter(n) {
     }
   } else {
     if (window.innerWidth < 768) {
-  curCh = n;
-  renderToc();
-  localStorage.setItem('bg_toc_open', n);
-  } else {
+      curCh = n;
+      renderToc();
+      localStorage.setItem('bg_toc_open', n);
+    } else {
       renderChapter(n);
       localStorage.setItem('bg_toc_open', n);
     }
@@ -12139,7 +12139,8 @@ function toggleChapter(n) {
 }
 
 function goToVerse(ch, vn) {
-  if (ch !== curCh) {
+  const needRender = document.getElementById(`v${ch}_${vn}`) === null;
+  if (needRender) {
     renderChapter(ch);
     setTimeout(() => {
       if (window.innerWidth < 768) closeAll();
