@@ -4,14 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Бхагавад-гӣта̄ как она есть</title>
-<script>
-  const _sb = localStorage.getItem('bg_sidebar');
-  if (_sb === 'hidden' || (_sb !== 'open' && window.innerWidth < 768)) {
-    document.documentElement.classList.add('sb-hidden');
-  }
-  const _lang = localStorage.getItem('bg_lang') || 'ru';
-  document.documentElement.lang = _lang;
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&family=EB+Garamond:ital,wght@1,400;1,500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">
 <style>
@@ -192,8 +184,6 @@ body {
   z-index: 50;
 }
 .sidebar.hidden { transform: translateX(calc(-1 * var(--sidebar))); }
-.sb-hidden #sidebar { transform: translateX(calc(-1 * var(--sidebar))); }
-.sb-hidden #main { margin-left: 0; }
 .sb-head {
   padding: 16px 16px 8px;
   font-family: 'IM Fell English', Georgia, serif;
@@ -12539,7 +12529,6 @@ if (sbState === 'hidden') {
   document.getElementById('sidebar').classList.remove('hidden');
   document.getElementById('main').classList.remove('full');
 }
-document.documentElement.classList.remove('sb-hidden');
 const savedTheme = localStorage.getItem('bg_theme') || 'light';
 document.body.dataset.theme = savedTheme;
 setThemeIcon(savedTheme === 'dark');
