@@ -12457,8 +12457,9 @@ document.getElementById('menuBtn').addEventListener('click', () => {
   const sb = document.getElementById('sidebar');
   const mn = document.getElementById('main');
   const ov = document.getElementById('overlay');
-  const scrollY = window.scrollY;
+const scrollY = window.scrollY;
 const hidden = sb.classList.toggle('hidden');
+setTimeout(() => window.scrollTo(0, scrollY), 50);
 setTimeout(() => window.scrollTo(0, scrollY), 50);
 localStorage.setItem('bg_sidebar', hidden ? 'hidden' : 'open');
   mn.classList.toggle('full', hidden);
