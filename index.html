@@ -12126,11 +12126,14 @@ function toggleChapter(n) {
 function goToVerse(ch, vn) {
   if (ch !== curCh) {
     renderChapter(ch);
-    setTimeout(() => scrollToVerse(ch, vn), 300);
+    setTimeout(() => {
+      if (window.innerWidth < 768) closeAll();
+      setTimeout(() => scrollToVerse(ch, vn), 350);
+    }, 300);
   } else {
-    scrollToVerse(ch, vn);
+    if (window.innerWidth < 768) closeAll();
+    setTimeout(() => scrollToVerse(ch, vn), 350);
   }
-  if (window.innerWidth < 768) closeAll();
 }
 
 function scrollToVerse(ch, vn) {
