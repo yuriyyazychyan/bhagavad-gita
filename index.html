@@ -12128,10 +12128,10 @@ function toggleChapter(n) {
     }
   } else {
     if (window.innerWidth < 768) {
-      renderChapter(n, true);
-      renderToc();
-      localStorage.setItem('bg_toc_open', n);
-    } else {
+  curCh = n;
+  renderToc();
+  localStorage.setItem('bg_toc_open', n);
+  } else {
       renderChapter(n);
       localStorage.setItem('bg_toc_open', n);
     }
