@@ -12188,7 +12188,8 @@ html += `
   document.getElementById('topTitle').innerHTML = `${isRu ? ch.ru : ch.en}`;
   renderToc();
   updateBm();
-  closeAll();
+  document.getElementById('overlay').classList.remove('on');
+document.getElementById('bmpanel').classList.remove('on');
   localStorage.setItem('bg_lang', lang);
   localStorage.setItem('bg_chapter', n);
   if (!skipScroll) window.scrollTo({ top:0, behavior:'smooth' });
@@ -12474,9 +12475,9 @@ document.getElementById('themeBtn').addEventListener('click', toggleTheme);
 
 function closeAll() {
   document.getElementById('overlay').classList.remove('on');
-  if (window.innerWidth < 768) localStorage.setItem('bg_sidebar', 'hidden');
   document.getElementById('bmpanel').classList.remove('on');
   if (window.innerWidth < 768) {
+    localStorage.setItem('bg_sidebar', 'hidden');
     document.getElementById('sidebar').classList.add('hidden');
     document.getElementById('main').classList.add('full');
   }
