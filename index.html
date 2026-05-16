@@ -12534,6 +12534,7 @@ if (sbState === 'hidden') {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
 }
+document.documentElement.classList.remove('sb-hidden');
 const savedTheme = localStorage.getItem('bg_theme') || 'light';
 document.body.dataset.theme = savedTheme;
 setThemeIcon(savedTheme === 'dark');
