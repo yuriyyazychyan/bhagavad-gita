@@ -12141,11 +12141,11 @@ function toggleChapter(n) {
 function goToVerse(ch, vn) {
   const needRender = document.getElementById(`v${ch}_${vn}`) === null;
   if (needRender) {
-    renderChapter(ch);
+    renderChapter(ch, true);
     setTimeout(() => {
       if (window.innerWidth < 768) closeAll();
       setTimeout(() => scrollToVerse(ch, vn), 350);
-    }, 300);
+    }, 100);
   } else {
     if (window.innerWidth < 768) closeAll();
     setTimeout(() => scrollToVerse(ch, vn), 350);
@@ -12530,6 +12530,11 @@ const savedTocOpen = localStorage.getItem('bg_toc_open');
 if (!savedTocOpen || savedTocOpen === '') {
   const verses = document.querySelector('.toc-verses');
   if (verses) verses.remove();
+} else if (window.innerWidth < 768) {
+  const sidebar = document.getElementById('sidebar');
+  const main = document.getElementById('main');
+  sidebar.classList.remove('hidden');
+  main.classList.remove('full');
 }
 updateBm();
 </script>
