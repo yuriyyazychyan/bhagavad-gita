@@ -12046,7 +12046,7 @@ function setLang(l) {
   lang = l;
   document.getElementById('lRu').classList.toggle('on', l === 'ru');
   document.getElementById('lEn').classList.toggle('on', l === 'en');
-  document.getElementById('sbHead').innerHTML = 'Bhagavad-gītā As It Is <span style="font-family:\'CA Moskow\',serif;">1972</span>';
+  document.getElementById('sbHead').innerHTML = 'Bhagavad-gītā As It Is <span style="font-family:\'CA Moskow\',serif;font-size:14px;">1972</span>';
   document.getElementById('bmHead').textContent = l === 'ru' ? 'Любимые тексты'   : 'Favourites texts';
   renderToc();
   renderChapter(curCh, true);
@@ -12098,9 +12098,9 @@ function renderToc() {
 ` : '';
     return `
       <div class="ch-row ${isActive ? 'on' : ''}" onclick="toggleChapter(${c.n})">
-        <span class="ch-n"><span style="font-family:'CA Moskow',serif;">${c.n}</span>.</span>
+        <span class="ch-n"><span style="font-family:'CA Moskow',serif;font-size:14px;">${c.n}</span>.</span>
         <span class="ch-label">${lang==='ru' ? c.ru : c.en}</span>
-        <span class="ch-vcount"><span style="font-family:'CA Moskow',serif;">${c.v}</span></span>
+        <span class="ch-vcount"><span style="font-family:'CA Moskow',serif;font-size:14px;">${c.v}</span></span>
       </div>
       ${verseList}
     `;
@@ -12416,7 +12416,7 @@ function updateBm() {
   }
   list.innerHTML = bookmarks.map(b => `
     <div class="bm-item" onclick="goToBm('${b.key}')">
-      <div class="bm-ref">${lang==='ru' ? 'Бг' : 'Bg'} <span style="font-family:'CA Moskow',serif;">${b.key}</span></div>
+      <div class="bm-ref">${lang==='ru' ? 'Бг' : 'Bg'} <span style="font-family:'CA Moskow',serif;font-size:14px;">${b.key}</span></div>
       <div class="bm-txt">${b.txt}</div>
     </div>
   `).join('');
