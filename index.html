@@ -12408,7 +12408,7 @@ function toggleBm(key, e) {
 }
 
 function updateBm() {
-  document.getElementById('bmCnt').textContent = bookmarks.length;
+  document.getElementById('bmCnt').innerHTML = `<span style="font-family:'CA Moskow',serif;font-size:14px;">${bookmarks.length}</span>`;
   const list = document.getElementById('bmList');
   if (!bookmarks.length) {
     list.innerHTML = `<div class="bm-empty">${lang === 'ru' ? 'Наведи на номер любого текста и нажми ♡ чтобы добавить его сюда' : 'Hover over any text number and tap ♡ to add it here'}</div>`;
