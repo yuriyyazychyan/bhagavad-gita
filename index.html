@@ -12533,6 +12533,9 @@ if (sbState === 'hidden') {
 } else if (sbState === null && window.innerWidth < 768) {
   document.getElementById('sidebar').classList.add('hidden');
   document.getElementById('main').classList.add('full');
+} else if (sbState === 'open') {
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('main').classList.remove('full');
 }
 document.documentElement.classList.remove('sb-hidden');
 const savedTheme = localStorage.getItem('bg_theme') || 'light';
