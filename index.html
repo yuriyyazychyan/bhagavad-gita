@@ -81,12 +81,6 @@
   font-weight: 400;
   font-style: normal;
 }
-@font-face {
-  font-family: 'Gita72';
-  src: url('Gita72_translit_italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── TOKENS ── */
@@ -341,10 +335,10 @@ body {
 
 /* ── TRANSLITERATION ── */
 .v-translit {
-  font-family: 'Gita72', serif;
+  font-family: 'Times New Roman', Times, serif;
   font-style: italic;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
   letter-spacing: 0em;
   line-height: 22px;
   text-align: left;
@@ -365,7 +359,7 @@ body {
 .v-wbw {
   font-family: 'IM Fell English', Georgia, serif;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
   font-style: normal;
   color: var(--ink);
   line-height: 22px;
@@ -12541,7 +12535,7 @@ function formatWbw(text) {
     if (idx === -1) return part;
     const sanskrit = part.substring(0, idx);
     const english = part.substring(idx + 1);
-    return `<span style="font-family:'Gita72',serif;font-style:italic;font-size:16px;font-weight:400;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
+    return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
   }).join('; ');
 }
 function formatPurport(text) {
@@ -12574,7 +12568,7 @@ text = text.replace(endPhrase, (match) => `\n[[END]]${match}[[/END]]`);
       const clean = word.replace(/[',\.]/g, '');
       if (straightNames.has(clean)) return word;
       if (diacritics.test(word)) {
-        return `<span style="font-family:'Gita72',serif;font-style:italic;font-size:16px;font-weight:400">${word}</span>`;
+        return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${word}</span>`;
       }
       return word;
     });
