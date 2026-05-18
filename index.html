@@ -12574,7 +12574,7 @@ text = text.replace(endPhrase, (match) => `\n[[END]]${match}[[/END]]`);
       const clean = word.replace(/[',\.]/g, '');
       if (straightNames.has(clean)) return word;
       if (diacritics.test(word)) {
-        return `<span style="font-family:'Gita72',serif;font-style:italic;">${word}</span>`;
+        return `<span style="font-family:'Gita72',serif;font-style:italic;font-size:16px;font-weight:400">${word}</span>`;
       }
       return word;
     });
