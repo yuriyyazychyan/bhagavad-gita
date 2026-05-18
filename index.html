@@ -12541,7 +12541,7 @@ function formatWbw(text) {
     if (idx === -1) return part;
     const sanskrit = part.substring(0, idx);
     const english = part.substring(idx + 1);
-    return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
+    return `<span style="font-family:'Gita72',serif;font-style:italic;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
   }).join('; ');
 }
 function formatPurport(text) {
@@ -12574,7 +12574,7 @@ text = text.replace(endPhrase, (match) => `\n[[END]]${match}[[/END]]`);
       const clean = word.replace(/[',\.]/g, '');
       if (straightNames.has(clean)) return word;
       if (diacritics.test(word)) {
-        return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${word}</span>`;
+        return `<span style="font-family:'Gita72',serif;font-style:italic;">${word}</span>`;
       }
       return word;
     });
