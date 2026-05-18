@@ -12541,7 +12541,7 @@ function formatWbw(text) {
     if (idx === -1) return part;
     const sanskrit = part.substring(0, idx);
     const english = part.substring(idx + 1);
-    return `<span style="font-family:'Gita72',serif;font-style:italic;font-size:16px;font-weight:300;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;">—${english}</span>`;
+    return `<span style="font-family:'Gita72',serif;font-style:italic;font-size:16px;font-weight:400;">${sanskrit}</span><span style="font-family:'IM Fell English',Georgia,serif;font-style:normal;font-size:16px;font-weight:400;">—${english}</span>`;
   }).join('; ');
 }
 function formatPurport(text) {
