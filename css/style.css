@@ -440,6 +440,10 @@ body {
     font-family: 'IM Fell English', Georgia, serif;
 }
 
+.no-indent {
+    text-indent: 0;
+}
+
 .purport-body-s p {
     font-size: 18px;
     font-weight: 500;

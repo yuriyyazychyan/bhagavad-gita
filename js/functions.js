@@ -8,14 +8,14 @@ let VERSES = {};
 async function loadData() {
     try {
         // Загружаем CHAPTERS
-        const chaptersResponse = await fetch('../data/chapters.json');
+        const chaptersResponse = await fetch('./data/chapters.json');
         if (!chaptersResponse.ok) {
             throw new Error('Не удалось загрузить CHAPTERS');
         }
         CHAPTERS = await chaptersResponse.json();
 
         // Загружаем VERSES
-        const versesResponse = await fetch('../data/verses.json');
+        const versesResponse = await fetch('./data/verses.json');
         if (!versesResponse.ok) {
             throw new Error('Не удалось загрузить VERSES');
         }
@@ -522,7 +522,7 @@ SPECIAL
 
 async function loadSpecialContent(section) {
     try {
-        const response = await fetch(`../special/${section.toLowerCase()}.html`);
+        const response = await fetch(`./special/${section.toLowerCase()}.html`);
 
         if (!response.ok) {
             throw new Error(`Не удалось загрузить контент раздела ${section}`);
