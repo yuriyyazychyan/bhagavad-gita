@@ -153,40 +153,6 @@ function renderToc() {
     document.getElementById('tocList').innerHTML = tocHtml;
 }
 
-// function renderToc() {
-//     if (!VERSES || !CHAPTERS) {
-//         window.alert("renderToc !CHAPTERS !VERSES");
-//         return; // Защита от отсутствия данных
-//     }
-//
-//     document.getElementById('tocList').innerHTML = CHAPTERS.map(c => {
-//         const isActive = c.n === curCh;
-//         const verses = VERSES[c.n] || [];
-//         const verseList = isActive && verses.length ? `
-//   <div class="toc-verses">
-//     ${verses.map(v => {
-//             const key = `${c.n}.${v.n}`;
-//             const isBm = bookmarks.some(b => b.key === key);
-//             return `
-//         <div class="toc-verse" onclick="goToVerse(${c.n}, ${v.n})">
-//           <span class="toc-bm">${isBm ? '<img src="img/love.png" style="width:12px;height:12px;vertical-align:middle;">' : '&nbsp;&nbsp;&nbsp;'}</span>
-//           ${lang === 'ru' ? (v.nLabel ? 'Тексты' : 'Текст') : (v.nLabel ? 'Texts' : 'Text')} ${v.nLabel || v.n}
-//         </div>
-//       `;
-//         }).join('')}
-//   </div>
-// ` : '';
-//         return `
-//       <div class="ch-row ${isActive ? 'on' : ''}" onclick="toggleChapter(${c.n})">
-//         <span class="ch-n"><span style="font-family:'CA Moskow',serif;font-size:14px;">${c.n}</span>.</span>
-//         <span class="ch-label">${lang === 'ru' ? c.ru : c.en}</span>
-//         <span class="ch-vcount"><span style="font-family:'CA Moskow',serif;font-size:14px;">${c.v}</span></span>
-//       </div>
-//       ${verseList}
-//     `;
-//     }).join('');
-// }
-
 function toggleChapter(n) {
     // Проверяем, является ли раздел специальным
     const isSpecial = typeof CHAPTERS.find(c => c.n === n)?.n === 'string';
@@ -212,24 +178,6 @@ function toggleChapter(n) {
         localStorage.setItem('bg_toc_open', n);
     }
 }
-
-
-// function toggleChapter(n) {
-//     if (n === curCh) {
-//         const existing = document.querySelector('.toc-verses');
-//         if (existing) {
-//             existing.remove();
-//             localStorage.setItem('bg_toc_open', '');
-//         } else {
-//             renderToc();
-//             localStorage.setItem('bg_toc_open', n);
-//         }
-//     } else {
-//         curCh = n;
-//         renderToc();
-//         localStorage.setItem('bg_toc_open', n);
-//     }
-// }
 
 function goToVerse(ch, vn) {
     const needRender = document.getElementById(`v${ch}_${vn}`) === null;
@@ -394,11 +342,15 @@ function formatPurport(text) {
     text = text.replace(endPhrase, (match) => `\n[[END]]${match}[[/END]]`);
 
     const straightNames = new Set([
-        'Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Paramatma', 'non-Āryans', 'Pṛthā', 'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata',
-        'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Dhṛtarāṣṭra\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī', 'Kṛpācārya',
-        'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Mādhavendra', 'Purī','Jñānasindhu', 'ānasindhu',
-        'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra', 'Puruṣottama', 'Brahmaṇyatīrtha', 'Vyāsatīrtha',
-        'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Mādhavendra Purī', 'Īśvara', 'Purī', 'Nityānanda', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa', 'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī',
+        'Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Paramatma', 'non-Āryans', 'Pṛthā',
+        'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata',
+        'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Dhṛtarāṣṭra\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī',
+        'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu',
+        'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Mādhavendra', 'Purī','Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas',
+        'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra',
+        'Puruṣottama', 'Brahmaṇyatīrtha', 'Vyāsatīrtha',
+        'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Mādhavendra Purī', 'Īśvara', 'Purī', 'Nityānanda', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa',
+        'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī',
     ]);
 
     const diacritics = /[āīūṭḍṇśṣḥṃṁḷñĀĪŪṬḌṆŚṢḤṂṀḶÑ]/;
@@ -409,22 +361,53 @@ function formatPurport(text) {
         const words = trimmed.split(/\s+/);
         if (words.length < 2) return false;
         const sanskritCount = words.filter(w => diacritics.test(w)).length;
-        const hasEnglishSentence = /[A-Z][a-z]/.test(trimmed) || /[,;]/.test(trimmed);
-        return sanskritCount >= 1 && !hasEnglishSentence;
+        const hasEnglishSentence = /[A-Z][a-z]/.test(trimmed) || /;/.test(trimmed);
+        // Если больше половины слов санскритские — это цитата, даже с запятыми
+        const mostlySanskrit = sanskritCount / words.length > 0.5;
+        return (sanskritCount >= 1 && !hasEnglishSentence) || mostlySanskrit;
     }
 
+    // function isSanskritQuote(para) {
+    //     const trimmed = para.trim();
+    //     if (trimmed.length < 5) return false;
+    //     const words = trimmed.split(/\s+/);
+    //     if (words.length < 2) return false;
+    //     const sanskritCount = words.filter(w => diacritics.test(w)).length;
+    //     const hasEnglishSentence = /[A-Z][a-z]/.test(trimmed) || /[,;]/.test(trimmed);
+    //     return sanskritCount >= 1 && !hasEnglishSentence;
+    // }
+
+    const sanskritWords = new Set([
+        'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga',
+        // сюда будешь добавлять по мере нахождения
+    ]);
+
     function formatPara(para) {
-        return para.replace(/[\w\u0100-\u024F\u1E00-\u1EFF][\w\u0100-\u024F\u1E00-\u1EFF\-']*/g, (word) => {
+        return para.replace(/[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-']*/g, (word) => {
             const clean = word.replace(/[',\.]/g, '');
             if (straightNames.has(clean)) return word;
-            if (diacritics.test(word)) {
+            if (diacritics.test(word) || sanskritWords.has(clean.toLowerCase())) {
                 return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${word}</span>`;
             }
             return word;
         });
     }
 
+    // function formatPara(para) {
+    //     return para.replace(/[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-']*/g, (word) => {
+    //         const clean = word.replace(/[',\.]/g, '');
+    //         if (straightNames.has(clean)) return word;
+    //         if (diacritics.test(word)) {
+    //             return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${word}</span>`;
+    //         }
+    //         return word;
+    //     });
+    // }
+
     return text.split('\n').filter(p => p.trim()).map(para => {
+        if (para.trim().startsWith('<div', '<br>')) {
+            return para; // уже готовый HTML — не трогаем
+        }
         if (isSanskritQuote(para)) {
             return `<p style="text-align:center;text-indent:0;margin:16px 0;line-height:24px;font-family:'Times New Roman',Times,serif;font-style:italic;">${para.trim()}</p>`;
         }

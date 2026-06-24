@@ -1,0 +1,12 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "color-no-invalid-hex": true,
+    "declaration-block-no-duplicate-properties": true,
+    "shorthand-property-no-redundant-values": true,
+    "color-hex-length": "short",
+    "number-max-precision": 2,
+    "unit-no-unknown": true,
+    "selector-class-pattern": null
+  }
+}

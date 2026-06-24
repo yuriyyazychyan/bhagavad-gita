@@ -3,6 +3,7 @@
     50% { transform: scale(1.5); opacity: 0.5; }
     100% { transform: scale(1); opacity: 1; }
 }
+
 .pulse-dot {
     display: inline-block;
     width: 6px;
@@ -13,11 +14,13 @@
     vertical-align: middle;
     animation: pulse 1.5s ease infinite;
 }
+
 .toc-verses {
     padding: 4px 0 8px 32px;
     border-left: 2px solid var(--rule);
     margin: 0 16px 4px;
 }
+
 .toc-verse {
     font-family: 'CA Moskow', serif;
     font-size: 18px;
@@ -32,40 +35,47 @@
     align-items: center;
     gap: 6px;
 }
+
 .toc-verse:hover {
     color: var(--ink);
     background: var(--paper3);
 }
+
 .ch-eng-title .hyphen {
     font-size: 0.55em;
     display: inline-block;
     vertical-align: middle;
 }
+
 /* ── RESET ── */
 @font-face {
-    font-family: 'Windsor';
+    font-family: Windsor;
     src: url('../fonts/Windsor_Bold_Extended.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
 }
+
 @font-face {
-    font-family: 'Barmeno';
+    font-family: Barmeno;
     src: url('../fonts/Barmeno_Regular.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
 }
+
 @font-face {
-    font-family: 'Momentum';
+    font-family: Momentum;
     src: url('../fonts/Momentum_W00_Italic.ttf') format('truetype');
     font-weight: 400;
     font-style: italic;
 }
+
 @font-face {
-    font-family: 'Momentum';
+    font-family: Momentum;
     src: url('../fonts/Momentum_W00_Italic.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'CA Moskow';
     src: url('../fonts/CA_Moskow_has_a_plan_W00_Reg.ttf') format('truetype');
@@ -76,31 +86,33 @@
 
 /* ── TOKENS ── */
 :root {
-    --paper:   #ffffff;
+    --paper:   #fff;
     --paper2:  #f7f5ee;
     --paper3:  #eeeae2;
-    --ink:     #000000;
-    --ink2:    #000000;
-    --ink3:    #000000;
-    --rule:    rgba(90,65,30,0.22);
-    --serif:   'IM Fell English', 'Times New Roman', Georgia, serif;
+    --ink:     #000;
+    --ink2:    #000;
+    --ink3:    #000;
+    --rule:    rgb(90 65 30 / 22%);
+    --serif:   'IM Fell English', 'Times New Roman', georgia, serif;
     --devan:   'Noto Serif Devanagari', serif;
     --sidebar: 270px;
     --trans:   0.2s ease;
 }
+
 [data-theme="dark"] {
     --paper:  #180c01;
     --paper2: #1b0e01;
     --paper3: #201103;
-    --ink:    #ffffff;
+    --ink:    #fff;
     --ink2:   #f7f5ee;
     --ink3:   #eeeae2;
-    --rule:   rgba(200,170,100,0.18);
+    --rule:   rgb(200 170 100 / 18%);
 }
 
 
 /* ── BASE ── */
 html { scroll-behavior: smooth; }
+
 body {
     font-family: var(--serif);
     background: var(--paper);
@@ -119,8 +131,9 @@ body {
     display: flex; align-items: center; gap: 10px;
     padding: 0 14px;
 }
+
 .topbar-title {
-    font-family: 'Windsor', serif;
+    font-family: Windsor, serif;
     font-style: normal;
     font-size: 15px;
     line-height: 1.2;
@@ -128,6 +141,7 @@ body {
     flex: 1;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+
 .tb-btn {
     background: none;
     border: 1px solid var(--rule);
@@ -140,15 +154,17 @@ body {
     transition: all var(--trans);
     white-space: nowrap;
 }
+
 #themeBtn {
     font-size: 18px;
     background: none;
     border: none;
     cursor: pointer;
-    filter: drop-shadow(0 0 4px rgba(255,200,50,0.8));
+    filter: drop-shadow(0 0 4px rgb(255 200 50 / 80%));
 }
 .tb-btn:hover { background: var(--paper3); color: var(--ink); }
 .lang-wrap { display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+
 .lang-wrap button {
     background: none; border: none;
     padding: 4px 10px; font-size: 13px;
@@ -175,13 +191,14 @@ body {
     z-index: 50;
 }
 .sidebar.hidden { transform: translateX(calc(-1 * var(--sidebar))); }
+
 .sb-head {
     padding: 16px 16px 8px;
     font-family: 'IM Fell English', Georgia, serif;
     font-weight: 700;
     font-size: 13px;
     text-transform: none;
-    letter-spacing: 0em;
+    letter-spacing: 0;
     word-spacing: normal;
     display: flex;
     align-items: center;
@@ -189,6 +206,7 @@ body {
     color: var(--ink3);
     border-bottom: 1px solid var(--rule);
 }
+
 .ch-row {
     display: flex; align-items: baseline; gap: 8px;
     padding: 8px 16px; cursor: pointer;
@@ -198,6 +216,7 @@ body {
 }
 .ch-row:hover { background: var(--paper3); color: var(--ink); }
 .ch-row.on { background: var(--paper3); color: var(--ink); border-left-color: var(--ink3); }
+
 .ch-n {
     font-family: 'Spectral SC', serif;
     font-size: 12px;
@@ -208,6 +227,7 @@ body {
     display: inline-block;
     transform: scaleY(1.15);
 }
+
 .ch-vcount {
     font-family: 'Spectral SC', serif;
     font-size: 12px;
@@ -228,12 +248,14 @@ body {
     max-width: 880px;
     margin: 0 auto;
     padding: 48px 48px 100px;
+
     /* Добавляем auto для overflow */
     overflow: auto;
 }
 
-@media (max-width: 700px) {
+@media (width <= 700px) {
     .page { padding: 28px 22px 80px;
+
         /* Сохраняем overflow: auto */
         overflow: auto;
     }
@@ -241,10 +263,12 @@ body {
 }
 
 /* ── CHAPTER OPENING ── */
+
 /* ── CHAPTER OPENING ── */
 .ch-opening { text-align: center; margin-bottom: 0; padding-top: 32px; }
+
 .ch-word {
-    font-family: 'Barmeno', sans-serif;
+    font-family: Barmeno, sans-serif;
     font-size: 21px;
     font-weight: 400;
     text-transform: uppercase;
@@ -256,8 +280,9 @@ body {
     display: inline-block;
     transform: scaleX(1.12);
 }
+
 .ch-eng-title {
-    font-family: 'Windsor', serif;
+    font-family: Windsor, serif;
     font-size: 30px;
     font-weight: 900;
     letter-spacing: -0.02em;
@@ -279,7 +304,7 @@ body {
     text-transform: uppercase;
     color: var(--ink);
     text-align: center;
-    margin: 20px 0 0px;
+    margin: 20px 0 0;
     cursor: default;
     display: block;
 }
@@ -289,16 +314,19 @@ body {
     margin-bottom: 30px;
     scroll-margin-top: 70px;
 }
+
 .verse-top {
     display: flex; align-items: center; gap: 10px;
     margin-bottom: 18px;
 }
+
 .verse-ref {
     font-size: 11px; letter-spacing: 0.1em;
     color: var(--ink3); white-space: nowrap;
 }
 .verse-line { flex: 1; height: 1px; background: var(--rule); }
 .verse-acts { display: flex; gap: 6px; }
+
 .vbtn {
     background:none;
     border:none;
@@ -325,6 +353,7 @@ body {
     margin-top: -8px;
     margin-bottom: 16px;
 }
+
 .v-sanskrit-inner {
     display: inline-block;
     text-align: left;
@@ -336,7 +365,7 @@ body {
     font-style: italic;
     font-size: 18px;
     font-weight: 500;
-    letter-spacing: 0em;
+    letter-spacing: 0;
     line-height: 22px;
     text-align: left;
     display: flex;
@@ -344,6 +373,28 @@ body {
     color: var(--ink);
     margin-bottom: 24px;
 }
+
+.v-translit-numbered {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 12px;
+    margin: 0 auto;
+}
+
+.v-translit-numbered > div {
+    display: contents;
+}
+
+.v-translit-numbered > div > div:first-child {
+    align-self: start;
+    padding-bottom: 8px;
+}
+
+.v-translit-numbered > div > div:last-child {
+    align-self: start;
+    padding-bottom: 8px;
+}
+
 .w {
     cursor: pointer;
     border-bottom: 1px dotted var(--rule);
@@ -390,17 +441,20 @@ body {
     text-align: center;
     margin: 0;
 }
+
 .purport-tog::after {
     content: ' ↑';
     font-size: 11px;
     display: inline-block;
     transition: transform 0.25s ease;
 }
+
 .purport-tog.closed::after {
     transform: rotate(180deg);
 }
 .purport-tog::before { content: ''; }
 .purport-tog.open::before { content: ''; }
+
 .purport-body {
     display: block;
     margin-top: 0;
@@ -410,16 +464,20 @@ body {
     max-height: 999999px;
     transition: max-height 0.35s ease;
 }
+
 .purport-body-s {
     display: block;
     margin-top: 0;
     padding-top: 0;
     border-top: none;
-    /*overflow: auto;*/
+
+    /* overflow: auto; */
 }
+
 .purport-body.closed {
     max-height: 0;
 }
+
 .purport-lbl {
     font-size: 10px;
     letter-spacing: 0.16em;
@@ -427,13 +485,13 @@ body {
     color: var(--ink3);
     margin-bottom: 10px;
 }
+
 .purport-body p {
     font-size: 18px;
     font-weight: 500;
     color: var(--ink2);
     line-height: 24px;
-    margin-bottom: 0px;
-    text-indent: 1.5em;
+    margin-bottom: 0;
     white-space: pre-line; /* Превращает \n в новые строки */
     text-indent: 2em;     /* Красная строка */
     text-align: justify;   /* Ровные края текста по бокам */
@@ -449,8 +507,7 @@ body {
     font-weight: 500;
     color: var(--ink2);
     line-height: 24px;
-    margin-bottom: 0px;
-    text-indent: 1.5em;
+    margin-bottom: 0;
     white-space: pre-line; /* Превращает \n в новые строки */
     text-indent: 2em;     /* Красная строка */
     text-align: justify;   /* Ровные края текста по бокам */
@@ -470,6 +527,7 @@ body {
 
 /* ── ORNAMENT ── */
 .orn { text-align: center; color: var(--rule); font-size: 20px; margin: 36px 0; user-select: none; }
+
 .scroll-top {
     position: fixed;
     bottom: 32px;
@@ -517,13 +575,15 @@ body {
     overflow-y: auto; padding: 16px;
 }
 .bmpanel.on { transform: translateX(0); }
-.bm-head { font-family: 'Windsor', serif; color: var(--ink2); margin-bottom: 14px; font-size: 15px; border-bottom: 1px solid var(--rule); padding-bottom: 10px; }
+.bm-head { font-family: Windsor, serif; color: var(--ink2); margin-bottom: 14px; font-size: 15px; border-bottom: 1px solid var(--rule); padding-bottom: 10px; }
+
 .bm-item {
     padding: 9px 10px; border: 1px solid var(--rule);
     border-radius: 4px; margin-bottom: 8px; cursor: pointer;
     font-size: 13px; background: var(--paper); transition: all var(--trans);
 }
 .bm-item:hover { border-color: var(--ink3); }
+
 .bm-ref {
     font-family: 'Spectral SC', serif;
     font-size: 12px;
@@ -534,6 +594,7 @@ body {
     display: inline-block;
     transform: scaleY(1.15);
 }
+
 .bm-txt {
     font-family: 'IM Fell English', Georgia, serif;
     font-size: 13px;
@@ -543,7 +604,7 @@ body {
 .bm-empty { font-style: italic; font-size: 14px; color: var(--ink3); }
 
 /* ── OVERLAY ── */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.25); z-index: 45; display: none; }
+.overlay { position: fixed; inset: 0; background: rgb(0 0 0 / 25%); z-index: 45; display: none; }
 .overlay.on { display: block; }
 
 /* ── SCROLLBAR ── */
