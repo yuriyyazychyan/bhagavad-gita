@@ -348,7 +348,7 @@ function formatPurport(text) {
         'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu',
         'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Mādhavendra', 'Purī','Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas',
         'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra',
-        'Puruṣottama', 'Brahmaṇyatīrtha', 'Vyāsatīrtha',
+        'Puruṣottama', 'Brahmaṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya',
         'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Mādhavendra Purī', 'Īśvara', 'Purī', 'Nityānanda', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa',
         'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī',
     ]);
@@ -378,7 +378,8 @@ function formatPurport(text) {
     // }
 
     const sanskritWords = new Set([
-        'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga',
+        'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma',
+        'svayam', 'brahma', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye',
         // сюда будешь добавлять по мере нахождения
     ]);
 
@@ -404,15 +405,46 @@ function formatPurport(text) {
     //     });
     // }
 
-    return text.split('\n').filter(p => p.trim()).map(para => {
-        if (para.trim().startsWith('<div', '<br>')) {
-            return para; // уже готовый HTML — не трогаем
+    const lines = text.split('\n');
+    const result = [];
+    let i = 0;
+    while (i < lines.length) {
+        const line = lines[i];
+        if (!line.trim()) { i++; continue; }
+        if (line.trim().startsWith('<div')) {
+            result.push(line);
+            i++;
+            continue;
         }
-        if (isSanskritQuote(para)) {
-            return `<p style="text-align:center;text-indent:0;margin:16px 0;line-height:24px;font-family:'Times New Roman',Times,serif;font-style:italic;">${para.trim()}</p>`;
+        if (isSanskritQuote(line)) {
+            // собираем все подряд идущие санскритские строки
+            const group = [line.trim()];
+            while (i + 1 < lines.length && lines[i + 1].trim() && isSanskritQuote(lines[i + 1])) {
+                i++;
+                group.push(lines[i].trim());
+            }
+            if (group.length > 1) {
+                result.push(`<div class="v-translit">${group.join('<br>')}</div>`);
+            } else {
+                result.push(`<p style="text-align:center;text-indent:0;margin:16px 0;line-height:24px;font-family:'Times New Roman',Times,serif;font-style:italic;">${group[0]}</p>`);
+            }
+            i++;
+            continue;
         }
-        return `<p>${formatPara(para)}</p>`;
-    }).join('').replace(/\[\[END\]\](.*?)\[\[\/END\]\]/gs, '<p style="margin-top:1em;font-family:\'Times New Roman\',Times,serif;font-style:italic;font-weight:500;">$1</p>');
+        result.push(`<p>${formatPara(line)}</p>`);
+        i++;
+    }
+    return result.join('');
+
+    // return text.split('\n').filter(p => p.trim()).map(para => {
+    //     if (para.trim().startsWith('<div', '<br>')) {
+    //         return para; // уже готовый HTML — не трогаем
+    //     }
+    //     if (isSanskritQuote(para)) {
+    //         return `<p style="text-align:center;text-indent:0;margin:16px 0;line-height:24px;font-family:'Times New Roman',Times,serif;font-style:italic;">${para.trim()}</p>`;
+    //     }
+    //     return `<p>${formatPara(para)}</p>`;
+    // }).join('').replace(/\[\[END\]\](.*?)\[\[\/END\]\]/gs, '<p style="margin-top:1em;font-family:\'Times New Roman\',Times,serif;font-style:italic;font-weight:500;">$1</p>');
 }
 
 /* ════════════════════════════════════════════
@@ -531,7 +563,7 @@ async function loadSpecialContent(section) {
         updateIllustration();
 
     } catch (error) {
-        console.error('Ошибка при загрузке специального контента:', error);
+        console.error('Ошибка при загрузке контента:', error);
         document.getElementById('page').innerHTML = '<div>Ошибка загрузки контента</div>';
     }
 }

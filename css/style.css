@@ -371,6 +371,7 @@ body {
     display: flex;
     justify-content: center;
     color: var(--ink);
+    margin-top: 24px;
     margin-bottom: 24px;
 }
 
@@ -512,6 +513,11 @@ body {
     text-indent: 2em;     /* Красная строка */
     text-align: justify;   /* Ровные края текста по бокам */
     font-family: 'IM Fell English', Georgia, serif;
+}
+
+.imgSig{
+    padding-left: 4em;
+    text-indent: -4em;
 }
 
 /* ── AUDIO LINK ── */
