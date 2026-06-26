@@ -30,8 +30,8 @@ async function loadData() {
 
 // Инициализация приложения
 function initApp() {
+    window._restoreScroll = true; // флаг — восстанавливаем позицию
     setLang(localStorage.getItem('bg_lang') || 'ru');
-    renderChapter(parseInt(localStorage.getItem('bg_chapter')) || 1);
     renderToc();
     updateBm();
 }
@@ -45,7 +45,8 @@ window.addEventListener('DOMContentLoaded', () => {
 STATE
 ════════════════════════════════════════════ */
 let lang = 'ru';
-let curCh = 2;
+const _savedCh = localStorage.getItem('bg_chapter');
+let curCh = _savedCh ? (isNaN(_savedCh) ? _savedCh : parseInt(_savedCh)) : 1;
 let bookmarks = JSON.parse(localStorage.getItem('bg_bm') || '[]');
 
 /* ════════════════════════════════════════════
@@ -256,8 +257,26 @@ function renderChapter(n, skipScroll = false) {
     document.getElementById('bmpanel').classList.remove('on');
     localStorage.setItem('bg_lang', lang);
     localStorage.setItem('bg_chapter', n);
-    if (!skipScroll) window.scrollTo({top: 0, behavior: 'smooth'});
+    if (!skipScroll) {
+        const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
+        if (window._restoreScroll && savedScroll > 0) {
+            setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
+        } else {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        window._restoreScroll = false;
+    }
     updateIllustration();
+
+    if (!skipScroll) {
+        const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
+        if (window._restoreScroll && savedScroll > 0) {
+            setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
+        } else if (!window._restoreScroll) {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        window._restoreScroll = false;
+    }
 }
 
 function iastToRu(text) {
@@ -341,19 +360,7 @@ function formatPurport(text) {
     const endPhrase = /Thus end the Bhaktivedanta Purports[^.]+\./;
     text = text.replace(endPhrase, (match) => `\n[[END]]${match}[[/END]]`);
 
-    const straightNames = new Set([
-        'Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Paramatma', 'non-Āryans', 'Pṛthā',
-        'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata',
-        'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Dhṛtarāṣṭra\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī',
-        'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu',
-        'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Mādhavendra', 'Purī','Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas',
-        'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra',
-        'Puruṣottama', 'Brahmaṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya',
-        'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Mādhavendra Purī', 'Īśvara', 'Purī', 'Nityānanda', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa',
-        'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī',
-    ]);
-
-    const diacritics = /[āīūṭḍṇśṣḥṃṁḷñĀĪŪṬḌṆŚṢḤṂṀḶÑ]/;
+    const diacritics = /[āīūṛṝṭḍṇśṣḥṃṁḷñĀĪŪṚṜṬḌṆŚṢḤṂṀḶÑ]/;
 
     function isSanskritQuote(para) {
         const trimmed = para.trim();
@@ -367,43 +374,74 @@ function formatPurport(text) {
         return (sanskritCount >= 1 && !hasEnglishSentence) || mostlySanskrit;
     }
 
-    // function isSanskritQuote(para) {
-    //     const trimmed = para.trim();
-    //     if (trimmed.length < 5) return false;
-    //     const words = trimmed.split(/\s+/);
-    //     if (words.length < 2) return false;
-    //     const sanskritCount = words.filter(w => diacritics.test(w)).length;
-    //     const hasEnglishSentence = /[A-Z][a-z]/.test(trimmed) || /[,;]/.test(trimmed);
-    //     return sanskritCount >= 1 && !hasEnglishSentence;
-    // }
-
+    //Санскритские слова для принудительного обозначения курсивом
     const sanskritWords = new Set([
         'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma',
-        'svayam', 'brahma', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye',
+        'svayam', 'brahma', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha',
+        'nityo', 'tava', 'vedas', 'kena', 'jagat',
         // сюда будешь добавлять по мере нахождения
     ]);
 
-    function formatPara(para) {
-        return para.replace(/[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-']*/g, (word) => {
-            const clean = word.replace(/[',\.]/g, '');
-            if (straightNames.has(clean)) return word;
-            if (diacritics.test(word) || sanskritWords.has(clean.toLowerCase())) {
-                return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${word}</span>`;
-            }
-            return word;
-        });
-    }
+    //Санскритские фразы для принудительного обозначения курсивом
+    const sanskritPhrases = [
+        'viddhi me', 'Apareyam itas tv',
+        // другие словосочетания
+    ];
 
-    // function formatPara(para) {
-    //     return para.replace(/[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-']*/g, (word) => {
-    //         const clean = word.replace(/[',\.]/g, '');
-    //         if (straightNames.has(clean)) return word;
-    //         if (diacritics.test(word)) {
-    //             return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${word}</span>`;
-    //         }
-    //         return word;
-    //     });
-    // }
+    //Санскритские слова, исключения для обозначения курсивом
+    const straightNames = new Set([
+        'Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Paramatma', 'non-Āryans', 'Pṛthā',
+        'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata',
+        'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Dhṛtarāṣṭra\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī',
+        'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu',
+        'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas',
+        'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra',
+        'Puruṣottama', 'Brahmaṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya', 'Rāma', 'Prakāśānanda', 'Nṛhari',
+        'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Mādhavendra Purī', 'Īśvara Purī', 'Nityānanda', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa',
+        'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī',
+    ]);
+
+    //Санскритские фразы, исключения для обозначения курсивом
+    const straightPhrases = [
+        'Mādhavendra Purī', 'Īśvara Purī',
+        // фразы которые не нужно оборачивать
+    ];
+
+    function formatPara(para) {
+        // Сначала обрабатываем словосочетания которые НЕ нужно оборачивать
+        const placeholders = [];
+        straightPhrases.forEach(phrase => {
+            const re = new RegExp(phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+            para = para.replace(re, (match) => {
+                placeholders.push(match);
+                return `\x00${placeholders.length - 1}\x00`;
+            });
+        });
+
+        // Затем sanskritPhrases
+        sanskritPhrases.forEach(phrase => {
+            const re = new RegExp(phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+            para = para.replace(re,
+                `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${phrase}</span>`
+            );
+        });
+
+        // Пословный разбор
+        para = para.replace(/(<span[^>]*>.*?<\/span>)|[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-']*/gs, (match, span) => {
+            if (span) return span;
+            const clean = match.replace(/[',\.]/g, '');
+            if (straightNames.has(clean)) return match;
+            if (diacritics.test(match) || sanskritWords.has(clean.toLowerCase())) {
+                return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${match}</span>`;
+            }
+            return match;
+        });
+
+        // Восстанавливаем защищённые фразы
+        para = para.replace(/\x00(\d+)\x00/g, (_, i) => placeholders[i]);
+
+        return para;
+    }
 
     const lines = text.split('\n');
     const result = [];
@@ -435,16 +473,6 @@ function formatPurport(text) {
         i++;
     }
     return result.join('');
-
-    // return text.split('\n').filter(p => p.trim()).map(para => {
-    //     if (para.trim().startsWith('<div', '<br>')) {
-    //         return para; // уже готовый HTML — не трогаем
-    //     }
-    //     if (isSanskritQuote(para)) {
-    //         return `<p style="text-align:center;text-indent:0;margin:16px 0;line-height:24px;font-family:'Times New Roman',Times,serif;font-style:italic;">${para.trim()}</p>`;
-    //     }
-    //     return `<p>${formatPara(para)}</p>`;
-    // }).join('').replace(/\[\[END\]\](.*?)\[\[\/END\]\]/gs, '<p style="margin-top:1em;font-family:\'Times New Roman\',Times,serif;font-style:italic;font-weight:500;">$1</p>');
 }
 
 /* ════════════════════════════════════════════
@@ -562,10 +590,21 @@ async function loadSpecialContent(section) {
         // Обновляем иллюстрации
         updateIllustration();
 
+        // Сохраняем текущий раздел  ← перенести сюда
+        curCh = section;
+        localStorage.setItem('bg_chapter', section);
+
+        const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
+        if (window._restoreScroll && savedScroll > 0) {
+            setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
+        }
+        window._restoreScroll = false;
+
     } catch (error) {
         console.error('Ошибка при загрузке контента:', error);
         document.getElementById('page').innerHTML = '<div>Ошибка загрузки контента</div>';
     }
+
 }
 
 // Добавляем обработку ошибок загрузки
@@ -729,3 +768,8 @@ setThemeIcon(savedTheme === 'dark');
 const savedLang = localStorage.getItem('bg_lang') || 'ru';
 const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 updateBm();
+
+// Сохраняем позицию скролла при прокрутке
+window.addEventListener('scroll', () => {
+    localStorage.setItem('bg_scroll', window.scrollY);
+});
