@@ -47,6 +47,39 @@ STATE
 let lang = 'ru';
 const _savedCh = localStorage.getItem('bg_chapter');
 let curCh = _savedCh ? (isNaN(_savedCh) ? _savedCh : parseInt(_savedCh)) : 1;
+
+function getAdjacentChapters(current) {
+    const all = CHAPTERS; // массив всех глав
+    const idx = all.findIndex(c => c.n === current);
+    return {
+        prev: idx > 0 ? all[idx - 1] : null,
+        next: idx < all.length - 1 ? all[idx + 1] : null
+    };
+}
+
+function navButtonsHtml(current) {
+    const { prev, next } = getAdjacentChapters(current);
+
+    function label(ch, direction) {
+        const name = (lang === 'ru' ? ch.ru : ch.en).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        const isNum = typeof ch.n === 'number';
+        const chapterLabel = lang === 'ru' ? 'Глава' : 'Chapter';
+        const text = isNum
+            ? (direction === 'prev'
+                ? `← ${chapterLabel} ${ch.n}. ${name}`
+                : `${chapterLabel} ${ch.n}. ${name} →`)
+            : (direction === 'prev'
+                ? `← ${name}`
+                : `${name} →`);
+        const onclick = isNum ? ch.n : `'${ch.n}'`;
+        return `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${onclick})">${text}</div>`;
+    }
+
+    const prevHtml = prev ? label(prev, 'prev') : '<div></div>';
+    const nextHtml = next ? label(next, 'next') : '<div></div>';
+    return `<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--rule);">${prevHtml}${nextHtml}</div>`;
+}
+
 let bookmarks = JSON.parse(localStorage.getItem('bg_bm') || '[]');
 
 /* ════════════════════════════════════════════
@@ -244,11 +277,8 @@ function renderChapter(n, skipScroll = false) {
             html += renderVerse(v, n);
         });
     }
-    html += `
-<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--rule);">
-  ${n > 1 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n - 1})">← ${lang === 'ru' ? 'ГЛАВА' : 'CHAPTER'} ${n - 1}</div>` : '<div></div>'}
-  ${n < 18 ? `<div style="cursor:pointer;font-family:'CA Moskow',serif;font-size:16px;color:var(--ink2);" onclick="renderChapter(${n + 1})">${lang === 'ru' ? 'ГЛАВА' : 'CHAPTER'} ${n + 1} →</div>` : '<div></div>'}
-</div>`;
+    html += navButtonsHtml(n);
+
     document.getElementById('page').innerHTML = html;
     document.getElementById('topTitle').innerHTML = `${isRu ? ch.ru : ch.en}`;
     renderToc();
@@ -257,15 +287,7 @@ function renderChapter(n, skipScroll = false) {
     document.getElementById('bmpanel').classList.remove('on');
     localStorage.setItem('bg_lang', lang);
     localStorage.setItem('bg_chapter', n);
-    if (!skipScroll) {
-        const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
-        if (window._restoreScroll && savedScroll > 0) {
-            setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
-        } else {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-        window._restoreScroll = false;
-    }
+
     updateIllustration();
 
     if (!skipScroll) {
@@ -358,7 +380,9 @@ function formatWbw(text) {
 function formatPurport(text) {
     if (!text || text.trim() === '—' || text.trim() === '') return '';
     const endPhrase = /Thus end the Bhaktivedanta Purports[^.]+\./;
-    text = text.replace(endPhrase, (match) => `\n[[END]]${match}[[/END]]`);
+    text = text.replace(endPhrase, (match) =>
+        `\n<p style="text-align:left;font-style:italic;margin-top:24px;">${match}</p>`
+    );
 
     const diacritics = /[āīūṛṝṭḍṇśṣḥṃṁḷñĀĪŪṚṜṬḌṆŚṢḤṂṀḶÑ]/;
 
@@ -378,7 +402,7 @@ function formatPurport(text) {
     const sanskritWords = new Set([
         'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma',
         'svayam', 'brahma', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha',
-        'nityo', 'tava', 'vedas', 'kena', 'jagat',
+        'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'brahmajyoti', 'mahat-tattva', 'asura', 'avyakta',
         // сюда будешь добавлять по мере нахождения
     ]);
 
@@ -583,7 +607,7 @@ async function loadSpecialContent(section) {
         // Применяем существующее форматирование
         contentHtml = formatPurport(contentHtml);
 
-        document.getElementById('page').innerHTML = contentHtml;
+        document.getElementById('page').innerHTML = contentHtml + navButtonsHtml(section);
         document.getElementById('topTitle').innerHTML =
             CHAPTERS.find(c => c.n === section)[lang === 'ru' ? 'ru' : 'en'];
 
