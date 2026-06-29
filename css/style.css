@@ -520,6 +520,40 @@ body {
     text-indent: -4em;
 }
 
+.appendixes-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
+
+.appendixes-subtitle {
+    font-size: 20px;
+    font-weight: bolder;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.appendixs-body p {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink2);
+    line-height: 24px;
+    margin-bottom: 20px;
+
+    /* white-space: pre-line; !* Превращает \n в новые строки *! */
+
+    /* text-indent: 0;     !* Красная строка *! */
+    text-align: justify;   /* Ровные края текста по бокам */
+    font-family: 'IM Fell English', Georgia, serif;
+}
+
+.no-marg p {
+    margin-bottom: 0;
+}
+
 /* ── AUDIO LINK ── */
 .audio-lnk {
     display: inline-flex; align-items: center; gap: 5px;
