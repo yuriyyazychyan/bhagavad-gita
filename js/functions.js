@@ -404,12 +404,12 @@ function formatPurport(text) {
                                   ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
-    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'As It Is',
+    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is',
     // другие словосочетания
     ];
 
     //Санскритские слова, исключения для обозначения курсивом
-    const straightNames = new Set(['Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'PaRāmatma', 'non-Āryans', 'Pṛthā', 'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata', 'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī', 'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu', 'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas', 'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra', 'Puruṣottama', 'Brahmāṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya', 'Rāma', 'Prakāśānanda', 'Nṛhari', 'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Nityānanda', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa', 'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī', 'Duḥśāsana', 'Pāṇḍit', 'Vivasvān', 'Vāyu', 'Śyāmasundara', 'Lakṣmī-Nārāyaṇa', 'Garbhodakaśāyī', 'Kūrma', 'Varāha', 'Hiraṇyākśa', 'Nṛsiṁhadeva', 'Hiraṇyakaśipu', 'Vāmanadeva', 'Paraśurāma', 'Rāmacandra', 'Sītā', 'Lakṣmaṇa', 'Balarāma', 'Kaṁsa', 'Kaṁsa\'s ', 'Devakī', 'Vasudeva', 'Mathurā',]);
+    const straightNames = new Set(['Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Sañjaya\'s', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Parāmatma', 'non-Āryans', 'Pṛthā', 'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata', 'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Draupadī\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī', 'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Gadādhara\'s', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu', 'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas', 'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra', 'Puruṣottama', 'Brahmāṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya', 'Rāma', 'Prakāśānanda', 'Nṛhari', 'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Nityānanda', 'Nityānanda\'s', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa', 'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī', 'Duḥśāsana', 'Pāṇḍit', 'Vivasvān', 'Vāyu', 'Śyāmasundara', 'Lakṣmī-Nārāyaṇa', 'Lakṣmī', 'Garbhodakaśāyī', 'Kūrma', 'Varāha', 'Hiraṇyākśa', 'Nṛsiṁhadeva', 'Hiraṇyakaśipu', 'Vāmanadeva', 'Paraśurāma', 'Rāmacandra', 'Sītā', 'Lakṣmaṇa', 'Balarāma', 'Kaṁsa', 'Kaṁsa\'s ', 'Devakī', 'Vasudeva', 'Mathurā', 'Pāṇḍava', 'Mahārāja', 'Ikṣvāku', 'Garuḍa', 'Mahā-Viṣṇu', 'Kāmadhuk', 'Prahlāda', 'Vāsuki', 'Varuṇa', 'Yamarāja', 'Airāvata', 'Ucchaiḥśravā', 'Rādhā-Kṛṣṇa', 'Māyā', 'Rādhā', ]);
 
     //Санскритские фразы, исключения для обозначения курсивом
     const straightPhrases = ['Mādhavendra Purī', 'Īśvara Purī',
@@ -436,9 +436,10 @@ function formatPurport(text) {
         });
 
         // Пословный разбор
-        para = para.replace(/(<span[^>]*>.*?<\/span>)|[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-']*/gs, (match, span) => {
+        para = para.replace(/(<span[^>]*>.*?<\/span>)|[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-'’]*/gs, (match, span) => {
             if (span) return span;
-            const clean = match.replace(/[',\.]/g, '');
+            const clean = match.replace(/[,\.]/g, '');
+            // const clean = match.replace(/['’,\.]/g, '');
             if (straightNames.has(clean)) return match;
             if (diacritics.test(match) || sanskritWords.has(clean.toLowerCase())) {
                 return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${match}</span>`;

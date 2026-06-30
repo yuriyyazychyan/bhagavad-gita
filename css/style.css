@@ -521,16 +521,21 @@ body {
 }
 
 .appendixes-title {
+    font-family: Barmeno, sans-serif;
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    word-spacing: 0.6em;
+    color: var(--ink);
     text-align: center;
-    font-size: 30px;
-    font-weight: lighter;
+    transform: scaleX(1.12);
     margin-bottom: 30px;
     margin-top: 50px;
 }
 
 .appendixes-subtitle {
-    font-size: 20px;
-    font-weight: bolder;
+    font-size: 19px;
+    font-weight: bold;
     margin-bottom: 20px;
     margin-top: 30px;
     text-align: center;
@@ -542,16 +547,19 @@ body {
     color: var(--ink2);
     line-height: 24px;
     margin-bottom: 20px;
-
-    /* white-space: pre-line; !* Превращает \n в новые строки *! */
-
-    /* text-indent: 0;     !* Красная строка *! */
     text-align: justify;   /* Ровные края текста по бокам */
     font-family: 'IM Fell English', Georgia, serif;
 }
 
+.no-marg {
+    margin-block-start: -20px;
+}
+
 .no-marg p {
     margin-bottom: 0;
+    margin-left: 2em;
+    padding-left: 1em;
+    text-indent: -1em;
 }
 
 /* ── AUDIO LINK ── */
