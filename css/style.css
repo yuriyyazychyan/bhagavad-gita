@@ -562,6 +562,37 @@ body {
     text-indent: -1em;
 }
 
+.entry {
+    padding-left: 1em;
+    text-align: left;
+    text-indent: -1em;
+    line-height: normal;
+}
+
+.entry  a{
+    font-family: 'Times New Roman', Times, serif;
+
+    /* font-style: italic; */
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-indent: 0;
+}
+
+.term {
+     font-family: 'Times New Roman', Times, serif;
+     font-style: italic;
+     font-size: 18px;
+     font-weight: 500;
+     letter-spacing: 0;
+
+     /* line-height: 22px; */
+     text-align: left;
+
+     /* display: flex; */
+     color: var(--ink);
+}
+
 /* ── AUDIO LINK ── */
 .audio-lnk {
     display: inline-flex; align-items: center; gap: 5px;

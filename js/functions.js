@@ -399,20 +399,21 @@ function formatPurport(text) {
     }
 
     //Санскритские слова для принудительного обозначения курсивом
-    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta',
+    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta', 'nirukti', 'vai', 'sma', 'ca'
                                       // сюда будешь добавлять по мере нахождения
                                   ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
-    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is',
+    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is', 'Atharva-veda', 'Garga' +
+                                                                                                        ' Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya'
     // другие словосочетания
     ];
 
     //Санскритские слова, исключения для обозначения курсивом
-    const straightNames = new Set(['Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Sañjaya\'s', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Parāmatma', 'non-Āryans', 'Pṛthā', 'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata', 'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Draupadī\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī', 'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Gadādhara\'s', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu', 'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas', 'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra', 'Puruṣottama', 'Brahmāṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya', 'Rāma', 'Prakāśānanda', 'Nṛhari', 'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Nityānanda', 'Nityānanda\'s', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa', 'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī', 'Duḥśāsana', 'Pāṇḍit', 'Vivasvān', 'Vāyu', 'Śyāmasundara', 'Lakṣmī-Nārāyaṇa', 'Lakṣmī', 'Garbhodakaśāyī', 'Kūrma', 'Varāha', 'Hiraṇyākśa', 'Nṛsiṁhadeva', 'Hiraṇyakaśipu', 'Vāmanadeva', 'Paraśurāma', 'Rāmacandra', 'Sītā', 'Lakṣmaṇa', 'Balarāma', 'Kaṁsa', 'Kaṁsa\'s ', 'Devakī', 'Vasudeva', 'Mathurā', 'Pāṇḍava', 'Mahārāja', 'Ikṣvāku', 'Garuḍa', 'Mahā-Viṣṇu', 'Kāmadhuk', 'Prahlāda', 'Vāsuki', 'Varuṇa', 'Yamarāja', 'Airāvata', 'Ucchaiḥśravā', 'Rādhā-Kṛṣṇa', 'Māyā', 'Rādhā', ]);
+    const straightNames = new Set(['Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Sañjaya\'s', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Parāmatma', 'non-Āryans', 'Pṛthā', 'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata', 'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Draupadī\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī', 'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Gadādhara\'s', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu', 'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas', 'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra', 'Puruṣottama', 'Brahmāṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya', 'Rāma', 'Prakāśānanda', 'Nṛhari', 'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Nityānanda', 'Nityānanda\'s', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa', 'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī', 'Duḥśāsana', 'Pāṇḍit', 'Vivasvān', 'Vāyu', 'Śyāmasundara', 'Lakṣmī-Nārāyaṇa', 'Lakṣmī', 'Garbhodakaśāyī', 'Kūrma', 'Varāha', 'Hiraṇyākśa', 'Nṛsiṁhadeva', 'Hiraṇyakaśipu', 'Vāmanadeva', 'Paraśurāma', 'Rāmacandra', 'Sītā', 'Lakṣmaṇa', 'Balarāma', 'Kaṁsa', 'Kaṁsa\'s ', 'Devakī', 'Vasudeva', 'Mathurā', 'Pāṇḍava', 'Mahārāja', 'Ikṣvāku', 'Garuḍa', 'Mahā-Viṣṇu', 'Kāmadhuk', 'Prahlāda', 'Vāsuki', 'Varuṇa', 'Yamarāja', 'Airāvata', 'Ucchaiḥśravā', 'Rādhā-Kṛṣṇa', 'Māyā', 'Rādhā', 'Patañjali']);
 
     //Санскритские фразы, исключения для обозначения курсивом
-    const straightPhrases = ['Mādhavendra Purī', 'Īśvara Purī',
+    const straightPhrases = ['Mādhavendra Purī', 'Īśvara Purī', 'Rūpa Gosvāmī', 'Kṛṣṇadasa Kavirāja Gosvāmī',
     // фразы которые не нужно оборачивать
                                 ];
 
@@ -436,7 +437,7 @@ function formatPurport(text) {
         });
 
         // Пословный разбор
-        para = para.replace(/(<span[^>]*>.*?<\/span>)|[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-'’]*/gs, (match, span) => {
+        para = para.replace(/(<span[^>]*>.*?<\/span>)|[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-'’]*/gu, (match, span) => {
             if (span) return span;
             const clean = match.replace(/[,\.]/g, '');
             // const clean = match.replace(/['’,\.]/g, '');
@@ -591,7 +592,9 @@ async function loadSpecialContent(section) {
         let contentHtml = doc.body.innerHTML;
 
         // Применяем существующее форматирование
-        contentHtml = formatPurport(contentHtml);
+        if (section.toLowerCase() !== 'references') {
+            contentHtml = formatPurport(contentHtml);
+        }
 
         document.getElementById('page').innerHTML = contentHtml + navButtonsHtml(section);
         document.getElementById('topTitle').innerHTML =
