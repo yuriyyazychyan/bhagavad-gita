@@ -30,7 +30,14 @@ async function loadData() {
 
 // Инициализация приложения
 function initApp() {
-    window._restoreScroll = true; // флаг — восстанавливаем позицию
+    // Если последний открытый раздел — подпункт Appendixes, разворачиваем его
+    const savedCh = localStorage.getItem('bg_chapter');
+    CHAPTERS.forEach(c => {
+        if (c.children && c.children.some(child => child.n === savedCh)) {
+            appendixOpen = c.n;
+        }
+    });
+    window._restoreScroll = true;
     setLang(localStorage.getItem('bg_lang') || 'ru');
     renderToc();
     updateBm();
@@ -47,9 +54,19 @@ STATE
 let lang = 'ru';
 const _savedCh = localStorage.getItem('bg_chapter');
 let curCh = _savedCh ? (isNaN(_savedCh) ? _savedCh : parseInt(_savedCh)) : 1;
+let menuCh = typeof curCh === 'number' ? curCh : null;
+let appendixOpen = null;
 
 function getAdjacentChapters(current) {
-    const all = CHAPTERS; // массив всех глав
+    // Разворачиваем children в плоский список
+    const all = [];
+    CHAPTERS.forEach(c => {
+        if (c.children) {
+            c.children.forEach(child => all.push(child));
+        } else {
+            all.push(c);
+        }
+    });
     const idx = all.findIndex(c => c.n === current);
     return {
         prev: idx > 0 ? all[idx - 1] : null,
@@ -135,6 +152,7 @@ function toggleBook() {
 }
 
 function renderToc() {
+
     if (!CHAPTERS || !VERSES) {
         return; // Защита от отсутствия данных
     }
@@ -147,12 +165,35 @@ function renderToc() {
         const hasVerses = VERSES[chapter.n] && VERSES[chapter.n].length > 0;
 
         if (isSpecial) {
-            // Для специальных разделов без номеров и раскрытия
-            tocHtml += `
-            <div class="ch-row" onclick="renderChapter('${chapter.n}')">
-                <span class="ch-label">${lang === 'ru' ? chapter.ru : chapter.en}</span>
-            </div>
-            `;
+            const hasChildren = chapter.children && chapter.children.length > 0;
+            const isAppendixOpen = appendixOpen === chapter.n;
+
+            if (hasChildren) {
+                // Раздел с подпунктами — как глава со стихами
+                tocHtml += `
+        <div class="ch-row ${isAppendixOpen ? 'on' : ''}" onclick="toggleAppendix('${chapter.n}')">
+            <span class="ch-label">${lang === 'ru' ? chapter.ru : chapter.en}</span>
+            <span class="ch-vcount"><span style="font-family:'CA Moskow',serif;font-size:14px;">${chapter.v}</span></span>
+        </div>`;
+
+                if (isAppendixOpen) {
+                    tocHtml += `<div class="toc-verses">`;
+                    chapter.children.forEach(child => {
+                        const isChildActive = child.n === curCh;
+                        tocHtml += `
+                <div class="toc-verse ${isChildActive ? 'on' : ''}" onclick="renderChapter('${child.n}')">
+                    &nbsp;&nbsp;&nbsp;${lang === 'ru' ? child.ru : child.en}
+                </div>`;
+                    });
+                    tocHtml += `</div>`;
+                }
+            } else {
+                // Обычный спец раздел без подпунктов
+                tocHtml += `
+        <div class="ch-row ${isActive ? 'on' : ''}" onclick="renderChapter('${chapter.n}')">
+            <span class="ch-label">${lang === 'ru' ? chapter.ru : chapter.en}</span>
+        </div>`;
+            }
         } else {
             // Для обычных глав с возможностью раскрытия
             tocHtml += `
@@ -164,7 +205,7 @@ function renderToc() {
             `;
 
             // Добавляем список стихов только если есть стихи и глава активна
-            if (hasVerses && isActive) {
+            if (hasVerses && chapter.n === menuCh && !appendixOpen) {
                 const verses = VERSES[chapter.n];
                 tocHtml += `
                 <div class="toc-verses">
@@ -188,29 +229,19 @@ function renderToc() {
 }
 
 function toggleChapter(n) {
-    // Проверяем, является ли раздел специальным
-    const isSpecial = typeof CHAPTERS.find(c => c.n === n)?.n === 'string';
-
-    if (isSpecial) {
-        // Для специальных разделов просто переходим к тексту
-        renderChapter(n);
-        return;
-    }
-
-    if (n === curCh) {
-        const existing = document.querySelector('.toc-verses');
-        if (existing) {
-            existing.remove();
-            localStorage.setItem('bg_toc_open', '');
-        } else {
-            renderToc();
-            localStorage.setItem('bg_toc_open', n);
-        }
+    appendixOpen = null;
+    if (n === menuCh) {
+        menuCh = null;
     } else {
-        curCh = n;
-        renderToc();
-        localStorage.setItem('bg_toc_open', n);
+        menuCh = n;
+        renderChapter(n);
     }
+    renderToc();
+}
+
+function toggleAppendix(n) {
+    appendixOpen = appendixOpen === n ? null : n;
+    renderToc();
 }
 
 function goToVerse(ch, vn) {
@@ -245,6 +276,7 @@ function scrollToVerse(ch, vn) {
 CHAPTER
 ════════════════════════════════════════════ */
 function renderChapter(n, skipScroll = false) {
+    let prevNumCh = null;
     // Убираем принудительное ограничение высоты
     document.getElementById('page').style.maxHeight = '';
     document.getElementById('page').style.overflow = 'auto';
@@ -258,6 +290,8 @@ function renderChapter(n, skipScroll = false) {
         return;
     }
     curCh = n;
+    menuCh = n;
+    tocActiveCh = n;
     const ch = CHAPTERS.find(c => c.n === n);
     const verses = VERSES[n] || [];
     const isRu = lang === 'ru';
@@ -399,7 +433,7 @@ function formatPurport(text) {
     }
 
     //Санскритские слова для принудительного обозначения курсивом
-    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta', 'nirukti', 'vai', 'sma', 'ca'
+    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta', 'nirukti', 'vai', 'sma', 'ca', 'om'
                                       // сюда будешь добавлять по мере нахождения
                                   ]);
 
@@ -575,37 +609,31 @@ SPECIAL
 ════════════════════════════════════════════ */
 
 async function loadSpecialContent(section) {
+    const previousCh = curCh; // запоминаем
+    curCh = section;
+    appendixVisited = true; // реальный переход произошёл
+    localStorage.setItem('bg_chapter', section);
     try {
         const response = await fetch(`./special/${section.toLowerCase()}.html`);
-
-        if (!response.ok) {
-            throw new Error(`Не удалось загрузить контент раздела ${section}`);
-        }
+        if (!response.ok) throw new Error(`Не удалось загрузить контент раздела ${section}`);
 
         let content = await response.text();
-
-        // Парсим HTML
         const parser = new DOMParser();
         const doc = parser.parseFromString(content, 'text/html');
-
-        // Получаем содержимое
         let contentHtml = doc.body.innerHTML;
 
-        // Применяем существующее форматирование
         if (section.toLowerCase() !== 'references') {
             contentHtml = formatPurport(contentHtml);
         }
 
         document.getElementById('page').innerHTML = contentHtml + navButtonsHtml(section);
+
+        const chapterData = CHAPTERS.find(c => c.n === section) ||
+                            CHAPTERS.flatMap(c => c.children || []).find(c => c.n === section);
         document.getElementById('topTitle').innerHTML =
-            CHAPTERS.find(c => c.n === section)[lang === 'ru' ? 'ru' : 'en'];
+            chapterData ? chapterData[lang === 'ru' ? 'ru' : 'en'] : section;
 
-        // Обновляем иллюстрации
         updateIllustration();
-
-        // Сохраняем текущий раздел  ← перенести сюда
-        curCh = section;
-        localStorage.setItem('bg_chapter', section);
 
         const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
         if (window._restoreScroll && savedScroll > 0) {
@@ -614,10 +642,10 @@ async function loadSpecialContent(section) {
         window._restoreScroll = false;
 
     } catch (error) {
+        appendixVisited = false; // переход не удался
         console.error('Ошибка при загрузке контента:', error);
         document.getElementById('page').innerHTML = '<div>Ошибка загрузки контента</div>';
     }
-
 }
 
 // Добавляем обработку ошибок загрузки

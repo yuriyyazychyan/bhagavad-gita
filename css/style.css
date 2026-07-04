@@ -187,6 +187,7 @@ body {
     border-right: 1px solid var(--rule);
     position: fixed; top: 50px; left: 0; bottom: 0;
     overflow-y: auto;
+    overscroll-behavior: contain;
     transition: transform var(--trans);
     z-index: 50;
 }
