@@ -45,7 +45,7 @@
     {"n": "references", "ru": "Ссылки", "en": "References"},
     {"n": "glossary", "ru": "Глоссарий", "en": "Glossary"},
     {"n": "sanskrit", "ru": "Произношение санскрита", "en": "Sanskrit Pronunciation Guide"},
-    {"n": "versesidx", "ru": "Индекс стихов", "en": "Index of Sanskrit Verses"},
-    {"n": "generalidx", "ru": "Общий индекс", "en": "General Index"}
+    {"n": "versesindx", "ru": "Индекс стихов", "en": "Index of Sanskrit Verses"},
+    {"n": "generalindx", "ru": "Общий индекс", "en": "General Index"}
   ]}
 ]
