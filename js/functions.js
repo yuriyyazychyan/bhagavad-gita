@@ -420,18 +420,6 @@ function formatPurport(text) {
 
     const diacritics = /[āīūṛṝṭḍṇśṣḥṃṁḷñĀĪŪṚṜṬḌṆŚṢḤṂṀḶÑ]/;
 
-    // function isSanskritQuote(para) {
-    //     const trimmed = para.trim();
-    //     if (trimmed.length < 5) return false;
-    //     const words = trimmed.split(/\s+/);
-    //     if (words.length < 2) return false;
-    //     const sanskritCount = words.filter(w => diacritics.test(w)).length;
-    //     const hasEnglishSentence = /[A-Z][a-z]/.test(trimmed) || /;/.test(trimmed);
-    //     // Если больше половины слов санскритские — это цитата, даже с запятыми
-    //     const mostlySanskrit = sanskritCount / words.length > 0.5;
-    //     return (sanskritCount >= 1 && !hasEnglishSentence) || mostlySanskrit;
-    // }
-
     function isSanskritQuote(para) {
         const trimmed = para.trim();
         if (trimmed.length < 5) return false;
@@ -446,21 +434,21 @@ function formatPurport(text) {
     }
 
     //Санскритские слова для принудительного обозначения курсивом
-    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta', 'nirukti', 'vai', 'sma', 'ca', 'om', 'acintya', 'acyuta', 'adhidaivatam', 'advaita', 'ajam', 'akarma', 'arca-vigraha', 'asat', 'yama', 'niyama', 'sura', 'bhaga', 'van', 'brahmacarya', 'brahma', 'jyoti', 'caturmasya', 'citi', 'deva', 'nandana', 'dharma', 'guru', 'japa', 'kumbhaka-yoga', 'nitya-baddha', 'kaivalyam', 'kali-yuga', 'kalpa', 'man', 'tra', 'nir', 'nirmama', 'loka', 'mantra', 'mukti'
+    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta', 'nirukti', 'vai', 'sma', 'ca', 'om', 'acintya', 'acyuta', 'adhidaivatam', 'advaita', 'ajam', 'akarma', 'arca-vigraha', 'asat', 'yama', 'niyama', 'sura', 'bhaga', 'van', 'brahmacarya', 'brahma', 'jyoti', 'caturmasya', 'citi', 'deva', 'nandana', 'dharma', 'guru', 'japa', 'kumbhaka-yoga', 'nitya-baddha', 'kaivalyam', 'kali-yuga', 'kalpa', 'man', 'tra', 'nir', 'nirmama', 'loka', 'mantra', 'mukti', 'tat', 'sat', 'pavitram', 'rasa', 'recaka', 'sattva', 'soma-rasa', 'sthita', 'muni', 'sukham', 'svadharmas', 'sva', 'sundara'
                                       // сюда будешь добавлять по мере нахождения
                                   ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
     const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is', 'Atharva-veda', 'Garga' +
-                                                                                                        ' Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya'
+                                                                                                        ' Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya', 'Param dhāma'
     // другие словосочетания
     ];
 
     //Санскритские слова, исключения для обозначения курсивом
-    const straightNames = new Set(['Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Sañjaya\'s', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Parāmatma', 'non-Āryans', 'Pṛthā', 'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata', 'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Draupadī\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī', 'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Gadādhara\'s', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu', 'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas', 'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra', 'Puruṣottama', 'Brahmāṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya', 'Rāma', 'Prakāśānanda', 'Nṛhari', 'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Nityānanda', 'Nityānanda\'s', 'Rūpa', 'Svarūpa', 'Sanātana', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa', 'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī', 'Duḥśāsana', 'Pāṇḍit', 'Vivasvān', 'Vāyu', 'Śyāmasundara', 'Lakṣmī-Nārāyaṇa', 'Lakṣmī', 'Garbhodakaśāyī', 'Kūrma', 'Varāha', 'Hiraṇyākśa', 'Nṛsiṁhadeva', 'Hiraṇyakaśipu', 'Vāmanadeva', 'Paraśurāma', 'Rāmacandra', 'Sītā', 'Lakṣmaṇa', 'Balarāma', 'Kaṁsa', 'Kaṁsa\'s ', 'Devakī', 'Vasudeva', 'Mathurā', 'Pāṇḍava', 'Mahārāja', 'Ikṣvāku', 'Garuḍa', 'Mahā-Viṣṇu', 'Kāmadhuk', 'Prahlāda', 'Vāsuki', 'Varuṇa', 'Yamarāja', 'Airāvata', 'Ucchaiḥśravā', 'Rādhā-Kṛṣṇa', 'Māyā', 'Rādhā', 'Patañjali', 'Ādityas', 'Advaitācārya', 'Āryan', 'Yudhiṣṭhira\'s', 'Mahāprabhu', 'Kavirāja', 'Devakī-nandana', 'Devakī', 'Rāvaṇa', 'Prahlāda', 'Mahārāja', 'Ṭhākur', 'Navadvīpa', 'Dvāpara-yuga', 'Gāṇḍiva', 'Hanumān', 'Haridāsa',  'Hiraṇyakaśipu\'s', 'Kālī', 'Devahūti', 'Kṛṣṇaloka', 'Kṣīrodakaśāyī', 'Kāraṇodakaśāyī', 'Kumāras', 'Pṛthā', 'Kuntī', 'Paṇḍavas', 'Nṛsiṁha', 'Maha-Viṣṇu']);
+    const straightNames = new Set(['Kṛṣṇa', 'Kṛṣṇa\'s', 'Krishna', 'Arjuna', 'Sañjaya', 'Sañjaya\'s', 'Dhṛtarāṣṭra', 'Pāṇḍu', 'Madhusūdana', 'Parāśara', 'Vyāsadeva', 'Bhagavan', 'Parāmatma', 'non-Āryans', 'Pṛthā', 'Sāndīpani', 'Vaiṣṇava', 'Dhṛtarāṣṭra\'s', 'Guḍākeśa', 'Hṛṣīkeśa', 'Māyāvādī', 'Rāmānuja', 'Māyāvādīs', 'Bhārata', 'Kurukṣetra', 'Vyāsa', 'Yudhiṣṭhira', 'Bhīma', 'Draupadī', 'Draupadī\'s', 'Dhṛṣṭadyumna', 'Droṇācārya\'s', 'Vikarṇa', 'Aśvatthāmā', 'Bhūriśravā', 'Bāhlīkas', 'Kuntī', 'Kṛpācārya', 'Dāsa', 'Bhaṭṭa', 'Gopāla', 'Ācārya', 'Gadādhara', 'Gadādhara\'s', 'Śrīvāsa', 'Śrīmati', 'Rādhārāṇī', 'Lalitā', 'Viśākhā', 'Vṛndāvana', 'Vṛṣabhānu', 'Droṇa', 'Droṇācārya', 'Duryodhana', 'Bhīṣma', 'Karṇa', 'Kṛṣṇa-Caitanya', 'Prabhupāda', 'Jñānasindhu', 'Śrīla', 'Gosvāmī', 'Vaiṣṇavas', 'Śrī', 'Śrīmad', 'Brahmā', 'Viṣṇu', 'Śiva', 'Nārāyaṇa', 'Nārada', 'Padmanābha', 'Mādhava', 'Akṣobhya', 'Jayatīrtha', 'Jñānasindhu', 'Dayānidhi', 'Vidyānidhi', 'Rājendra', 'Puruṣottama', 'Brahmāṇyatīrtha', 'Vyāsatīrtha', 'Founder-Ācārya', 'Rāma', 'Prakāśānanda', 'Nṛhari', 'Pāṇḍavas', 'Kauravas', 'Arjuna\'s', 'Lakṣmīpati', 'Nityānanda', 'Nityānanda\'s', 'Rūpa', 'Raghunātha', 'Jīva', 'Kṛṣṇadāsa', 'Viśvanātha', 'Jagannātha', 'Gaurakiśora', 'Bhaktisiddhānta', 'Sarasvatī', 'Duḥśāsana', 'Pāṇḍit', 'Vivasvān', 'Vāyu', 'Śyāmasundara', 'Lakṣmī-Nārāyaṇa', 'Lakṣmī', 'Garbhodakaśāyī', 'Kūrma', 'Varāha', 'Hiraṇyākśa', 'Nṛsiṁhadeva', 'Hiraṇyakaśipu', 'Vāmanadeva', 'Paraśurāma', 'Rāmacandra', 'Sītā', 'Lakṣmaṇa', 'Balarāma', 'Kaṁsa', 'Kaṁsa\'s ', 'Devakī', 'Vasudeva', 'Mathurā', 'Pāṇḍava', 'Mahārāja', 'Ikṣvāku', 'Garuḍa', 'Mahā-Viṣṇu', 'Kāmadhuk', 'Prahlāda', 'Vāsuki', 'Varuṇa', 'Yamarāja', 'Airāvata', 'Ucchaiḥśravā', 'Rādhā-Kṛṣṇa', 'Māyā', 'Rādhā', 'Patañjali', 'Ādityas', 'Advaitācārya', 'Āryan', 'Yudhiṣṭhira\'s', 'Mahāprabhu', 'Kavirāja', 'Devakī-nandana', 'Devakī', 'Rāvaṇa', 'Prahlāda', 'Mahārāja', 'Ṭhākur', 'Navadvīpa', 'Dvāpara-yuga', 'Gāṇḍiva', 'Hanumān', 'Haridāsa',  'Hiraṇyakaśipu\'s', 'Kālī', 'Devahūti', 'Kṛṣṇaloka', 'Kṣīrodakaśāyī', 'Kāraṇodakaśāyī', 'Kumāras', 'Pṛthā', 'Kuntī', 'Paṇḍavas', 'Nṛsiṁha', 'Maha-Viṣṇu', 'Paramātmā', 'Parantapaḥ', 'Parasurāma', 'Prajāpati', 'Rāvaṇa', 'Śaṅkarācārya', 'Sarasvatī', 'Śukadeva', 'Sūryaloka', 'Pārtha-sārathi', 'Pārtha', 'Pitṛloka', 'Parīkṣit', 'Brahmaṇyatīrtha']);
 
     //Санскритские фразы, исключения для обозначения курсивом
-    const straightPhrases = ['Mādhavendra Purī', 'Īśvara Purī', 'Rūpa Gosvāmī', 'Kṛṣṇadasa Kavirāja Gosvāmī',
+    const straightPhrases = ['Mādhavendra Purī', 'Īśvara Purī', 'Rūpa Gosvāmī', 'Kṛṣṇadasa Kavirāja Gosvāmī', 'Parāśara Muni', 'Sanātana Gosvāmī', '(Svarūpa, Sanātana)', '(Nityānanda, Advaita)'
     // фразы которые не нужно оборачивать
                                 ];
 
@@ -567,7 +555,7 @@ function renderVerse(v, chN) {
       </button>
       <div style='width:0.5px;height:20px;background:var(--rule);'></div>
       <a class='audio-lnk' href='${v.audio}' target='_blank' style='display:flex;align-items:center;gap:6px;font-size:13px;border:none;padding:0;margin:0;'>
-        ▶ ${isRu ? 'Прослушать лекцию' : 'Listen to lecture'}
+        ▶ ${isRu ? 'Прослушать класс' : 'Listen to class'}
       </a>
     </div>
   </div>

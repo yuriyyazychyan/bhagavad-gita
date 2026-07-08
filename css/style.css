@@ -163,7 +163,13 @@ body {
     filter: drop-shadow(0 0 4px rgb(255 200 50 / 80%));
 }
 .tb-btn:hover { background: var(--paper3); color: var(--ink); }
-.lang-wrap { display: flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+
+.lang-wrap {
+    display: none; /* Когда будет перевод сделать flex */
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+}
 
 .lang-wrap button {
     background: none; border: none;
