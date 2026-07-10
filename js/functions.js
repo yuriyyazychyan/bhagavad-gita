@@ -3,25 +3,22 @@ DATA — добавляй главы сюда по мере наполнения
 ════════════════════════════════════════════ */
 let CHAPTERS = {};
 let VERSES = {};
+let GLOSSARY = {};
 
-// Объединяем загрузку обоих файлов в одну функцию
 async function loadData() {
     try {
-        // Загружаем CHAPTERS
         const chaptersResponse = await fetch('./data/chapters.json');
-        if (!chaptersResponse.ok) {
-            throw new Error('Не удалось загрузить CHAPTERS');
-        }
+        if (!chaptersResponse.ok) throw new Error('Не удалось загрузить CHAPTERS');
         CHAPTERS = await chaptersResponse.json();
 
-        // Загружаем VERSES
         const versesResponse = await fetch('./data/verses.json');
-        if (!versesResponse.ok) {
-            throw new Error('Не удалось загрузить VERSES');
-        }
+        if (!versesResponse.ok) throw new Error('Не удалось загрузить VERSES');
         VERSES = await versesResponse.json();
 
-        // Инициализируем приложение только после успешной загрузки обоих файлов
+        const glossaryResponse = await fetch('./data/glossary.json');
+        if (!glossaryResponse.ok) throw new Error('Не удалось загрузить Glossary');
+        GLOSSARY = await glossaryResponse.json();
+
         initApp();
     } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
@@ -434,13 +431,13 @@ function formatPurport(text) {
     }
 
     //Санскритские слова для принудительного обозначения курсивом
-    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta', 'nirukti', 'vai', 'sma', 'ca', 'om', 'acintya', 'acyuta', 'adhidaivatam', 'advaita', 'ajam', 'akarma', 'arca-vigraha', 'asat', 'yama', 'niyama', 'sura', 'bhaga', 'van', 'brahmacarya', 'brahma', 'jyoti', 'caturmasya', 'citi', 'deva', 'nandana', 'dharma', 'guru', 'japa', 'kumbhaka-yoga', 'nitya-baddha', 'kaivalyam', 'kalpa', 'man', 'tra', 'nir', 'nirmama', 'loka', 'mantra', 'mukti', 'tat', 'sat', 'pavitram', 'rasa', 'recaka', 'sattva', 'soma-rasa', 'sthita', 'muni', 'sukham', 'svadharmas', 'sva', 'sundara', 'tapasya', 'tattvavit', 'vikarma', 'yajur', 'atharva-vedas', 'vikarma', 'yuga'
+    const sanskritWords = new Set([ 'bhakti', 'bhakta', 'buddhi', 'buddhi-yoga', 'buddhi-yogam', 'bhakti-yoga', 'bhakti-yogam', 'yoga', 'karma-yoga', 'karma', 'svayam', 'Brahmā', 'pavitram', 'divyam', 'ajam', 'vibhum', 'sarvam', 'etad', 'manye', 'sat', 'cit', 'vigraha', 'nityo', 'tava', 'vedas', 'kena', 'jagat', 'surabhi', 'Brahmājyoti', 'mahat-tattva', 'asura', 'avyakta', 'nirukti', 'vai', 'sma', 'ca', 'om', 'acintya', 'acyuta', 'adhidaivatam', 'advaita', 'ajam', 'akarma', 'arca-vigraha', 'asat', 'yama', 'niyama', 'sura', 'bhaga', 'van', 'brahmacarya', 'brahma', 'jyoti', 'caturmasya', 'citi', 'deva', 'nandana', 'dharma', 'guru', 'japa', 'kumbhaka-yoga', 'nitya-baddha', 'kaivalyam', 'kalpa', 'tra', 'nir', 'nirmama', 'loka', 'mantra', 'mukti', 'tat', 'sat', 'pavitram', 'rasa', 'recaka', 'sattva', 'soma-rasa', 'sthita', 'muni', 'sukham', 'svadharmas', 'sva', 'sundara', 'tapasya', 'tattvavit', 'vikarma', 'yajur', 'atharva-vedas', 'vikarma', 'yuga'
                                       // сюда будешь добавлять по мере нахождения
                                   ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
     const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is', 'Atharva-veda', 'Garga' +
-                                                                                                        ' Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya', 'Param dhāma'
+                                                                                                        ' Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya', 'Param dhāma', 'Svalpam apy asya dharmasya trāyate mahato bhayāt'
     // другие словосочетания
     ];
 
@@ -476,9 +473,14 @@ function formatPurport(text) {
             if (span) return span;
             const clean = match.replace(/[,\.]/g, '');
             // const clean = match.replace(/['’,\.]/g, '');
-            if (straightNames.has(clean)) return match;
+            if (straightNames.has(clean)) {
+                if (GLOSSARY[clean.toLowerCase()]) {
+                    return `<span data-term="${clean.toLowerCase()}">${match}</span>`;
+                }
+                return match;
+            }
             if (diacritics.test(match) || sanskritWords.has(clean.toLowerCase())) {
-                return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;">${match}</span>`;
+                return `<span style="font-family:'Times New Roman',Times,serif;font-style:italic;" data-term="${clean.toLowerCase()}">${match}</span>`;
             }
             return match;
         });
@@ -660,6 +662,8 @@ window.addEventListener('error', (event) => {
 /* ════════════════════════════════════════════
 TOOLTIP
 ════════════════════════════════════════════ */
+let _tipTimer = null;
+
 function showTip(e, skr, tr, def) {
     const t = document.getElementById('tip');
     document.getElementById('tipSkr').textContent = skr;
@@ -675,6 +679,31 @@ function showTip(e, skr, tr, def) {
 
 function hideTip() {
     document.getElementById('tip').classList.remove('on');
+    if (_tipTimer) { clearTimeout(_tipTimer); _tipTimer = null; }
+}
+
+function showGlossaryTip(e, term) {
+    const key = term.toLowerCase().replace(/[^\wāīūṛṝṭḍṇśṣḥṃṁḷñāīūṭḍṇṅśṣḥṃṁḷñ\-]/g, '').trim();
+    const entry = GLOSSARY[key];
+    if (!entry) return;
+
+    const def = (lang === 'ru' && entry.ru) ? entry.ru : entry.en;
+    if (!def) return;
+
+    const t = document.getElementById('tip');
+    // Заголовок
+    document.getElementById('tipSkr').textContent = lang === 'ru' ? 'Глоссарий' : 'Glossary';
+    // Термин
+    document.getElementById('tipTr').textContent = entry.term;
+    // Определение
+    document.getElementById('tipDef').textContent = def;
+
+    t.classList.add('on');
+    const x = Math.min(e.clientX + 12, window.innerWidth - 280);
+    const y = Math.min(e.clientY + 12, window.innerHeight - 110);
+    t.style.left = x + 'px';
+    t.style.top = y + 'px';
+    setTimeout(() => document.addEventListener('click', hideTip, {once: true}), 10);
 }
 
 /* ════════════════════════════════════════════
@@ -814,4 +843,20 @@ updateBm();
 // Сохраняем позицию скролла при прокрутке
 window.addEventListener('scroll', () => {
     localStorage.setItem('bg_scroll', window.scrollY);
+});
+
+// Глоссарий тултип — наведение на санскритский термин
+document.addEventListener('mouseover', (e) => {
+    const span = e.target.closest('span[data-term]');
+    if (!span) return;
+    const term = span.getAttribute('data-term');
+    if (!GLOSSARY[term]) return;
+    _tipTimer = setTimeout(() => showGlossaryTip(e, term), 1200);
+});
+
+document.addEventListener('mouseout', (e) => {
+    const span = e.target.closest('span[data-term]');
+    if (!span) return;
+    if (_tipTimer) { clearTimeout(_tipTimer); _tipTimer = null; }
+    hideTip();
 });
