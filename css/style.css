@@ -601,6 +601,98 @@ body {
     line-height: normal;
 }
 
+/* ── SANSKRIT PRONUNCIATION GUIDE ── */
+.sanskrit-section-title {
+    text-align: center;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    font-size: 18px;
+    margin: 24px 0 12px;
+    color: var(--ink);
+}
+.sanskrit-vowels {
+    text-align: center;
+    margin-bottom: 8px;
+    font-size: 22px;
+    line-height: 1.8;
+}
+.sanskrit-special {
+    font-size: 18px;
+    margin-top: 4px;
+}
+.sv-pair {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    margin: 0 8px;
+}
+.sv-pair .devanagari {
+    font-family: var(--devan);
+    font-size: 24px;
+}
+.sv-pair .translit {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: 16px;
+}
+.sanskrit-consonants {
+    margin: 12px auto 20px;
+    border-collapse: collapse;
+}
+.sanskrit-consonants td {
+    padding: 4px 16px 4px 0;
+    vertical-align: middle;
+}
+.consonant-group {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    color: var(--ink2);
+    white-space: nowrap;
+    padding-right: 20px !important;
+}
+.consonant-note {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+}
+.sanskrit-bold {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-weight: 700;
+    font-size: 17px;
+    margin: 20px 0 8px;
+}
+.sanskrit-bold-final {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-weight: 700;
+    font-size: 17px;
+    margin: 20px 0;
+    text-align: center;
+}
+.sanskrit-list, .sanskrit-two-col {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+.sanskrit-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 32px;
+}
+.sanskrit-item {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    line-height: 1.7;
+}
+.sanskrit-item .translit {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    min-width: 40px;
+    flex-shrink: 0;
+}
+.sanskrit-dash {
+    flex-shrink: 0;
+}
+
 /* ── AUDIO LINK ── */
 .audio-lnk {
     display: inline-flex; align-items: center; gap: 5px;
