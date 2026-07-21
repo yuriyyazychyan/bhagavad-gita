@@ -762,6 +762,54 @@ body {
     height: 8px;
 }
 
+/* ── GENERAL INDEX ── */
+.gi-alpha-nav {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    line-height: 2;
+}
+.gi-alpha-link {
+    display: inline-block;
+    margin: 0 4px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+}
+.gi-alpha-link:hover { border-bottom-color: var(--ink); }
+.gi-note {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: var(--ink2);
+}
+.gi-letter {
+    font-family: 'Windsor', serif;
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+    margin: 24px 0 8px;
+}
+.gi-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+.gi-col { padding: 1px 4px; vertical-align: top; }
+.gi-col-entry { font-weight: 400; }
+.gi-col-sub { padding-left: 1.5em; }
+.gi-col-cont { padding-left: 3em; }
+.gi-col-spacer { width: 20px; }
+.gi-link {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+}
+.gi-link:hover { border-bottom-color: var(--ink); }
+.gi-uncertain { border-bottom: 2px dotted orange !important; }
 /* ── AUDIO LINK ── */
 .audio-lnk {
     display: inline-flex; align-items: center; gap: 5px;
