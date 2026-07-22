@@ -810,6 +810,14 @@ body {
 }
 .gi-link:hover { border-bottom-color: var(--ink); }
 .gi-uncertain { border-bottom: 2px dotted orange !important; }
+
+.gi-alpha-inactive {
+    display: inline-block;
+    margin: 0 4px;
+    color: var(--ink3);
+}
+
+
 /* ── AUDIO LINK ── */
 .audio-lnk {
     display: inline-flex; align-items: center; gap: 5px;
