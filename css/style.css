@@ -778,6 +778,24 @@ body {
     border-bottom: 1px dotted var(--rule);
 }
 .gi-alpha-link:hover { border-bottom-color: var(--ink); }
+.gi-entry {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 4px;
+}
+.gi-subentry {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-left: 2em;
+}
+.gi-continuation {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-left: 3em;
+}
 .gi-note {
     font-family: 'IM Fell English', Georgia, serif;
     font-size: 15px;
@@ -791,18 +809,6 @@ body {
     text-align: center;
     margin: 24px 0 8px;
 }
-.gi-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'IM Fell English', Georgia, serif;
-    font-size: 15px;
-    line-height: 1.5;
-}
-.gi-col { padding: 1px 4px; vertical-align: top; }
-.gi-col-entry { font-weight: 400; }
-.gi-col-sub { padding-left: 1.5em; }
-.gi-col-cont { padding-left: 3em; }
-.gi-col-spacer { width: 20px; }
 .gi-link {
     color: var(--ink);
     text-decoration: none;
