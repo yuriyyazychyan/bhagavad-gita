@@ -823,6 +823,23 @@ body {
     color: var(--ink3);
 }
 
+.gi-body p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    text-indent: 0;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+}
+.gi-body .gi-entry {
+    margin-top: 3px;
+}
+.gi-body .gi-subentry {
+    padding-left: 2em;
+}
+.gi-body .gi-continuation {
+    padding-left: 3em;
+}
 
 /* ── AUDIO LINK ── */
 .audio-lnk {
