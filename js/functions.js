@@ -278,8 +278,9 @@ function renderChapter(n, skipScroll = false) {
     document.getElementById('page').style.maxHeight = '';
     document.getElementById('page').style.overflow = 'auto';
 
-    if (typeof n === 'string') { // Если это специальный раздел
-        loadSpecialContent(n);
+    if (typeof n === 'string') {
+        const parts = n.split('#');
+        loadSpecialContent(parts[0], parts[1] || null);
         return;
     }
     if (!VERSES[n] || !VERSES[n].length || !CHAPTERS.find(c => c.n === n)) {
@@ -694,7 +695,7 @@ function togPurport(el) {
 SPECIAL
 ════════════════════════════════════════════ */
 
-async function loadSpecialContent(section) {
+async function loadSpecialContent(section, anchor = null) {
     const previousCh = curCh; // запоминаем
     curCh = section;
     appendixVisited = true; // реальный переход произошёл
@@ -723,10 +724,19 @@ async function loadSpecialContent(section) {
         updateIllustration();
 
         const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
-        if (window._restoreScroll && savedScroll > 0) {
+        if (anchor) {
+            setTimeout(() => {
+                const el = document.getElementById(anchor);
+                if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+            }, 100);
+        } else if (window._restoreScroll && savedScroll > 0) {
             setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
         }
         window._restoreScroll = false;
+        // if (window._restoreScroll && savedScroll > 0) {
+        //     setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
+        // }
+        // window._restoreScroll = false;
 
     } catch (error) {
         appendixVisited = false; // переход не удался

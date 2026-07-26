@@ -765,10 +765,16 @@ body {
 /* ── GENERAL INDEX ── */
 .gi-alpha-nav {
     text-align: center;
-    margin-bottom: 20px;
     font-family: 'IM Fell English', Georgia, serif;
     font-size: 16px;
     line-height: 2;
+    position: sticky;
+    top: 50px; /* высота topbar */
+    background: var(--paper);
+    z-index: 10;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 12px;
 }
 .gi-alpha-link {
     display: inline-block;
