@@ -456,12 +456,11 @@ function formatPurport(text) {
         'etat','ye','pacanty','te','brahmacarya','brahmaiva','san','brahma-jana','pathi',
         'brahma-yoga','acintya-bheda','daivim','uttamam','ceto','dvandvair','eko','devo',
         'ko\'pi','samau','neme','yamebhyo','lokebhya','prasanna-manaso',
-        'bhagavad-bhakti-yogataḥ','nivasaty','santas','Brahmājyoti','Brahmā'
+        'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'punar'
     ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
-    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is', 'Atharva-veda', 'Garga Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya', 'Param dhāma', 'Svalpam apy asya dharmasya trāyate mahato bhayāt', 'na tad bhāsayate sūryo na śaśāṅko na pāvakaḥ yad gatvā na nivartante tad dhāma paramaṁ mama', 'ābrahma-bhuvanāl lokāḥ punar āvartino \'rjuna',
-    // другие словосочетания
+    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is', 'Atharva-veda', 'Garga Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya', 'Param dhāma', 'Svalpam apy asya dharmasya trāyate mahato bhayāt', 'na tad bhāsayate sūryo na śaśāṅko na pāvakaḥ yad gatvā na nivartante tad dhāma paramaṁ mama', 'ābrahma-bhuvanāl lokāḥ punar āvartino \'rjuna', 'om tat sat'
     ];
 
     //Санскритские слова, исключения для обозначения курсивом
@@ -499,7 +498,7 @@ function formatPurport(text) {
         'Indraloka','Indra','Govinda','Goloka','Ganges','Gandharvas','Drupada',
         'Candraloka','Candra','Brahman','Brahmaloka','Brahmajyoti','Anantavijaya',
         'Ananta','Agni','Aditi','Naimiṣāraṇya','Śaunaka','Aniruddha','Bhagavān',
-        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu'
+        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās'
     ]);
 
     //Санскритские фразы, исключения для обозначения курсивом

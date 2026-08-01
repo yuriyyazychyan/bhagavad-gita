@@ -257,8 +257,13 @@ body {
     padding: 48px 48px 100px;
 
     /* Добавляем auto для overflow */
-    overflow: auto;
+     overflow: auto;
 }
+
+/*@media (max-width: 700px) {*/
+/*    .page { padding: 28px 22px 80px; }*/
+/*    :root { --sidebar: 82vw; }*/
+/*}*/
 
 @media (width <= 700px) {
     .page { padding: 28px 22px 80px;
@@ -763,19 +768,30 @@ body {
 }
 
 /* ── GENERAL INDEX ── */
+
 .gi-alpha-nav {
-    text-align: center;
-    font-family: 'IM Fell English', Georgia, serif;
-    font-size: 16px;
-    line-height: 2;
-    position: sticky;
-    top: 50px; /* высота topbar */
+    position: fixed;
+    top: 50px;
+    left: var(--sidebar);
+    right: 0;
     background: var(--paper);
-    z-index: 10;
-    padding: 8px 0;
+    z-index: 40;
+    padding: 8px 48px 9px;
     border-bottom: 1px solid var(--rule);
-    margin-bottom: 12px;
+    text-align: center;
+    transition: left var(--trans);
 }
+
+/* Когда сайдбар скрыт */
+.main.full .gi-alpha-nav {
+    left: 0;
+}
+
+/* Отступ чтобы контент не прятался за навигацию */
+.gi-body {
+    padding-top: 40px;
+}
+
 .gi-alpha-link {
     display: inline-block;
     margin: 0 4px;
@@ -944,6 +960,10 @@ body {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--paper); }
 ::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+
+span[id^="intro-"] {
+    scroll-margin-top: 70px;
+}
 
 /* ── EMPTY STATE ── */
 .empty { text-align: center; padding: 80px 0; color: var(--ink3); font-style: italic; font-size: 16px; }
