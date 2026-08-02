@@ -35,7 +35,8 @@ function initApp() {
         }
     });
     window._restoreScroll = true;
-    setLang(localStorage.getItem('bg_lang') || 'ru');
+    setLang('en');//Удалить при функционировании языков
+    // setLang(localStorage.getItem('bg_lang') || 'ru');//Расскомментировать для сохранения языка
     renderToc();
     updateBm();
 }
@@ -48,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
 /* ════════════════════════════════════════════
 STATE
 ════════════════════════════════════════════ */
-let lang = 'ru';
+let lang = 'en';
 const _savedCh = localStorage.getItem('bg_chapter');
 let curCh = _savedCh ? (isNaN(_savedCh) ? _savedCh : parseInt(_savedCh)) : 1;
 let menuCh = typeof curCh === 'number' ? curCh : null;
@@ -317,7 +318,9 @@ function renderChapter(n, skipScroll = false) {
     updateBm();
     document.getElementById('overlay').classList.remove('on');
     document.getElementById('bmpanel').classList.remove('on');
-    localStorage.setItem('bg_lang', lang);
+    localStorage.setItem('bg_lang', 'en');
+    // localStorage.setItem('bg_lang', lang); //Расскомментировать, чтобы был русский язык
+
     localStorage.setItem('bg_chapter', n);
 
     updateIllustration();
@@ -929,7 +932,8 @@ if (sbState === 'hidden') {
 const savedTheme = localStorage.getItem('bg_theme') || 'light';
 document.body.dataset.theme = savedTheme;
 setThemeIcon(savedTheme === 'dark');
-const savedLang = localStorage.getItem('bg_lang') || 'ru';
+const savedLang = 'en';//Для переключения языков удалить или закомментировать
+// const savedLang = localStorage.getItem('bg_lang') || 'ru'; //Для включения работы смены языков расскомментировать
 const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
 updateBm();
 
