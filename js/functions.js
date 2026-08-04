@@ -419,7 +419,7 @@ function formatPurport(text) {
         `\n<p style="text-align:left;font-style:italic;margin-top:24px;">${match}</p>`
     );
 
-    const diacritics = /[āīūṛṝṭḍṇśṣḥṃṁḷñĀĪŪṚṜṬḌṆŚṢḤṂṀḶÑ]/;
+    const diacritics = /[āīūṛṝṭḍṇśṣḥṃṁḷñṅĀĪŪṚṜṬḌṆŚṢḤṂṀḶÑṄ]/;
 
     function isSanskritQuote(para) {
         // Строки General Index с маркерами — не цитаты
@@ -459,11 +459,11 @@ function formatPurport(text) {
         'etat','ye','pacanty','te','brahmacarya','brahmaiva','san','brahma-jana','pathi',
         'brahma-yoga','acintya-bheda','daivim','uttamam','ceto','dvandvair','eko','devo',
         'ko\'pi','samau','neme','yamebhyo','lokebhya','prasanna-manaso',
-        'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'punar'
+        'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'punar', '\'rjuna', 'om', 'tat', 'sat', 'veda', '\'tha', 'mitho', 'ajani', 'tad', 'avimucya', 'jantur', '\'yam', 'ajo', '\'sya', 'atha', 'tato', 'tam', 'ante', 'harer', 'tasya', 'tri-sandhyam', 'eko\'pi', 'yo', 'u', 'hy', 'ete', 'tu', 'ga', 'abhaktasya', 'kuto', 'yasya', 'kvacit', 'yato', 'anyam', 'tais', 'tair', 'prapadyante', 'samabhavat', 'lokyate', '\'nena', 'mad-bhaktim', 'labhate', 'sulabheti', 'mama', 'yonir', 'mahad', 'mana', 'bhava', 'asti', 'mugdha', 'jiver', 'paravyome', 'mayi', 'sannyasya', 'muktir', 'naitat', 'mriyate', 'namo', 'paro', 'devas', 'rudro', '\'bhavad', 'sa', 'munir', 'yasya', 'binnam', 'deho', '\'sti', 'ucyate', 'kurute', 'tattvam', 'vividhaiva', 'patir', 'phalam', 'tau', 'sadaiva', 'vilokayanti', 'iti', 'rasam', 'raso', '\'dya', 'samyag', '\'sminn', 'bhadram', 'astu', 'bhavato', 'vraja', 'parityajya', 'yan', 'vadasi', 'prabhum', 'vipro', 'marttyam', 'siddhis', 'prapannam', 'kahe', 'bahubhir', 'arcanam', 'bahubhir', 'yei', 'bata', 'vidyate', 'devam', 'prapadye', 'anusmara', 'yudhya', 'tato', 'ya', 'vidur', 'bhavanti', 'athetare', 'tepus', 'tapas', 'juhuvu', 'sasnur', 'tvam', 'ubhe', 'taraty', 'vadanti', 'tattva-vidas', 'yaj', 'advayam', 'sarvair', 'durlabham', 'adurlabham', 'kvanantam', 'vigata-jvara', 'vinivartante', 'atho', 'tyajaty', 'yas', 'ubhe', 'bhavata', 'brahme', 'bhaktir', 'deve', 'yasya', 'bhramati', 'bhagavaty', 'yena', 'yato', 'ytra', 'yat', 'prayanty', 'kva', 'salite', 'api', '\'sau', 'sarvair', 'vedair', 'praiti', 'sarva-gato', 'yogas', 'aho', 'kevalam', 'karau', '\'pi', 'muhyanti', 'bhavati', 'avatare', 'dharmasya', 'govindam', 'yasmin', 'gurau', 'yatra', 'karhicit', 'kim'
     ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
-    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is', 'Atharva-veda', 'Garga Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya', 'Param dhāma', 'Svalpam apy asya dharmasya trāyate mahato bhayāt', 'na tad bhāsayate sūryo na śaśāṅko na pāvakaḥ yad gatvā na nivartante tad dhāma paramaṁ mama', 'ābrahma-bhuvanāl lokāḥ punar āvartino \'rjuna', 'om tat sat'
+    const sanskritPhrases = ['viddhi me', 'Apareyam itas tv', 'Bhagavad-gītā As It Is', 'Atharva-veda', 'Garga Upaniṣad', 'Padma Purāṇa', 'Svatvata Tantra', 'ha vai', 'ity upakramya', 'Param dhāma', 'Svalpam apy asya dharmasya trāyate mahato bhayāt', 'na tad bhāsayate sūryo na śaśāṅko na pāvakaḥ yad gatvā na nivartante tad dhāma paramaṁ mama', 'ābrahma-bhuvanāl lokāḥ punar āvartino \'rjuna', 'om tat sat', 'u hy', 'caitanya prabhu', 'brahman hanyante'
     ];
 
     //Санскритские слова, исключения для обозначения курсивом
@@ -501,7 +501,7 @@ function formatPurport(text) {
         'Indraloka','Indra','Govinda','Goloka','Ganges','Gandharvas','Drupada',
         'Candraloka','Candra','Brahman','Brahmaloka','Brahmajyoti','Anantavijaya',
         'Ananta','Agni','Aditi','Naimiṣāraṇya','Śaunaka','Aniruddha','Bhagavān',
-        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās'
+        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī'
     ]);
 
     //Санскритские фразы, исключения для обозначения курсивом
