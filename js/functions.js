@@ -459,7 +459,7 @@ function formatPurport(text) {
         'etat','ye','pacanty','te','brahmacarya','brahmaiva','san','brahma-jana','pathi',
         'brahma-yoga','acintya-bheda','daivim','uttamam','ceto','dvandvair','eko','devo',
         'ko\'pi','samau','neme','yamebhyo','lokebhya','prasanna-manaso',
-        'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'punar', '\'rjuna', 'om', 'tat', 'sat', 'veda', '\'tha', 'mitho', 'ajani', 'tad', 'avimucya', 'jantur', '\'yam', 'ajo', '\'sya', 'atha', 'tato', 'tam', 'ante', 'harer', 'tasya', 'tri-sandhyam', 'eko\'pi', 'yo', 'u', 'hy', 'ete', 'tu', 'ga', 'abhaktasya', 'kuto', 'yasya', 'kvacit', 'yato', 'anyam', 'tais', 'tair', 'prapadyante', 'samabhavat', 'lokyate', '\'nena', 'mad-bhaktim', 'labhate', 'sulabheti', 'mama', 'yonir', 'mahad', 'mana', 'bhava', 'asti', 'mugdha', 'jiver', 'paravyome', 'mayi', 'sannyasya', 'muktir', 'naitat', 'mriyate', 'namo', 'paro', 'devas', 'rudro', '\'bhavad', 'sa', 'munir', 'yasya', 'binnam', 'deho', '\'sti', 'ucyate', 'kurute', 'tattvam', 'vividhaiva', 'patir', 'phalam', 'tau', 'sadaiva', 'vilokayanti', 'iti', 'rasam', 'raso', '\'dya', 'samyag', '\'sminn', 'bhadram', 'astu', 'bhavato', 'vraja', 'parityajya', 'yan', 'vadasi', 'prabhum', 'vipro', 'marttyam', 'siddhis', 'prapannam', 'kahe', 'bahubhir', 'arcanam', 'bahubhir', 'yei', 'bata', 'vidyate', 'devam', 'prapadye', 'anusmara', 'yudhya', 'tato', 'ya', 'vidur', 'bhavanti', 'athetare', 'tepus', 'tapas', 'juhuvu', 'sasnur', 'tvam', 'ubhe', 'taraty', 'vadanti', 'tattva-vidas', 'yaj', 'advayam', 'sarvair', 'durlabham', 'adurlabham', 'kvanantam', 'vigata-jvara', 'vinivartante', 'atho', 'tyajaty', 'yas', 'ubhe', 'bhavata', 'brahme', 'bhaktir', 'deve', 'yasya', 'bhramati', 'bhagavaty', 'yena', 'yato', 'ytra', 'yat', 'prayanty', 'kva', 'salite', 'api', '\'sau', 'sarvair', 'vedair', 'praiti', 'sarva-gato', 'yogas', 'aho', 'kevalam', 'karau', '\'pi', 'muhyanti', 'bhavati', 'avatare', 'dharmasya', 'govindam', 'yasmin', 'gurau', 'yatra', 'karhicit', 'kim'
+        'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'punar', '\'rjuna', 'om', 'tat', 'sat', 'veda', '\'tha', 'mitho', 'ajani', 'tad', 'avimucya', 'jantur', '\'yam', 'ajo', '\'sya', 'atha', 'tato', 'tam', 'ante', 'harer', 'tasya', 'tri-sandhyam', 'eko\'pi', 'yo', 'u', 'hy', 'ete', 'tu', 'ga', 'abhaktasya', 'kuto', 'yasya', 'kvacit', 'yato', 'anyam', 'tais', 'tair', 'prapadyante', 'samabhavat', 'lokyate', '\'nena', 'mad-bhaktim', 'labhate', 'sulabheti', 'mama', 'yonir', 'mahad', 'mana', 'bhava', 'asti', 'mugdha', 'jiver', 'paravyome', 'mayi', 'sannyasya', 'muktir', 'naitat', 'mriyate', 'namo', 'paro', 'devas', 'rudro', '\'bhavad', 'sa', 'munir', 'yasya', 'binnam', 'deho', '\'sti', 'ucyate', 'kurute', 'tattvam', 'vividhaiva', 'patir', 'phalam', 'tau', 'sadaiva', 'vilokayanti', 'iti', 'rasam', 'raso', '\'dya', 'samyag', '\'sminn', 'bhadram', 'astu', 'bhavato', 'vraja', 'parityajya', 'yan', 'vadasi', 'prabhum', 'vipro', 'marttyam', 'siddhis', 'prapannam', 'kahe', 'bahubhir', 'arcanam', 'bahubhir', 'yei', 'bata', 'vidyate', 'devam', 'prapadye', 'anusmara', 'yudhya', 'tato', 'ya', 'vidur', 'bhavanti', 'athetare', 'tepus', 'tapas', 'juhuvu', 'sasnur', 'tvam', 'ubhe', 'taraty', 'vadanti', 'tattva-vidas', 'yaj', 'advayam', 'sarvair', 'durlabham', 'adurlabham', 'kvanantam', 'vigata-jvara', 'vinivartante', 'atho', 'tyajaty', 'yas', 'ubhe', 'bhavata', 'brahme', 'bhaktir', 'deve', 'yasya', 'bhramati', 'bhagavaty', 'yena', 'yato', 'ytra', 'yat', 'prayanty', 'kva', 'salite', 'api', '\'sau', 'sarvair', 'vedair', 'praiti', 'sarva-gato', 'yogas', 'aho', 'kevalam', 'karau', '\'pi', 'muhyanti', 'bhavati', 'avatare', 'dharmasya', 'govindam', 'yasmin', 'gurau', 'yatra', 'karhicit', 'kim', 'asvatantra', 'iva', 'dvija', 'brahmajyoti', 'ananta', 'anantavijaya'
     ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
@@ -501,7 +501,7 @@ function formatPurport(text) {
         'Indraloka','Indra','Govinda','Goloka','Ganges','Gandharvas','Drupada',
         'Candraloka','Candra','Brahman','Brahmaloka','Brahmajyoti','Anantavijaya',
         'Ananta','Agni','Aditi','Naimiṣāraṇya','Śaunaka','Aniruddha','Bhagavān',
-        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī'
+        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī', 'Śeṣa'
     ]);
 
     //Санскритские фразы, исключения для обозначения курсивом
@@ -516,7 +516,7 @@ function formatPurport(text) {
         'Bhaktisiddhānta Sarasvatī Gosvāmī Mahārāja Prabhupāda',
         'Asuraṁ bhāvam āśrita','Aparā prakṛti','Sūta Gosvāmī',
         'hare kṛṣṇa hare kṛṣṇa kṛṣṇa kṛṣṇa hare harehare rāma hare rāma rāma rāma hare hare',
-        'Ambarīṣa Mahārāja'
+        'Ambarīṣa Mahārāja', 'Durvāsā Muni'
     ];
 
     function formatPara(para) {
@@ -539,7 +539,8 @@ function formatPurport(text) {
         });
 
         // Пословный разбор
-        para = para.replace(/(<span[^>]*>.*?<\/span>)|[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-'’]*/gu, (match, span) => {
+        // para = para.replace(/(<span[^>]*>.*?<\/span>)|[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-'’]*/gu, (match, span) => {
+        para = para.replace(/(<span[^>]*>.*?<\/span>)|[''']?[\w\u00C0-\u024F\u1E00-\u1EFF][\w\u00C0-\u024F\u1E00-\u1EFF\-'']*/gu, (match, span) => {
             if (span) return span;
             const clean = match.replace(/[,\.]/g, '');
             // const clean = match.replace(/['’,\.]/g, '');
