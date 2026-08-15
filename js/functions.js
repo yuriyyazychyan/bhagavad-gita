@@ -734,13 +734,10 @@ async function loadSpecialContent(section, anchor = null) {
             }, 100);
         } else if (window._restoreScroll && savedScroll > 0) {
             setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
+        } else {
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
         window._restoreScroll = false;
-        // if (window._restoreScroll && savedScroll > 0) {
-        //     setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
-        // }
-        // window._restoreScroll = false;
-
     } catch (error) {
         appendixVisited = false; // переход не удался
         console.error('Ошибка при загрузке контента:', error);
@@ -887,6 +884,8 @@ window.addEventListener('scroll', () => {
     const pct = Math.min(100, (-pg.getBoundingClientRect().top / (pg.offsetHeight - window.innerHeight)) * 100);
     document.getElementById('progFill').style.width = Math.max(0, pct) + '%';
     document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+    document.getElementById('scrollBottomBtn').classList.toggle('visible',
+                                                                window.scrollY < document.body.scrollHeight - window.innerHeight - 100);
 });
 
 /* ════════════════════════════════════════════
