@@ -240,6 +240,12 @@ function toggleChapter(n) {
 function toggleAppendix(n) {
     appendixOpen = appendixOpen === n ? null : n;
     renderToc();
+    if (appendixOpen) {
+        setTimeout(() => {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) sidebar.scrollTo({top: sidebar.scrollHeight, behavior: 'smooth'});
+        }, 50);
+    }
 }
 
 function goToVerse(ch, vn) {
