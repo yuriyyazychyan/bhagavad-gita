@@ -317,10 +317,126 @@ function openPlateModal(plateNum) {
     const idx = PLATES.findIndex(p => p.plate === plateNum);
     if (idx < 0) return;
     currentPlateIdx = idx;
+    // Create modal if not exists
+    if (!document.getElementById('plateModal')) createPlateModal();
     renderPlate();
-    const modal = document.getElementById('plateModal');
-    modal.style.display = 'flex';
+    document.getElementById('plateModal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
+}
+
+function createPlateModal() {
+    const modal = document.createElement('div');
+    modal.id = 'plateModal';
+    modal.style.cssText = [
+        'display:none',
+        'position:fixed',
+        'inset:0',
+        'background:rgba(0,0,0,0.85)',
+        'z-index:1000',
+        'align-items:center',
+        'justify-content:center',
+    ].join(';');
+
+    modal.innerHTML = `
+        <div style="
+            position:relative;
+            width:min(680px,92vw);
+            height:min(620px,90vh);
+            background:var(--paper);
+            border-radius:8px;
+            display:flex;
+            flex-direction:column;
+            overflow:hidden;
+        ">
+            <!-- Close -->
+            <button onclick="closePlateModal()" style="
+                position:absolute;top:10px;right:14px;
+                background:none;border:none;font-size:22px;
+                cursor:pointer;color:var(--ink);z-index:10;line-height:1;
+            ">✕</button>
+
+            <!-- Image area — fixed height -->
+            <div style="
+                flex:1;
+                min-height:0;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:20px 20px 0;
+                overflow:hidden;
+            ">
+                <img id="plateImg" src="" style="
+                    max-width:100%;
+                    max-height:100%;
+                    object-fit:contain;
+                " alt=""/>
+            </div>
+
+            <!-- Caption — fixed height with scroll if needed -->
+            <div id="plateSig" style="
+                height:80px;
+                overflow-y:auto;
+                padding:10px 24px;
+                font-family:'IM Fell English',Georgia,serif;
+                font-style:normal;
+                font-size:15px;
+                text-align:center;
+                color:var(--ink);
+                line-height:1.5;
+                flex-shrink:0;
+                border-top:1px solid var(--rule);
+            "></div>
+
+            <!-- Controls — always at bottom, fixed height -->
+            <div style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                padding:10px 20px;
+                border-top:1px solid var(--rule);
+                flex-shrink:0;
+                background:var(--paper2);
+            ">
+                <button onclick="prevPlate()" style="
+                    background:var(--paper);
+                    border:1px solid var(--rule);
+                    border-radius:4px;
+                    width:40px;height:40px;
+                    cursor:pointer;font-size:22px;
+                    color:var(--ink);
+                    display:flex;align-items:center;justify-content:center;
+                ">‹</button>
+
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <span id="plateCounter" style="
+                        font-family:'Spectral SC',serif;
+                        font-size:13px;
+                        color:var(--ink3);
+                    "></span>
+                    <a id="plateVerseLink" href="#" onclick="goToPlateVerse(); return false;" style="
+                        font-family:'IM Fell English',Georgia,serif;
+                        font-size:13px;
+                        color:var(--ink3);
+                        border-bottom:1px dotted var(--rule);
+                        text-decoration:none;
+                    ">Go to verse</a>
+                </div>
+
+                <button onclick="nextPlate()" style="
+                    background:var(--paper);
+                    border:1px solid var(--rule);
+                    border-radius:4px;
+                    width:40px;height:40px;
+                    cursor:pointer;font-size:22px;
+                    color:var(--ink);
+                    display:flex;align-items:center;justify-content:center;
+                ">›</button>
+            </div>
+        </div>
+    `;
+
+    modal.addEventListener('click', e => { if (e.target === modal) closePlateModal(); });
+    document.body.appendChild(modal);
 }
 
 function closePlateModal() {
@@ -332,9 +448,20 @@ function closePlateModal() {
 function renderPlate() {
     const p = PLATES[currentPlateIdx];
     document.getElementById('plateImg').src = p.img;
-    document.getElementById('plateSig').textContent = p.sig;
-    document.getElementById('plateCounter').textContent = 'Plate ' + p.plate + ' of ' + PLATES.length;
-    document.getElementById('plateVerseLink').textContent = 'Verse ' + p.ch + '.' + p.verse;
+
+    // Apply formatPara to caption if available
+    const sigEl = document.getElementById('plateSig');
+    const sigText = p.sig;
+    if (typeof formatPara === 'function') {
+        sigEl.innerHTML = formatPara(sigText);
+    } else {
+        sigEl.textContent = sigText;
+    }
+
+    document.getElementById('plateCounter').textContent =
+        'Plate ' + p.plate + ' of ' + PLATES.length;
+    document.getElementById('plateVerseLink').textContent =
+        'Verse ' + p.ch + '.' + p.verse;
 }
 
 function prevPlate() {
@@ -353,25 +480,18 @@ function goToPlateVerse() {
     if (typeof goToVerse === 'function') {
         goToVerse(p.ch, p.verse);
         setTimeout(() => {
-            const imgs = document.querySelectorAll('.page img[src*="Plate ' + p.plate + '"]');
-            if (imgs.length > 0) {
-                imgs[0].scrollIntoView({behavior: 'smooth', block: 'center'});
-            }
+            const query = '.page img[src*="Plate ' + p.plate + '.jpg"]';
+            const img = document.querySelector(query);
+            if (img) img.scrollIntoView({behavior:'smooth', block:'center'});
         }, 600);
     }
 }
-
-// Close on backdrop click
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('plateModal');
-    if (modal && e.target === modal) closePlateModal();
-});
 
 // Keyboard navigation
 document.addEventListener('keydown', function(e) {
     const modal = document.getElementById('plateModal');
     if (!modal || modal.style.display === 'none') return;
-    if (e.key === 'ArrowLeft') prevPlate();
+    if (e.key === 'ArrowLeft')  prevPlate();
     if (e.key === 'ArrowRight') nextPlate();
-    if (e.key === 'Escape') closePlateModal();
+    if (e.key === 'Escape')     closePlateModal();
 });

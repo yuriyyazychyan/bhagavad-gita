@@ -450,7 +450,7 @@ function formatPurport(text) {
         'yoga','karma-yoga','karma','svayam','pavitram','divyam','ajam','vibhum','sarvam',
         'etad','manye','sat','cit','vigraha','nityo','tava','vedas','kena','jagat','surabhi',
         'mahat-tattva','asura','avyakta','nirukti','vai','sma','ca','om','acintya','acyuta',
-        'adhidaivatam','advaita','akarma','arca-vigraha','asat','yama','niyama','sura',
+        'adhidaivatam', 'akarma','arca-vigraha','asat','yama','niyama','sura',
         'bhaga','van','brahmacarya','brahma','jyoti','caturmasya','citi','deva','nandana',
         'dharma','guru','japa','kumbhaka-yoga','nitya-baddha','kaivalyam','kalpa','tra',
         'nir','nirmama','loka','mantra','mukti','tat','rasa','recaka','sattva','soma-rasa',
@@ -507,7 +507,7 @@ function formatPurport(text) {
         'Indraloka','Indra','Govinda','Goloka','Ganges','Gandharvas','Drupada',
         'Candraloka','Candra','Brahman','Brahmaloka','Brahmajyoti','Anantavijaya',
         'Ananta','Agni','Aditi','Naimiṣāraṇya','Śaunaka','Aniruddha','Bhagavān',
-        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī', 'Śeṣa'
+        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī', 'Śeṣa', 'Advaita'
     ]);
 
     //Санскритские фразы, исключения для обозначения курсивом

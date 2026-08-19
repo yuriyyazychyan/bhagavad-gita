@@ -91,32 +91,3 @@
         <span style="font-weight: bold"><a class="gi-link" onclick="openPlateModal(43); return false;" href="#">Plate 43 18.65</a></span> Gopāla Kṛṣṇa, the beautiful original form of the Lord.
         <span style="font-weight: bold"><a class="gi-link" onclick="openPlateModal(44); return false;" href="#">Plate 44 18. 78</a></span> Arjuna's illusion is now gone, and.he is acting according to Kṛṣṇa's instructions. Kṛṣṇa, the driver of countless universes, is driving the chariot of Arjuna.
     </div>
-
-<!-- PICTURE CAROUSEL MODAL -->
-<div id="plateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;flex-direction:column;">
-    <div style="position:relative;max-width:90vw;max-height:90vh;background:var(--paper);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;">
-        <!-- Close button -->
-        <button onclick="closePlateModal()" style="position:absolute;top:10px;right:14px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--ink);z-index:10;">✕</button>
-        <!-- Image -->
-        <div style="flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:20px 20px 0;">
-            <img id="plateImg" src="" style="max-width:100%;max-height:60vh;object-fit:contain;" alt=""/>
-        </div>
-        <!-- Caption -->
-        <div id="plateSig" style="padding:12px 20px;font-family:'IM Fell English',Georgia,serif;font-style:italic;font-size:15px;text-align:center;color:var(--ink);line-height:1.5;"></div>
-        <!-- Controls -->
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px 16px;gap:12px;">
-            <button onclick="prevPlate()" style="background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:6px 16px;cursor:pointer;font-size:18px;color:var(--ink);">‹</button>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-                <span id="plateCounter" style="font-family:'Spectral SC',serif;font-size:13px;color:var(--ink3);"></span>
-                <a id="plateVerseLink" href="#" onclick="goToPlateVerse(); return false;"
-                   style="font-family:'IM Fell English',Georgia,serif;font-size:13px;color:var(--ink3);border-bottom:1px dotted var(--rule);text-decoration:none;">
-                   Go to verse
-                </a>
-            </div>
-            <button onclick="nextPlate()" style="background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:6px 16px;cursor:pointer;font-size:18px;color:var(--ink);">›</button>
-        </div>
-    </div>
-</div>
-
-
-</div>

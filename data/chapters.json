@@ -1,4 +1,5 @@
 [
+  {"n": "book&cover", "ru": "Книга и обложка", "en": "Book & Cover", "v": 1},
   {"n": "Foreword", "ru": "Вступление", "en": "Foreword", "v": 1},
   {"n": "Preface", "ru": "Предисловие", "en": "Preface", "v": 1},
   {"n": "Introduction", "ru": "Введение", "en": "Introduction", "v": 1},

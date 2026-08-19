@@ -530,6 +530,25 @@ body {
     font-family: 'IM Fell English', Georgia, serif;
 }
 
+/* Общий контейнер, который выстраивает элементы в ряд */
+.book-container {
+    display: flex;
+    flex-wrap: wrap; /* Разрешает перенос на новую строку, если картинки не влезают */
+    gap: 15px;       /* Расстояние между картинками */
+    justify-content: center; /* Центрирует всю строку с картинками */
+}
+
+.BookImg {
+    margin: 0;
+}
+
+/* Настройка самих картинок */
+.BookImg img {
+    height: 400px;   /* Задайте любую нужную высоту (например, 200px или 300px) */
+    width: auto;     /* Ширина уменьшится пропорционально исходному размеру */
+    object-fit: contain; /* Защищает картинку от искажений и размытия */
+}
+
 .imgSig{
     padding-left: 4em;
     text-indent: -4em;
