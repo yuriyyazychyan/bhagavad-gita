@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Prabhupada Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&family=EB+Garamond:ital,wght@1,400;1,500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body data-theme="light">
+
+<!-- TOPBAR -->
+<header class="topbar">
+    <button class="tb-btn" id="menuBtn">☰</button>
+    <div class="topbar-title" id="topTitle">Prabhupada Library</div>
+    <div class="lang-wrap">
+        <button class="on" id="lRu" onclick="setLang('ru')">RU</button>
+        <button id="lEn" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="tb-btn" onclick="toggleSearch()" title="Search">🔍</button>
+    <button class="tb-btn" id="bmBtn">
+        <img src="img/love.png" style="width:16px;height:16px;vertical-align:middle;" alt="">
+    </button>
+    <span id="bmCnt">0</span>
+    <button class="tb-btn" id="themeBtn"></button>
+</header>
+<div class="prog">
+    <div class="prog-fill" id="progFill"></div>
+</div>
+
+<!-- SEARCH PANEL -->
+<div id="searchPanel" style="display:none;position:fixed;top:50px;left:0;right:0;z-index:200;background:var(--paper);border-bottom:1px solid var(--rule);flex-direction:column;padding:12px 16px;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+    <div style="display:flex;gap:8px;align-items:center;">
+        <input id="searchInput" type="text" placeholder="Search..."
+               oninput="doSearch()"
+               onkeydown="if(event.key==='Escape') toggleSearch()"
+               style="flex:1;padding:8px 12px;border:1px solid var(--rule);border-radius:4px;background:var(--paper2);color:var(--ink);font-family:'IM Fell English',Georgia,serif;font-size:15px;outline:none;">
+        <button onclick="toggleSearch()" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--ink2);padding:4px 8px;">✕</button>
+    </div>
+    <div id="searchResults" style="max-height:60vh;overflow-y:auto;"></div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- LAYOUT -->
+<div class="wrap">
+    <aside class="sidebar" id="sidebar">
+        <div class="sb-head" id="sbHead">TABLE OF CONTENTS</div>
+        <div id="tocList"></div>
+    </aside>
+    <main class="main" id="main">
+        <div class="page" id="page"></div>
+    </main>
+</div>
+
+<!-- SCROLL BUTTONS -->
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button class="scroll-bottom" id="scrollBottomBtn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">↓</button>
+
+<!-- BOOKMARKS PANEL -->
+<div class="bmpanel" id="bmpanel">
+    <div class="bm-head" id="bmHead">Bookmarks</div>
+    <div id="bmList"></div>
+</div>
+
+<!-- WORD TOOLTIP -->
+<div class="tip" id="tip">
+    <span class="tip-skr" id="tipSkr"></span>
+    <span class="tip-tr" id="tipTr"></span>
+    <span class="tip-def" id="tipDef"></span>
+</div>
+
+<script type="text/javascript" src="js/reader.js"></script>
+<script type="text/javascript" src="js/carousel.js"></script>
+</body>
+</html>

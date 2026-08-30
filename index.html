@@ -1,62 +1,26 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhagavad-gītā As It Is 1972</title>
+    <title>Prabhupada Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+Devanagari:wght@400;600&family=Spectral+SC:wght@600&family=EB+Garamond:ital,wght@1,400;1,500&family=Cormorant+Garamond:ital@1&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Spectral+SC:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body data-theme="light">
 
-<!-- TOPBAR -->
-<header class="topbar">
-    <button class="tb-btn" id="menuBtn">☰</button>
-    <div class="topbar-title" id="topTitle">Bhagavad-gītā As It Is</div>
-    <div class="lang-wrap">
-        <button class="on" id="lRu" onclick="setLang('ru')">RU</button>
-        <button id="lEn" onclick="setLang('en')">EN</button>
+<button class="lib-theme-btn" id="themeBtn" onclick="toggleTheme()"></button>
+
+<div class="lib-wrap">
+    <div class="lib-header">
+        <h1>Prabhupāda Library</h1>
+        <p>The complete works of His Divine Grace A.C. Bhaktivedanta Swami Prabhupāda</p>
     </div>
-    <button class="tb-btn" id="bmBtn"><img src="img/love.png" style="width:16px;height:16px;vertical-align:middle;" alt=""></button>
-        <span id="bmCnt">0</span>
-    <button class="tb-btn" id="themeBtn"></button>
-</header>
-<div class="prog">
-    <div class="prog-fill" id="progFill"></div>
+    <div id="loading">Loading books...</div>
+    <div class="lib-grid" id="bookGrid" style="display:none;"></div>
 </div>
-
-<!-- OVERLAY -->
-<div class="overlay" id="overlay" onclick="closeAll()"></div>
-
-<!-- LAYOUT -->
-<div class="wrap">
-    <aside class="sidebar" id="sidebar">
-        <div class="sb-head" id="sbHead">TABLE OF CONTENTS</div>
-        <div id="tocList"></div>
-    </aside>
-    <main class="main" id="main">
-        <div class="page" id="page"></div>
-    </main>
-</div>
-
-<!-- BOOKMARKS PANEL -->
-<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-<button class="scroll-bottom" id="scrollBottomBtn" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">↓</button>
-<div class="bmpanel" id="bmpanel">
-    <div class="bm-head" id="bmHead">Bookmarks</div>
-    <div id="bmList"></div>
-</div>
-
-<!-- WORD TOOLTIP -->
-<div class="tip" id="tip">
-    <span class="tip-skr" id="tipSkr"></span>
-    <span class="tip-tr" id="tipTr"></span>
-    <span class="tip-def" id="tipDef"></span>
-</div>
-
-<script type="text/javascript" src="js/functions.js"></script>
-<script type="text/javascript" src="js/carousel.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

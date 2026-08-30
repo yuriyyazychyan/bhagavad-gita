@@ -1,23 +1,35 @@
 /* ════════════════════════════════════════════
 DATA — добавляй главы сюда по мере наполнения
 ════════════════════════════════════════════ */
+// Определяем книгу из URL параметра, по умолчанию bhagavad-gita
+const bookId = new URLSearchParams(window.location.search).get('book') || 'bhagavad-gita';
+const BOOK_PATH = `./books/${bookId}`;
+// Префикс для localStorage — разные книги не перемешивают данные
+const LS = (key) => `${bookId}_${key}`;
+
 let CHAPTERS = {};
 let VERSES = {};
 let GLOSSARY = {};
 
+
+
+
 async function loadData() {
     try {
-        const chaptersResponse = await fetch('./data/chapters.json');
+        const chaptersResponse = await fetch(`${BOOK_PATH}/data/chapters.json`);
         if (!chaptersResponse.ok) throw new Error('Не удалось загрузить CHAPTERS');
         CHAPTERS = await chaptersResponse.json();
 
-        const versesResponse = await fetch('./data/verses.json');
-        if (!versesResponse.ok) throw new Error('Не удалось загрузить VERSES');
-        VERSES = await versesResponse.json();
+        const versesResponse = await fetch(`${BOOK_PATH}/data/verses.json`);
+        if (versesResponse.ok) {
+            VERSES = await versesResponse.json();
+        }
 
+        // Глоссарий общий для всех книг — грузим из корневого ./data/
         const glossaryResponse = await fetch('./data/glossary.json');
-        if (!glossaryResponse.ok) throw new Error('Не удалось загрузить Glossary');
-        GLOSSARY = await glossaryResponse.json();
+        if (glossaryResponse.ok) {
+            GLOSSARY = await glossaryResponse.json();
+        }
 
         initApp();
     } catch (error) {
@@ -27,8 +39,19 @@ async function loadData() {
 
 // Инициализация приложения
 function initApp() {
+    // Add library home button to topbar
+    const topbar = document.querySelector('.topbar');
+    if (topbar && !document.getElementById('homeBtn')) {
+        const homeBtn = document.createElement('a');
+        homeBtn.id = 'homeBtn';
+        homeBtn.href = './index.html';
+        homeBtn.title = 'Library';
+        homeBtn.style.cssText = 'display:flex;align-items:center;justify-content:center;width:32px;height:32px;text-decoration:none;font-size:18px;color:var(--ink2);margin-right:4px;';
+        homeBtn.innerHTML = '⌂';
+        topbar.insertBefore(homeBtn, topbar.firstChild);
+    }
     // Если последний открытый раздел — подпункт Appendixes, разворачиваем его
-    const savedCh = localStorage.getItem('bg_chapter');
+    const savedCh = localStorage.getItem(LS('chapter'));
     CHAPTERS.forEach(c => {
         if (c.children && c.children.some(child => child.n === savedCh)) {
             appendixOpen = c.n;
@@ -36,7 +59,7 @@ function initApp() {
     });
     window._restoreScroll = true;
     setLang('en');//Удалить при функционировании языков
-    // setLang(localStorage.getItem('bg_lang') || 'ru');//Расскомментировать для сохранения языка
+    // setLang(localStorage.getItem(LS('lang')) || 'ru');//Расскомментировать для сохранения языка
     renderToc();
     updateBm();
 }
@@ -50,7 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
 STATE
 ════════════════════════════════════════════ */
 let lang = 'en';
-const _savedCh = localStorage.getItem('bg_chapter');
+const _savedCh = localStorage.getItem(LS('chapter'));
 let curCh = _savedCh ? (isNaN(_savedCh) ? _savedCh : parseInt(_savedCh)) : 1;
 let menuCh = typeof curCh === 'number' ? curCh : null;
 let appendixOpen = null;
@@ -95,7 +118,7 @@ function navButtonsHtml(current) {
     return `<div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--rule);">${prevHtml}${nextHtml}</div>`;
 }
 
-let bookmarks = JSON.parse(localStorage.getItem('bg_bm') || '[]');
+let bookmarks = JSON.parse(localStorage.getItem(LS('bm')) || '[]');
 
 /* ════════════════════════════════════════════
 LANG
@@ -130,7 +153,7 @@ function toggleTheme() {
     const dark = document.body.dataset.theme === 'dark';
     document.body.dataset.theme = dark ? 'light' : 'dark';
     setThemeIcon(dark);
-    localStorage.setItem('bg_theme', dark ? 'light' : 'dark');
+    localStorage.setItem(LS('theme'), dark ? 'light' : 'dark');
     updateIllustration();
 }
 
@@ -180,7 +203,7 @@ function renderToc() {
                         const isChildActive = child.n === curCh;
                         tocHtml += `
                 <div class="toc-verse ${isChildActive ? 'on' : ''}" onclick="renderChapter('${child.n}')">
-                    &nbsp;&nbsp;&nbsp;${lang === 'ru' ? child.ru : child.en}
+                    <span class="toc-dash">-</span>${lang === 'ru' ? child.ru : child.en}
                 </div>`;
                     });
                     tocHtml += `</div>`;
@@ -304,7 +327,7 @@ function renderChapter(n, skipScroll = false) {
     let html = `
   <div class="ch-opening">
       <div class="ch-word">${isRu ? 'Глава' : 'Chapter'} ${numWord(n)}</div>
-      <img src='img/krishna_arjuna.png' class='ch-illustration' style='width:240px;height:240px;display:block;margin:0px auto 24px;'>
+      <img src='books/bhagavad-gita/img/krishna_arjuna.png' class='ch-illustration' style='width:240px;height:240px;display:block;margin:0px auto 24px;'>
       <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
@@ -324,15 +347,15 @@ function renderChapter(n, skipScroll = false) {
     updateBm();
     document.getElementById('overlay').classList.remove('on');
     document.getElementById('bmpanel').classList.remove('on');
-    localStorage.setItem('bg_lang', 'en');
-    // localStorage.setItem('bg_lang', lang); //Расскомментировать, чтобы был русский язык
+    localStorage.setItem(LS('lang'), 'en');
+    // localStorage.setItem(LS('lang'), lang); //Расскомментировать, чтобы был русский язык
 
-    localStorage.setItem('bg_chapter', n);
+    localStorage.setItem(LS('chapter'), n);
 
     updateIllustration();
 
     if (!skipScroll) {
-        const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
+        const savedScroll = parseInt(localStorage.getItem(LS('scroll'))) || 0;
         if (window._restoreScroll && savedScroll > 0) {
             setTimeout(() => window.scrollTo({top: savedScroll, behavior: 'instant'}), 50);
         } else if (!window._restoreScroll) {
@@ -641,7 +664,7 @@ function renderVerse(v, chN) {
     onmouseenter="showVerseTooltip(this)"
     onmouseleave="hideVerseTooltip(this)"
     ontouchstart="toggleVerseTooltip(this)"
-  >${isRu ? (v.nLabel ? 'ТЕКСТЫ' : 'ТЕКСТ') : (v.nLabel ? 'TEXTS' : 'TEXT')}&nbsp;&nbsp;${v.nLabel || v.n}${chN === curCh && v.n === (VERSES[curCh]?.[0]?.n) && !localStorage.getItem('bg_hint_shown') ? '<span class="pulse-dot"></span>' : ''}</span>
+  >${isRu ? (v.nLabel ? 'ТЕКСТЫ' : 'ТЕКСТ') : (v.nLabel ? 'TEXTS' : 'TEXT')}&nbsp;&nbsp;${v.nLabel || v.n}${chN === curCh && v.n === (VERSES[curCh]?.[0]?.n) && !localStorage.getItem(LS('hint_shown')) ? '<span class="pulse-dot"></span>' : ''}</span>
 <div class="verse-tooltip" style='display:none;position:absolute;top:130%;left:50%;transform:translateX(-50%);background:var(--paper2);border:0.5px solid var(--rule);border-radius:8px;padding:10px 16px;white-space:nowrap;z-index:200;'>
     <div style='display:flex;align-items:center;gap:16px;'>
       <button class='vbtn ${isBm ? "bm" : ""}' onclick='toggleBm("${key}",event)' style='display:flex;align-items:center;gap:6px;font-size:13px;'>
@@ -708,9 +731,9 @@ async function loadSpecialContent(section, anchor = null) {
     const previousCh = curCh; // запоминаем
     curCh = section;
     appendixVisited = true; // реальный переход произошёл
-    localStorage.setItem('bg_chapter', section);
+    localStorage.setItem(LS('chapter'), section);
     try {
-        const response = await fetch(`./special/${section.toLowerCase()}.html`);
+        const response = await fetch(`${BOOK_PATH}/special/${section}.html`);
         if (!response.ok) throw new Error(`Не удалось загрузить контент раздела ${section}`);
 
         let content = await response.text();
@@ -732,7 +755,7 @@ async function loadSpecialContent(section, anchor = null) {
 
         updateIllustration();
 
-        const savedScroll = parseInt(localStorage.getItem('bg_scroll')) || 0;
+        const savedScroll = parseInt(localStorage.getItem(LS('scroll'))) || 0;
         if (anchor) {
             setTimeout(() => {
                 const el = document.getElementById(anchor);
@@ -820,7 +843,7 @@ function toggleBm(key, e) {
         const txt = v ? (lang === 'ru' ? v.tr_ru : v.tr_en).slice(0, 90) + '…' : '';
         bookmarks.push({key, txt});
     }
-    localStorage.setItem('bg_bm', JSON.stringify(bookmarks));
+    localStorage.setItem(LS('bm'), JSON.stringify(bookmarks));
     renderChapter(curCh, true);
 }
 
@@ -858,7 +881,7 @@ document.getElementById('menuBtn').addEventListener('click', () => {
     const ov = document.getElementById('overlay');
     const scrollY = window.scrollY;
     const hidden = sb.classList.toggle('hidden');
-    localStorage.setItem('bg_sidebar', hidden ? 'hidden' : 'open');
+    localStorage.setItem(LS('sidebar'), hidden ? 'hidden' : 'open');
     mn.classList.toggle('full', hidden);
     if (!hidden && window.innerWidth < 768) ov.classList.add('on');
     else ov.classList.remove('on');
@@ -875,7 +898,7 @@ function closeAll() {
     document.getElementById('overlay').classList.remove('on');
     document.getElementById('bmpanel').classList.remove('on');
     if (window.innerWidth < 768) {
-        localStorage.setItem('bg_sidebar', 'hidden');
+        localStorage.setItem(LS('sidebar'), 'hidden');
         document.getElementById('sidebar').classList.add('hidden');
         document.getElementById('main').classList.add('full');
     }
@@ -908,7 +931,7 @@ function numWord(n) {
 }
 
 function showHintIfNeeded() {
-    const key = 'bg_hint_shown_' + lang;
+    const key = LS('hint_shown_') + lang;
     if (localStorage.getItem(key)) return;
     setTimeout(() => {
         alert(lang === 'ru'
@@ -924,7 +947,7 @@ function showHintIfNeeded() {
 INIT
 ════════════════════════════════════════════ */
 showHintIfNeeded();
-const sbState = localStorage.getItem('bg_sidebar');
+const sbState = localStorage.getItem(LS('sidebar'));
 if (sbState === 'hidden') {
     document.getElementById('sidebar').classList.add('hidden');
     document.getElementById('main').classList.add('full');
@@ -935,17 +958,17 @@ if (sbState === 'hidden') {
     document.getElementById('sidebar').classList.remove('hidden');
     document.getElementById('main').classList.remove('full');
 }
-const savedTheme = localStorage.getItem('bg_theme') || 'light';
+const savedTheme = localStorage.getItem(LS('theme')) || 'light';
 document.body.dataset.theme = savedTheme;
 setThemeIcon(savedTheme === 'dark');
 const savedLang = 'en';//Для переключения языков удалить или закомментировать
-// const savedLang = localStorage.getItem('bg_lang') || 'ru'; //Для включения работы смены языков расскомментировать
-const savedChapter = parseInt(localStorage.getItem('bg_chapter')) || 7;
+// const savedLang = localStorage.getItem(LS('lang')) || 'ru'; //Для включения работы смены языков расскомментировать
+const savedChapter = parseInt(localStorage.getItem(LS('chapter'))) || 7;
 updateBm();
 
 // Сохраняем позицию скролла при прокрутке
 window.addEventListener('scroll', () => {
-    localStorage.setItem('bg_scroll', window.scrollY);
+    localStorage.setItem(LS('scroll'), window.scrollY);
 });
 
 // Глоссарий тултип — наведение на санскритский термин
@@ -963,3 +986,89 @@ document.addEventListener('mouseout', (e) => {
     if (_tipTimer) { clearTimeout(_tipTimer); _tipTimer = null; }
     hideTip();
 });
+
+/* ════════════════════════════════════════════
+SEARCH
+════════════════════════════════════════════ */
+let searchVisible = false;
+
+function toggleSearch() {
+    searchVisible = !searchVisible;
+    const panel = document.getElementById('searchPanel');
+    if (searchVisible) {
+        panel.style.display = 'flex';
+        document.getElementById('searchInput').focus();
+    } else {
+        panel.style.display = 'none';
+        document.getElementById('searchResults').innerHTML = '';
+        document.getElementById('searchInput').value = '';
+    }
+}
+
+function doSearch() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    const resultsEl = document.getElementById('searchResults');
+
+    if (query.length < 2) {
+        resultsEl.innerHTML = '<div class="search-hint">Type at least 2 characters</div>';
+        return;
+    }
+
+    const results = [];
+    const isRu = lang === 'ru';
+
+    CHAPTERS.forEach(chapter => {
+        const chNum = chapter.n;
+        if (typeof chNum !== 'number') return;
+        const verses = VERSES[chNum];
+        if (!verses) return;
+
+        verses.forEach(verse => {
+            const pur = (isRu ? verse.pur_ru : verse.pur_en) || '';
+            const tr  = (isRu ? verse.tr_ru  : verse.tr_en)  || '';
+            const skr = verse.tr || '';
+
+            const searchText = (pur + ' ' + tr + ' ' + skr).toLowerCase();
+            if (!searchText.includes(query)) return;
+
+            // Get snippet around match
+            const idx = searchText.indexOf(query);
+            const start = Math.max(0, idx - 60);
+            const end   = Math.min(searchText.length, idx + query.length + 60);
+            let snippet = searchText.slice(start, end).trim();
+            if (start > 0) snippet = '...' + snippet;
+            if (end < searchText.length) snippet = snippet + '...';
+
+            // Highlight
+            const re = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+            snippet = snippet.replace(re, m => `<mark>${m}</mark>`);
+
+            results.push({
+                ch: chNum,
+                verse: verse.n,
+                ref: `${chNum}.${verse.n}`,
+                snippet,
+                chTitle: isRu ? chapter.ru : chapter.en
+            });
+        });
+    });
+
+    if (results.length === 0) {
+        resultsEl.innerHTML = '<div class="search-hint">No results found</div>';
+        return;
+    }
+
+    const html = results.slice(0, 50).map(r => `
+        <div class="search-result" onclick="goToSearchResult(${r.ch}, ${r.verse})">
+            <div class="search-ref">${r.ref}</div>
+            <div class="search-snippet">${r.snippet}</div>
+        </div>
+    `).join('');
+
+    resultsEl.innerHTML = `<div class="search-count">${results.length} result${results.length !== 1 ? 's' : ''}</div>` + html;
+}
+
+function goToSearchResult(ch, verse) {
+    toggleSearch();
+    goToVerse(ch, verse);
+}
