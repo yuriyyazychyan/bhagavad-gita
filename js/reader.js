@@ -303,6 +303,7 @@ function scrollToVerse(ch, vn) {
 CHAPTER
 ════════════════════════════════════════════ */
 function renderChapter(n, skipScroll = false) {
+    clearHighlights();
     let prevNumCh = null;
     // Убираем принудительное ограничение высоты
     document.getElementById('page').style.maxHeight = '';
@@ -488,7 +489,7 @@ function formatPurport(text) {
         'etat','ye','pacanty','te','brahmacarya','brahmaiva','san','brahma-jana','pathi',
         'brahma-yoga','acintya-bheda','daivim','uttamam','ceto','dvandvair','eko','devo',
         'ko\'pi','samau','neme','yamebhyo','lokebhya','prasanna-manaso',
-        'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'punar', '\'rjuna', 'om', 'tat', 'sat', 'veda', '\'tha', 'mitho', 'ajani', 'tad', 'avimucya', 'jantur', '\'yam', 'ajo', '\'sya', 'atha', 'tato', 'tam', 'ante', 'harer', 'tasya', 'tri-sandhyam', 'eko\'pi', 'yo', 'u', 'hy', 'ete', 'tu', 'ga', 'abhaktasya', 'kuto', 'yasya', 'kvacit', 'yato', 'anyam', 'tais', 'tair', 'prapadyante', 'samabhavat', 'lokyate', '\'nena', 'mad-bhaktim', 'labhate', 'sulabheti', 'mama', 'yonir', 'mahad', 'mana', 'bhava', 'asti', 'mugdha', 'jiver', 'paravyome', 'mayi', 'sannyasya', 'muktir', 'naitat', 'mriyate', 'namo', 'paro', 'devas', 'rudro', '\'bhavad', 'sa', 'munir', 'yasya', 'binnam', 'deho', '\'sti', 'ucyate', 'kurute', 'tattvam', 'vividhaiva', 'patir', 'phalam', 'tau', 'sadaiva', 'vilokayanti', 'iti', 'rasam', 'raso', '\'dya', 'samyag', '\'sminn', 'bhadram', 'astu', 'bhavato', 'vraja', 'parityajya', 'yan', 'vadasi', 'prabhum', 'vipro', 'marttyam', 'siddhis', 'prapannam', 'kahe', 'bahubhir', 'arcanam', 'bahubhir', 'yei', 'bata', 'vidyate', 'devam', 'prapadye', 'anusmara', 'yudhya', 'tato', 'ya', 'vidur', 'bhavanti', 'athetare', 'tepus', 'tapas', 'juhuvu', 'sasnur', 'tvam', 'ubhe', 'taraty', 'vadanti', 'tattva-vidas', 'yaj', 'advayam', 'sarvair', 'durlabham', 'adurlabham', 'kvanantam', 'vigata-jvara', 'vinivartante', 'atho', 'tyajaty', 'yas', 'ubhe', 'bhavata', 'brahme', 'bhaktir', 'deve', 'yasya', 'bhramati', 'bhagavaty', 'yena', 'yato', 'ytra', 'yat', 'prayanty', 'kva', 'salite', 'api', '\'sau', 'sarvair', 'vedair', 'praiti', 'sarva-gato', 'yogas', 'aho', 'kevalam', 'karau', '\'pi', 'muhyanti', 'bhavati', 'avatare', 'dharmasya', 'govindam', 'yasmin', 'gurau', 'yatra', 'karhicit', 'kim', 'asvatantra', 'iva', 'dvija', 'brahmajyoti', 'ananta', 'anantavijaya'
+        'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'punar', '\'rjuna', 'om', 'tat', 'sat', 'veda', '\'tha', 'mitho', 'ajani', 'tad', 'avimucya', 'jantur', '\'yam', 'ajo', '\'sya', 'atha', 'tato', 'tam', 'ante', 'harer', 'tasya', 'tri-sandhyam', 'eko\'pi', 'yo', 'u', 'hy', 'ete', 'tu', 'ga', 'abhaktasya', 'kuto', 'yasya', 'kvacit', 'yato', 'anyam', 'tais', 'tair', 'prapadyante', 'samabhavat', 'lokyate', '\'nena', 'mad-bhaktim', 'labhate', 'sulabheti', 'mama', 'yonir', 'mahad', 'mana', 'bhava', 'asti', 'mugdha', 'jiver', 'paravyome', 'mayi', 'sannyasya', 'muktir', 'naitat', 'mriyate', 'namo', 'paro', 'devas', 'rudro', '\'bhavad', 'sa', 'munir', 'yasya', 'binnam', 'deho', '\'sti', 'ucyate', 'kurute', 'tattvam', 'vividhaiva', 'patir', 'phalam', 'tau', 'sadaiva', 'vilokayanti', 'iti', 'rasam', 'raso', '\'dya', 'samyag', '\'sminn', 'bhadram', 'astu', 'bhavato', 'vraja', 'parityajya', 'yan', 'vadasi', 'prabhum', 'vipro', 'marttyam', 'siddhis', 'prapannam', 'kahe', 'bahubhir', 'arcanam', 'bahubhir', 'yei', 'bata', 'vidyate', 'devam', 'prapadye', 'anusmara', 'yudhya', 'tato', 'ya', 'vidur', 'bhavanti', 'athetare', 'tepus', 'tapas', 'juhuvu', 'sasnur', 'tvam', 'ubhe', 'taraty', 'vadanti', 'tattva-vidas', 'yaj', 'advayam', 'sarvair', 'durlabham', 'adurlabham', 'kvanantam', 'vigata-jvara', 'vinivartante', 'atho', 'tyajaty', 'yas', 'ubhe', 'bhavata', 'brahme', 'bhaktir', 'deve', 'yasya', 'bhramati', 'bhagavaty', 'yena', 'yato', 'ytra', 'yat', 'prayanty', 'kva', 'salite', 'api', '\'sau', 'sarvair', 'vedair', 'praiti', 'sarva-gato', 'yogas', 'aho', 'kevalam', 'karau', '\'pi', 'muhyanti', 'bhavati', 'avatare', 'dharmasya', 'govindam', 'yasmin', 'gurau', 'yatra', 'karhicit', 'kim', 'asvatantra', 'iva', 'dvija', 'brahmajyoti', 'ananta', 'anantavijaya', 'kavis'
     ]);
 
     //Санскритские фразы для принудительного обозначения курсивом
@@ -530,7 +531,7 @@ function formatPurport(text) {
         'Indraloka','Indra','Govinda','Goloka','Ganges','Gandharvas','Drupada',
         'Candraloka','Candra','Brahman','Brahmaloka','Brahmajyoti','Anantavijaya',
         'Ananta','Agni','Aditi','Naimiṣāraṇya','Śaunaka','Aniruddha','Bhagavān',
-        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī', 'Śeṣa', 'Advaita'
+        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī', 'Śeṣa', 'Advaita', 'Uśanā'
     ]);
 
     //Санскритские фразы, исключения для обозначения курсивом
@@ -1005,14 +1006,35 @@ function toggleSearch() {
     }
 }
 
-function doSearch() {
-    const query = document.getElementById('searchInput').value.trim().toLowerCase();
-    const resultsEl = document.getElementById('searchResults');
+// Функция удаления диакритики для поиска
+function stripDiacritics(text) {
+    return text
+        .replace(/[āÀ]/g, 'a').replace(/[ī]/g, 'i').replace(/[ū]/g, 'u')
+        .replace(/[ṛṝ]/g, 'r').replace(/[ḷ]/g, 'l')
+        .replace(/[ṭ]/g, 't').replace(/[ḍ]/g, 'd')
+        .replace(/[ṇ]/g, 'n').replace(/[ṅ]/g, 'n').replace(/[ñ]/g, 'n')
+        .replace(/[ś]/g, 's').replace(/[ṣ]/g, 's')
+        .replace(/[ḥ]/g, 'h').replace(/[ṁṃ]/g, 'm')
+        .replace(/[Ā]/g, 'A').replace(/[Ī]/g, 'I').replace(/[Ū]/g, 'U')
+        .replace(/[Ṛ]/g, 'R').replace(/[Ṭ]/g, 'T').replace(/[Ḍ]/g, 'D')
+        .replace(/[Ṇ]/g, 'N').replace(/[Ś]/g, 'S').replace(/[Ṣ]/g, 'S')
+        .replace(/[Ḥ]/g, 'H').replace(/[Ṁ]/g, 'M');
+}
 
-    if (query.length < 2) {
-        resultsEl.innerHTML = '<div class="search-hint">Type at least 2 characters</div>';
+function doSearch() {
+    const raw = document.getElementById('searchInput').value.trim();
+    if (raw.length < 2) {
+        document.getElementById('searchResults').innerHTML =
+            '<div class="search-hint">Type at least 2 characters</div>';
         return;
     }
+
+    // Нормализуем запрос — убираем диакритику для сравнения
+    const query = stripDiacritics(raw).toLowerCase();
+    const wordBoundaryRe = new RegExp(
+        '(?<![a-zA-Z])' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+        'i'
+    );
 
     const results = [];
     const isRu = lang === 'ru';
@@ -1028,47 +1050,176 @@ function doSearch() {
             const tr  = (isRu ? verse.tr_ru  : verse.tr_en)  || '';
             const skr = verse.tr || '';
 
-            const searchText = (pur + ' ' + tr + ' ' + skr).toLowerCase();
-            if (!searchText.includes(query)) return;
+            // Ищем в нормализованном тексте
+            const searchText = stripDiacritics(pur + ' ' + tr + ' ' + skr).toLowerCase();
+            if (!wordBoundaryRe.test(searchText)) return;
 
-            // Get snippet around match
-            const idx = searchText.indexOf(query);
-            const start = Math.max(0, idx - 60);
-            const end   = Math.min(searchText.length, idx + query.length + 60);
-            let snippet = searchText.slice(start, end).trim();
+            // Сниппет берём из оригинального текста
+            const origText = (pur + ' ' + tr + ' ' + skr).toLowerCase();
+            const normIdx = searchText.search(wordBoundaryRe);
+
+            const start = Math.max(0, normIdx - 60);
+            const end = Math.min(origText.length, normIdx + raw.length + 60);
+            let snippet = origText.slice(start, end).trim();
             if (start > 0) snippet = '...' + snippet;
-            if (end < searchText.length) snippet = snippet + '...';
+            if (end < origText.length) snippet += '...';
 
-            // Highlight
-            const re = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-            snippet = snippet.replace(re, m => `<mark>${m}</mark>`);
+            // Подсвечиваем в сниппете — ищем по нормализованному
+            const snippetNorm = stripDiacritics(snippet);
+            const snippetRe = new RegExp(
+                '(?<![a-zA-Z])' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                'gi'
+            );
+            let highlighted = '';
+            let lastIdx = 0;
+            let m;
+            snippetRe.lastIndex = 0;
+            while ((m = snippetRe.exec(snippetNorm)) !== null) {
+                highlighted += snippet.slice(lastIdx, m.index);
+                highlighted += `<mark>${snippet.slice(m.index, m.index + m[0].length)}</mark>`;
+                lastIdx = m.index + m[0].length;
+            }
+            highlighted += snippet.slice(lastIdx);
 
             results.push({
-                ch: chNum,
-                verse: verse.n,
-                ref: `${chNum}.${verse.n}`,
-                snippet,
-                chTitle: isRu ? chapter.ru : chapter.en
-            });
+                             ch: chNum,
+                             verse: verse.n,
+                             ref: `${chNum}.${verse.n}`,
+                             snippet: highlighted,
+                         });
         });
     });
 
     if (results.length === 0) {
-        resultsEl.innerHTML = '<div class="search-hint">No results found</div>';
+        document.getElementById('searchResults').innerHTML =
+            '<div class="search-hint">No results found</div>';
         return;
     }
 
     const html = results.slice(0, 50).map(r => `
-        <div class="search-result" onclick="goToSearchResult(${r.ch}, ${r.verse})">
+        <div class="search-result" onclick="goToSearchResult(${r.ch}, ${r.verse}, '${raw.replace(/'/g,"\\'")}')">
             <div class="search-ref">${r.ref}</div>
             <div class="search-snippet">${r.snippet}</div>
         </div>
     `).join('');
 
-    resultsEl.innerHTML = `<div class="search-count">${results.length} result${results.length !== 1 ? 's' : ''}</div>` + html;
+    document.getElementById('searchResults').innerHTML =
+        `<div class="search-count">${results.length} result${results.length !== 1 ? 's' : ''}</div>` + html;
 }
 
-function goToSearchResult(ch, verse) {
+function goToSearchResult(ch, verse, rawQuery) {
     toggleSearch();
     goToVerse(ch, verse);
+    setTimeout(() => highlightSearchTerm(rawQuery), 700);
+}
+
+let _highlightQuery = '';
+
+function highlightSearchTerm(query) {
+    if (!query || query.length < 2) return;
+    const page = document.getElementById('page');
+    if (!page) return;
+    clearHighlights();
+
+    const normalizedQuery = stripDiacritics(query).toLowerCase();
+    const re = new RegExp(
+        '(?<![a-zA-Z])' + normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+        'gi'
+    );
+    walkTextNodes(page, re);
+
+    const first = page.querySelector('mark.search-highlight');
+    if (first) first.scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+function clearHighlights() {
+    document.querySelectorAll('mark.search-highlight').forEach(mark => {
+        const parent = mark.parentNode;
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize();
+    });
+}
+
+function walkTextNodes(node, re) {
+    if (node.nodeType === 1 && node.tagName === 'P') {
+        const text = node.textContent;
+        const normText = stripDiacritics(text);
+        re.lastIndex = 0;
+        if (!re.test(normText)) return;
+
+        const matches = [];
+        re.lastIndex = 0;
+        let m;
+        while ((m = re.exec(normText)) !== null) {
+            matches.push({start: m.index, end: m.index + m[0].length});
+        }
+        if (matches.length === 0) return;
+        highlightInNode(node, matches, {offset: 0});
+        return;
+    }
+
+    if (node.nodeType === 3) {
+        const text = node.textContent;
+        const normText = stripDiacritics(text);
+        re.lastIndex = 0;
+        if (!re.test(normText)) return;
+        re.lastIndex = 0;
+
+        const frag = document.createDocumentFragment();
+        let lastIdx = 0;
+        let match;
+        re.lastIndex = 0;
+        while ((match = re.exec(normText)) !== null) {
+            if (match.index > lastIdx)
+                frag.appendChild(document.createTextNode(text.slice(lastIdx, match.index)));
+            const mark = document.createElement('mark');
+            mark.className = 'search-highlight';
+            mark.textContent = text.slice(match.index, match.index + match[0].length);
+            frag.appendChild(mark);
+            lastIdx = match.index + match[0].length;
+        }
+        if (lastIdx < text.length)
+            frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+        node.parentNode.replaceChild(frag, node);
+        return;
+    }
+
+    if (node.nodeType === 1 && !['SCRIPT','STYLE'].includes(node.tagName)) {
+        Array.from(node.childNodes).forEach(child => walkTextNodes(child, re));
+    }
+}
+
+function highlightInNode(node, matches, state) {
+    if (node.nodeType === 3) {
+        const text = node.textContent;
+        const nodeStart = state.offset;
+        const nodeEnd = state.offset + text.length;
+        state.offset += text.length;
+
+        // Найди совпадения которые пересекают этот узел
+        const relevant = matches.filter(m => m.start < nodeEnd && m.end > nodeStart);
+        if (relevant.length === 0) return;
+
+        const frag = document.createDocumentFragment();
+        let lastIdx = 0;
+
+        relevant.forEach(m => {
+            const localStart = Math.max(0, m.start - nodeStart);
+            const localEnd = Math.min(text.length, m.end - nodeStart);
+            if (localStart > lastIdx)
+                frag.appendChild(document.createTextNode(text.slice(lastIdx, localStart)));
+            const mark = document.createElement('mark');
+            mark.className = 'search-highlight';
+            mark.textContent = text.slice(localStart, localEnd);
+            frag.appendChild(mark);
+            lastIdx = localEnd;
+        });
+
+        if (lastIdx < text.length)
+            frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+
+        node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === 1 && !['SCRIPT','STYLE'].includes(node.tagName)) {
+        Array.from(node.childNodes).forEach(child => highlightInNode(child, matches, state));
+    }
 }

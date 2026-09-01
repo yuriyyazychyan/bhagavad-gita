@@ -1,8 +1,8 @@
 [
   {"n": "book&cover", "ru": "Книга и обложка", "en": "Book & Cover", "v": 1},
-  {"n": "Foreword", "ru": "Вступление", "en": "Foreword", "v": 1},
-  {"n": "Preface", "ru": "Предисловие", "en": "Preface", "v": 1},
-  {"n": "Introduction", "ru": "Введение", "en": "Introduction", "v": 1},
+  {"n": "foreword", "ru": "Вступление", "en": "Foreword", "v": 1},
+  {"n": "preface", "ru": "Предисловие", "en": "Preface", "v": 1},
+  {"n": "introduction", "ru": "Введение", "en": "Introduction", "v": 1},
   {
     "n": 1,
     "ru": "Наблюдение за Армиями на<br>поле Битвы Курукш̣етра",
