@@ -10,12 +10,37 @@ const LS = (key) => `${bookId}_${key}`;
 let CHAPTERS = {};
 let VERSES = {};
 let GLOSSARY = {};
+let BOOK_META = {};
+let ALL_BOOKS = [];
 
 
 
 
 async function loadData() {
     try {
+        // Load current book meta
+        const metaResponse = await fetch(`${BOOK_PATH}/meta.json`);
+        if (metaResponse.ok) {
+            BOOK_META = await metaResponse.json();
+            document.title = BOOK_META.title || 'Prabhupada Library';
+        }
+
+        // Load all published books for sidebar
+        const libraryBooks = [
+            'bhagavad-gita',
+            'elevation-to-krishna-consciousness',
+        ];
+        ALL_BOOKS = [];
+        for (const bid of libraryBooks) {
+            try {
+                const r = await fetch(`./books/${bid}/meta.json`);
+                if (r.ok) {
+                    const m = await r.json();
+                    if (m.status === 'published') ALL_BOOKS.push(m);
+                }
+            } catch(e) {}
+        }
+
         const chaptersResponse = await fetch(`${BOOK_PATH}/data/chapters.json`);
         if (!chaptersResponse.ok) throw new Error('Не удалось загрузить CHAPTERS');
         CHAPTERS = await chaptersResponse.json();
@@ -127,7 +152,9 @@ function setLang(l) {
     lang = l;
     document.getElementById('lRu').classList.toggle('on', l === 'ru');
     document.getElementById('lEn').classList.toggle('on', l === 'en');
-    document.getElementById('sbHead').innerHTML = '<span onclick="toggleBook()" style="cursor:pointer;"><img src="img/icon_book.png" style="width:20px;height:20px;margin-bottom:2px;vertical-align:middle;margin-right:8px;">Bhagavad-gītā As It Is <span style="font-family:\'CA Moskow\',serif;font-size:14px;">1972</span> <span id="bookArrow" style="font-size:11px;display:inline-block;transition:transform 0.25s ease;margin-left:4px;vertical-align:middle;">↑</span></span>';
+    const _bookTitle = BOOK_META.title || 'Prabhupada Library';
+    const _bookYear  = BOOK_META.year  || '';
+    document.getElementById('sbHead').innerHTML = `<span onclick="toggleBook()" style="cursor:pointer;"><img src="img/icon_book.png" style="width:20px;height:20px;margin-bottom:2px;vertical-align:middle;margin-right:8px;">${_bookTitle} <span style="font-family:'CA Moskow',serif;font-size:14px;">${_bookYear}</span> <span id="bookArrow" style="font-size:11px;display:inline-block;transition:transform 0.25s ease;margin-left:4px;vertical-align:middle;">↑</span></span>`;
     document.getElementById('bmHead').textContent = l === 'ru' ? 'Любимые тексты' : 'Favourites texts';
     renderToc();
     renderChapter(curCh, true);
@@ -170,6 +197,25 @@ function toggleBook() {
     document.getElementById('tocList').style.display = bookOpen ? 'block' : 'none';
     const arrow = document.getElementById('bookArrow');
     if (arrow) arrow.style.transform = bookOpen ? '' : 'rotate(180deg)';
+
+    let bookList = document.getElementById('sbBookList');
+    if (!bookOpen) {
+        if (!bookList) {
+            bookList = document.createElement('div');
+            bookList.id = 'sbBookList';
+            document.getElementById('sidebar').appendChild(bookList);
+        }
+        bookList.innerHTML = ALL_BOOKS.map(m => `
+            <a class="sb-book-item ${m.id === bookId ? 'sb-book-active' : ''}"
+               href="reader.html?book=${m.id}">
+                <span class="sb-book-title">${m.title}</span>
+                <span class="sb-book-year">${m.year}</span>
+            </a>
+        `).join('');
+        bookList.style.display = 'block';
+    } else {
+        if (bookList) bookList.style.display = 'none';
+    }
 }
 
 function renderToc() {
