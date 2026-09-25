@@ -9,6 +9,7 @@ const LS = (key) => `${bookId}_${key}`;
 
 let CHAPTERS = {};
 let VERSES = {};
+let CONTENT = {};
 let GLOSSARY = {};
 let BOOK_META = {};
 let ALL_BOOKS = [];
@@ -25,21 +26,21 @@ async function loadData() {
             document.title = BOOK_META.title || 'Prabhupada Library';
         }
 
-        // Load all published books for sidebar
-        const libraryBooks = [
-            'bhagavad-gita',
-            'elevation-to-krishna-consciousness',
-        ];
-        ALL_BOOKS = [];
-        for (const bid of libraryBooks) {
-            try {
-                const r = await fetch(`./books/${bid}/meta.json`);
-                if (r.ok) {
-                    const m = await r.json();
-                    if (m.status === 'published') ALL_BOOKS.push(m);
+        // Load all published books from catalog.json
+        try {
+            const catalogRes = await fetch('./books/catalog.json');
+            if (catalogRes.ok) {
+                const catalog = await catalogRes.json();
+                ALL_BOOKS = [];
+                for (const entry of catalog) {
+                    if (entry.status !== 'published') continue;
+                    try {
+                        const r = await fetch(`./books/${entry.id}/meta.json`);
+                        if (r.ok) ALL_BOOKS.push(await r.json());
+                    } catch(e) {}
                 }
-            } catch(e) {}
-        }
+            }
+        } catch(e) { console.warn('Could not load catalog.json', e); }
 
         const chaptersResponse = await fetch(`${BOOK_PATH}/data/chapters.json`);
         if (!chaptersResponse.ok) throw new Error('Не удалось загрузить CHAPTERS');
@@ -48,6 +49,12 @@ async function loadData() {
         const versesResponse = await fetch(`${BOOK_PATH}/data/verses.json`);
         if (versesResponse.ok) {
             VERSES = await versesResponse.json();
+        }
+
+        // Load content.json for chapter-type books
+        const contentResponse = await fetch(`${BOOK_PATH}/data/content.json`);
+        if (contentResponse.ok) {
+            CONTENT = await contentResponse.json();
         }
 
         // Глоссарий общий для всех книг — грузим из корневого ./data/
@@ -209,7 +216,7 @@ function toggleBook() {
             <a class="sb-book-item ${m.id === bookId ? 'sb-book-active' : ''}"
                href="reader.html?book=${m.id}">
                 <span class="sb-book-title">${m.title}</span>
-                <span class="sb-book-year">${m.year}</span>
+                <span class="sb-book-year">${m.year || ''}</span>
             </a>
         `).join('');
         bookList.style.display = 'block';
@@ -229,7 +236,8 @@ function renderToc() {
     CHAPTERS.forEach(chapter => {
         const isSpecial = typeof chapter.n === 'string'; // Проверяем, специальный ли это раздел
         const isActive = chapter.n === curCh;
-        const hasVerses = VERSES[chapter.n] && VERSES[chapter.n].length > 0;
+        const isChapterBook = Object.keys(CONTENT).length > 0;
+        const hasVerses = !isChapterBook && VERSES[chapter.n] && VERSES[chapter.n].length > 0;
 
         if (isSpecial) {
             const hasChildren = chapter.children && chapter.children.length > 0;
@@ -263,13 +271,20 @@ function renderToc() {
             }
         } else {
             // Для обычных глав с возможностью раскрытия
-            tocHtml += `
-            <div class="ch-row ${isActive ? 'on' : ''}" onclick="toggleChapter(${chapter.n})">
-                <span class="ch-n"><span style="font-family:'CA Moskow',serif;font-size:14px;">${chapter.n}</span>.</span>
-                <span class="ch-label">${lang === 'ru' ? chapter.ru : chapter.en}</span>
-                <span class="ch-vcount"><span style="font-family:'CA Moskow',serif;font-size:14px;">${chapter.v}</span></span>
-            </div>
-            `;
+            if (isChapterBook) {
+                tocHtml += `
+                <div class="ch-row ${isActive ? 'on' : ''}" onclick="renderChapter(${chapter.n})">
+                    <span class="ch-n"><span style="font-family:'CA Moskow',serif;font-size:14px;">${chapter.n}</span>.</span>
+                    <span class="ch-label">${lang === 'ru' ? chapter.ru : chapter.en}</span>
+                </div>`;
+            } else {
+                tocHtml += `
+                <div class="ch-row ${isActive ? 'on' : ''}" onclick="toggleChapter(${chapter.n})">
+                    <span class="ch-n"><span style="font-family:'CA Moskow',serif;font-size:14px;">${chapter.n}</span>.</span>
+                    <span class="ch-label">${lang === 'ru' ? chapter.ru : chapter.en}</span>
+                    <span class="ch-vcount"><span style="font-family:'CA Moskow',serif;font-size:14px;">${chapter.v}</span></span>
+                </div>`;
+            }
 
             // Добавляем список стихов только если есть стихи и глава активна
             if (hasVerses && chapter.n === menuCh && !appendixOpen) {
@@ -360,6 +375,14 @@ function renderChapter(n, skipScroll = false) {
         loadSpecialContent(parts[0], parts[1] || null);
         return;
     }
+
+    // Route to chapter-type renderer if book has content.json
+    if (Object.keys(CONTENT).length > 0 && CONTENT[String(n)]) {
+        curCh = n;
+        menuCh = n;
+        renderChapterContent(n);
+        return;
+    }
     if (!VERSES[n] || !VERSES[n].length || !CHAPTERS.find(c => c.n === n)) {
         document.getElementById('page').innerHTML = '<div style="padding:24px;">Данные главы недоступны</div>';
         return;
@@ -374,7 +397,7 @@ function renderChapter(n, skipScroll = false) {
     let html = `
   <div class="ch-opening">
       <div class="ch-word">${isRu ? 'Глава' : 'Chapter'} ${numWord(n)}</div>
-      <img src='books/bhagavad-gita/img/krishna_arjuna.png' class='ch-illustration' style='width:240px;height:240px;display:block;margin:0px auto 24px;'>
+      ${BOOK_META.illustration ? `<img src='${BOOK_META.illustration}' class='ch-illustration' style='width:240px;height:240px;display:block;margin:0px auto 24px;'>` : ''}
       <div class="ch-eng-title">${isRu ? ch.ru : ch.en}</div>
   </div>
   `;
@@ -577,7 +600,7 @@ function formatPurport(text) {
         'Indraloka','Indra','Govinda','Goloka','Ganges','Gandharvas','Drupada',
         'Candraloka','Candra','Brahman','Brahmaloka','Brahmajyoti','Anantavijaya',
         'Ananta','Agni','Aditi','Naimiṣāraṇya','Śaunaka','Aniruddha','Bhagavān',
-        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī', 'Śeṣa', 'Advaita', 'Uśanā'
+        'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu', 'Bṛhaspati', 'Pārvatī', 'Śaṅkara', 'Marīci', 'Bhṛgu', 'Aryamā', 'Yama', 'Rāma-kṛṣṇa', 'Brahmās', 'Māyā devī', 'Śikhaṇḍī', 'Śeṣa', 'Advaita', 'Uśanā', 'Kṛtavarmā', 'Śalya'
     ]);
 
     //Санскритские фразы, исключения для обозначения курсивом
@@ -776,11 +799,11 @@ SPECIAL
 
 async function loadSpecialContent(section, anchor = null) {
     const previousCh = curCh; // запоминаем
-    curCh = section;
+    curCh = section.toLowerCase();
     appendixVisited = true; // реальный переход произошёл
-    localStorage.setItem(LS('chapter'), section);
+    localStorage.setItem(LS('chapter'), section.toLowerCase());
     try {
-        const response = await fetch(`${BOOK_PATH}/special/${section}.html`);
+        const response = await fetch(`${BOOK_PATH}/special/${section.toLowerCase()}.html`);
         if (!response.ok) throw new Error(`Не удалось загрузить контент раздела ${section}`);
 
         let content = await response.text();
@@ -788,7 +811,7 @@ async function loadSpecialContent(section, anchor = null) {
         const doc = parser.parseFromString(content, 'text/html');
         let contentHtml = doc.body.innerHTML;
 
-        const noFormat = ['references', 'sanskrit'];
+        const noFormat = BOOK_META.noFormat || ['references', 'sanskrit'];
         if (!noFormat.includes(section.toLowerCase())) {
             contentHtml = formatPurport(contentHtml);
         }
@@ -901,22 +924,88 @@ function updateBm() {
         list.innerHTML = `<div class="bm-empty">${lang === 'ru' ? 'Наведи на номер любого текста и нажми ♡ чтобы добавить его сюда' : 'Hover over any text number and tap ♡ to add it here'}</div>`;
         return;
     }
-    list.innerHTML = bookmarks.map(b => `
-    <div class="bm-item" onclick="goToBm('${b.key}')">
-      <div class="bm-ref">${lang === 'ru' ? 'Бг' : 'Bg'} <span style="font-family:'CA Moskow',serif;font-size:14px;">${b.key}</span></div>
-      <div class="bm-txt">${b.txt}</div>
-    </div>
-  `).join('');
+    list.innerHTML = bookmarks.map((b, idx) => {
+        const refLabel = b.type === 'text'
+            ? String(b.key)
+            : `${BOOK_META.shortTitle || (lang === 'ru' ? 'Бг' : 'Bg')} ${b.key}`;
+        const quoteHtml = b.quote
+            ? `<div class="bm-quote">${b.quote}</div>`
+            : '';
+        return `
+        <div class="bm-item">
+            <div class="bm-item-header">
+                <span class="bm-ref" onclick="goToBm('${b.key}','${b.anchor||''}')">
+                    <span style="font-family:'CA Moskow',serif;font-size:14px;">${refLabel}</span>
+                </span>
+                <div class="bm-actions">
+                    <button class="bm-action-btn" onclick="shareBm(${idx})" title="Share">⎙</button>
+                    <button class="bm-action-btn bm-delete" onclick="deleteBm(${idx})" title="Delete">✕</button>
+                </div>
+            </div>
+            <div class="bm-txt" onclick="goToBm('${b.key}','${b.anchor||''}')">${b.txt}</div>
+            ${quoteHtml}
+        </div>`;
+    }).join('');
 }
 
-function goToBm(key) {
-    const [ch] = key.split('.');
-    renderChapter(+ch);
+function goToBm(key, anchor) {
     document.getElementById('bmpanel').classList.remove('on');
-    setTimeout(() => {
-        const el = document.getElementById('v' + key.replace('.', '_'));
-        if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
-    }, 200);
+    const chNum = parseInt(key.split('.')[0]);
+    if (!isNaN(chNum) && key.includes('.')) {
+        renderChapter(chNum);
+        setTimeout(() => {
+            const targetId = anchor || ('v' + key.replace('.', '_'));
+            const el = document.getElementById(targetId);
+            if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }, 300);
+    } else {
+        renderChapter(isNaN(+key) ? key : +key);
+        setTimeout(() => {
+            if (anchor) {
+                const el = document.getElementById(anchor);
+                if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+            }
+        }, 300);
+    }
+}
+
+function deleteBm(idx) {
+    bookmarks.splice(idx, 1);
+    localStorage.setItem(LS('bm'), JSON.stringify(bookmarks));
+    updateBm();
+}
+
+function buildShareUrl(b) {
+    const base = window.location.origin + window.location.pathname;
+    const params = new URLSearchParams({book: bookId, bm: b.key});
+    if (b.anchor) params.set('anchor', b.anchor);
+    return base + '?' + params.toString();
+}
+
+function shareBm(idx) {
+    const b = bookmarks[idx];
+    const url = buildShareUrl(b);
+    const text = b.quote ? b.quote + ' — ' + b.key : b.key;
+    if (navigator.share) {
+        navigator.share({title: BOOK_META.title || 'Prabhupada Library', text, url});
+    } else {
+        navigator.clipboard.writeText(url).then(() => {
+            showToast(lang === 'ru' ? 'Ссылка скопирована!' : 'Link copied!');
+        });
+    }
+}
+
+function showToast(msg) {
+    let toast = document.getElementById('bmToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'bmToast';
+        toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:20px;font-size:13px;font-family:"IM Fell English",Georgia,serif;z-index:999;transition:opacity 0.3s;pointer-events:none;';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2000);
 }
 
 /* ════════════════════════════════════════════
@@ -954,6 +1043,65 @@ function closeAll() {
 /* ════════════════════════════════════════════
 PROGRESS BAR
 ════════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+CHAPTER-TYPE BOOK RENDERING
+════════════════════════════════════════════ */
+function renderChapterContent(n) {
+    const chapter = CHAPTERS.find(c => c.n === n);
+    if (!chapter) return;
+
+    const paragraphs = CONTENT[String(n)] || [];
+    const isRu = lang === 'ru';
+    const title = isRu ? chapter.ru : chapter.en;
+
+    let html = `<div class="chapter-content"><div class="ch-title" id="ch${n}">${title}</div>`;
+    paragraphs.forEach(para => {
+        const text = (isRu ? para.text_ru : para.text_en) || '';
+        if (!text.trim()) return;
+        html += formatPurport(text);
+    });
+    html += navButtonsHtml(n);
+    html += '</div>';
+
+    document.getElementById('page').innerHTML = html;
+    const topTitleEl = document.getElementById('topTitle');
+    if (topTitleEl) topTitleEl.innerHTML = title;
+    renderToc();
+    updateBm();
+    document.getElementById('overlay').classList.remove('on');
+    document.getElementById('bmpanel').classList.remove('on');
+    localStorage.setItem(LS('lang'), lang);
+    localStorage.setItem(LS('chapter'), String(n));
+    updateIllustration();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+
+function resolveVerse(ch, verseNum) {
+    const chVerses = VERSES[ch] || VERSES[String(ch)] || [];
+    if (!chVerses.length) return null;
+    let v = chVerses.find(x => x.n === verseNum || x.n === String(verseNum));
+    if (v) return v;
+    v = chVerses.find(x => {
+        if (!x.nLabel) return false;
+        const label = String(x.nLabel).replace(/[–—]/g, '-');
+        const parts = label.split('-');
+        if (parts.length === 2) {
+            const start = parseInt(parts[0]), end = parseInt(parts[1]), target = parseInt(verseNum);
+            return !isNaN(start) && !isNaN(end) && target >= start && target <= end;
+        }
+        return false;
+    });
+    if (v) return v;
+    const sorted = [...chVerses].sort((a, b) => parseInt(a.n) - parseInt(b.n));
+    let nearest = null;
+    for (const x of sorted) {
+        if (parseInt(x.n) <= parseInt(verseNum)) nearest = x;
+        else break;
+    }
+    return nearest;
+}
+
 window.addEventListener('scroll', () => {
     const pg = document.getElementById('page');
     if (!pg) return;
@@ -1014,6 +1162,65 @@ const savedChapter = parseInt(localStorage.getItem(LS('chapter'))) || 7;
 updateBm();
 
 // Сохраняем позицию скролла при прокрутке
+/* ════════════════════════════════════════════
+CHAPTER-TYPE BOOK RENDERING
+════════════════════════════════════════════ */
+function renderChapterContent(n) {
+    const chapter = CHAPTERS.find(c => c.n === n);
+    if (!chapter) return;
+
+    const paragraphs = CONTENT[String(n)] || [];
+    const isRu = lang === 'ru';
+    const title = isRu ? chapter.ru : chapter.en;
+
+    let html = `<div class="chapter-content"><div class="ch-title" id="ch${n}">${title}</div>`;
+    paragraphs.forEach(para => {
+        const text = (isRu ? para.text_ru : para.text_en) || '';
+        if (!text.trim()) return;
+        html += formatPurport(text);
+    });
+    html += navButtonsHtml(n);
+    html += '</div>';
+
+    document.getElementById('page').innerHTML = html;
+    const topTitleEl = document.getElementById('topTitle');
+    if (topTitleEl) topTitleEl.innerHTML = title;
+    renderToc();
+    updateBm();
+    document.getElementById('overlay').classList.remove('on');
+    document.getElementById('bmpanel').classList.remove('on');
+    localStorage.setItem(LS('lang'), lang);
+    localStorage.setItem(LS('chapter'), String(n));
+    updateIllustration();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+
+function resolveVerse(ch, verseNum) {
+    const chVerses = VERSES[ch] || VERSES[String(ch)] || [];
+    if (!chVerses.length) return null;
+    let v = chVerses.find(x => x.n === verseNum || x.n === String(verseNum));
+    if (v) return v;
+    v = chVerses.find(x => {
+        if (!x.nLabel) return false;
+        const label = String(x.nLabel).replace(/[–—]/g, '-');
+        const parts = label.split('-');
+        if (parts.length === 2) {
+            const start = parseInt(parts[0]), end = parseInt(parts[1]), target = parseInt(verseNum);
+            return !isNaN(start) && !isNaN(end) && target >= start && target <= end;
+        }
+        return false;
+    });
+    if (v) return v;
+    const sorted = [...chVerses].sort((a, b) => parseInt(a.n) - parseInt(b.n));
+    let nearest = null;
+    for (const x of sorted) {
+        if (parseInt(x.n) <= parseInt(verseNum)) nearest = x;
+        else break;
+    }
+    return nearest;
+}
+
 window.addEventListener('scroll', () => {
     localStorage.setItem(LS('scroll'), window.scrollY);
 });
@@ -1032,4 +1239,96 @@ document.addEventListener('mouseout', (e) => {
     if (!span) return;
     if (_tipTimer) { clearTimeout(_tipTimer); _tipTimer = null; }
     hideTip();
+});
+
+function addQuoteBm() {
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed) {
+        showToast(lang === 'ru' ? 'Выделите текст для цитаты' : 'Select text to quote');
+        return;
+    }
+    const quote = selection.toString().trim().slice(0, 200);
+    if (!quote) return;
+
+    let key = String(curCh);
+    let anchor = null;
+    const range = selection.getRangeAt(0);
+    const container = range.commonAncestorContainer;
+    const verseEl = (container.nodeType === 1 ? container : container.parentElement)
+        ?.closest('[id^="v"]');
+    if (verseEl) {
+        const m = verseEl.id.match(/v(\d+)_(\d+)/);
+        if (m) key = m[1] + '.' + m[2];
+        anchor = verseEl.id;
+    }
+
+    bookmarks.push({key, type: 'quote', txt: quote.slice(0, 80) + (quote.length > 80 ? '...' : ''), quote, anchor, book: bookId});
+    localStorage.setItem(LS('bm'), JSON.stringify(bookmarks));
+    selection.removeAllRanges();
+    updateBm();
+    showToast(lang === 'ru' ? 'Цитата сохранена!' : 'Quote saved!');
+}
+
+function addTextBm(anchorId, previewText) {
+    const key = String(curCh);
+    if (bookmarks.some(b => b.key === key && b.type === 'text' && b.anchor === anchorId)) return;
+    bookmarks.push({key, type: 'text', txt: (previewText || '').slice(0, 90), anchor: anchorId || null, book: bookId});
+    localStorage.setItem(LS('bm'), JSON.stringify(bookmarks));
+    updateBm();
+    showToast(lang === 'ru' ? 'Закладка добавлена!' : 'Bookmark added!');
+}
+
+
+/* ════════════════════════════════════════════
+QUOTE SELECTION BUTTON
+════════════════════════════════════════════ */
+document.addEventListener('mouseup', () => {
+    const selection = window.getSelection();
+    let btn = document.getElementById('quoteSelBtn');
+
+    if (!selection || selection.isCollapsed || !selection.toString().trim()) {
+        if (btn) btn.remove();
+        return;
+    }
+
+    // Only show inside .page
+    const range = selection.getRangeAt(0);
+    const page = document.getElementById('page');
+    if (!page.contains(range.commonAncestorContainer)) {
+        if (btn) btn.remove();
+        return;
+    }
+
+    if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'quoteSelBtn';
+        btn.style.cssText = [
+            'position:fixed',
+            'z-index:500',
+            'background:var(--ink)',
+            'color:var(--paper)',
+            'border:none',
+            'border-radius:16px',
+            'padding:5px 12px',
+            'font-size:13px',
+            'font-family:\'IM Fell English\',Georgia,serif',
+            'cursor:pointer',
+            'box-shadow:0 2px 8px rgba(0,0,0,0.2)',
+            'white-space:nowrap',
+        ].join(';');
+        btn.innerHTML = lang === 'ru' ? '❝ Сохранить цитату' : '❝ Save quote';
+        btn.onclick = () => { addQuoteBm(); btn.remove(); };
+        document.body.appendChild(btn);
+    }
+
+    // Position above selection
+    const rect = range.getBoundingClientRect();
+    btn.style.left = Math.max(8, rect.left + rect.width/2 - btn.offsetWidth/2) + 'px';
+    btn.style.top  = Math.max(8, rect.top - 40 + window.scrollY) + 'px';
+    btn.style.position = 'absolute';
+});
+
+document.addEventListener('mousedown', (e) => {
+    const btn = document.getElementById('quoteSelBtn');
+    if (btn && e.target !== btn) btn.remove();
 });

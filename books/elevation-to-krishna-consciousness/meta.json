@@ -1,13 +1,23 @@
 {
   "id": "elevation-to-krishna-consciousness",
   "title": "Elevation to Krishna Consciousness",
-  "subtitle": "1973 the Bhaktivedanta Book Trust.",
+  "subtitle": "Original 1973",
   "author": "His Divine Grace A.C. Bhaktivedanta Swami Prabhupāda",
   "year": 1973,
-  "cover": "books/elevation-to-krishna-consciousness/img/cover.jpg",
+  "cover": "books/elevation-to-krishna-consciousness/img/book&cover/cover.jpg",
+  "illustration": "books/elevation-to-krishna-consciousness/img/krishna_arjuna.png",
   "type": "chapters",
   "status": "published",
-  "lang": ["en", "ru"],
+  "lang": [
+    "en",
+    "ru"
+  ],
   "color": "#8B6914",
-  "description": "Elevation to Krishna Consciousness."
+  "shortTitle": "EtKC",
+  "shortTitleRu": "ВдСК",
+  "noFormat": [ ],
+  "description": "Elevation to Krishna Consciousness",
+  "covers": [
+    "books/elevation-to-krishna-consciousness/img/book&cover/cover.jpg"
+  ]
 }

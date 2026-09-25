@@ -4,10 +4,23 @@
   "subtitle": "Original 1972 Macmillan Edition",
   "author": "His Divine Grace A.C. Bhaktivedanta Swami Prabhupāda",
   "year": 1972,
-  "cover": "books/bhagavad-gita/img/book&cover/cover 1.jpg",
+  "cover": "books/bhagavad-gita/img/book&cover/cover.jpg",
+  "illustration": "books/bhagavad-gita/img/krishna_arjuna.png",
   "type": "verses",
   "status": "published",
-  "lang": ["en", "ru"],
+  "lang": [
+    "en",
+    "ru"
+  ],
   "color": "#8B6914",
-  "description": "The Bhagavad-gītā is universally renowned as the jewel of India's spiritual wisdom."
+  "shortTitle": "Bg",
+  "shortTitleRu": "Бг",
+  "noFormat": [
+    "references",
+    "sanskrit"
+  ],
+  "description": "The Bhagavad-gītā is universally renowned as the jewel of India's spiritual wisdom.",
+  "covers": [
+    "books/bhagavad-gita/img/book&cover/cover.jpg"
+  ]
 }
