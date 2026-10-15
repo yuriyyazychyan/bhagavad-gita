@@ -71,7 +71,7 @@ class Navigation {
                             const isChildActive = child.n === window.curCh;
                             tocHtml += `
                             <div class="toc-verse ${isChildActive ? 'on' : ''}" onclick="renderChapter('${child.n}')">
-                                <span class="toc-dash">—</span>${isRu ? child.ru : child.en}
+                                <span class="toc-dash">-</span>${isRu ? child.ru : child.en}
                             </div>`;
                         });
                         tocHtml += `</div>`;

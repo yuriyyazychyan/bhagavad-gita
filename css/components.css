@@ -1,0 +1,30 @@
+/* ════════════════════════════════════════════════════════════════
+   components.css
+   Мелкие общие элементы: всплывающая подсказка слова, орнамент, пустое состояние, служебные классы.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── WORD TOOLTIP ── */
+.tip {
+    position: fixed; z-index: 300;
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 14px; max-width: 260px;
+    font-size: 14px; line-height: 1.5;
+    display: none; pointer-events: none;
+}
+.tip.on { display: block; }
+.tip-skr { font-family: var(--devan); font-size: 17px; color: var(--ink); display: block; margin-bottom: 3px; }
+.tip-tr  { font-style: italic; color: var(--ink2); display: block; margin-bottom: 3px; }
+.tip-def { color: var(--ink); }
+
+/* ── ORNAMENT ── */
+.orn { text-align: center; color: var(--rule); font-size: 20px; margin: 36px 0; user-select: none; }
+
+/* ── EMPTY STATE ── */
+.empty { text-align: center; padding: 80px 0; color: var(--ink3); font-style: italic; font-size: 16px; }
+
+/* ── УТИЛИТЫ ── */
+.no-indent {
+    text-indent: 0;
+}

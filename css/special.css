@@ -1,0 +1,269 @@
+/* ════════════════════════════════════════════════════════════════
+   special.css
+   Спецразделы и приложения: обложка, иллюстрации, глоссарий, произношение санскрита, индекс стихов.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Общий контейнер, который выстраивает элементы в ряд */
+.book-container {
+    display: flex;
+    flex-wrap: wrap; /* Разрешает перенос на новую строку, если картинки не влезают */
+    gap: 15px;       /* Расстояние между картинками */
+    justify-content: center; /* Центрирует всю строку с картинками */
+}
+
+.BookImg {
+    margin: 0;
+}
+
+/* Настройка самих картинок */
+.BookImg img {
+    height: 400px;   /* Задайте любую нужную высоту (например, 200px или 300px) */
+    width: auto;     /* Ширина уменьшится пропорционально исходному размеру */
+    object-fit: contain; /* Защищает картинку от искажений и размытия */
+}
+
+.imgSig{
+    padding-left: 4em;
+    text-indent: -4em;
+}
+
+.appendixes-title {
+    font-family: Barmeno, sans-serif;
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    word-spacing: 0.6em;
+    color: var(--ink);
+    text-align: center;
+    transform: scaleX(1.12);
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
+
+.appendixes-subtitle {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.appendixs-body p {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink2);
+    line-height: 24px;
+    margin-bottom: 20px;
+    text-align: justify;   /* Ровные края текста по бокам */
+    font-family: 'IM Fell English', Georgia, serif;
+}
+
+.no-marg {
+    margin-block-start: -20px;
+}
+
+.no-marg p {
+    margin-bottom: 0;
+    margin-left: 2em;
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+.entry {
+    padding-left: 1em;
+    text-align: left;
+    text-indent: -1em;
+    line-height: normal;
+}
+
+.entry  a{
+    color: var(--ink);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-indent: 0;
+}
+
+.term {
+     font-family: 'Times New Roman', Times, serif;
+     font-style: italic;
+     font-size: 18px;
+     font-weight: 500;
+     letter-spacing: 0;
+     text-align: left;
+     color: var(--ink);
+}
+
+.glossary-body p{
+    padding-left: 3em;
+    text-align: left;
+    text-indent: -3em;
+    line-height: normal;
+}
+
+/* ── SANSKRIT PRONUNCIATION GUIDE ── */
+.sanskrit-section-title {
+    text-align: center;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    font-size: 18px;
+    margin: 24px 0 12px;
+    color: var(--ink);
+}
+
+.sanskrit-vowels {
+    text-align: center;
+    margin-bottom: 8px;
+    font-size: 22px;
+    line-height: 1.8;
+}
+
+.sanskrit-special {
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+.sv-pair {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    margin: 0 8px;
+}
+
+.sv-pair .devanagari {
+    font-family: var(--devan);
+    font-size: 24px;
+}
+
+.sv-pair .translit {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: 16px;
+}
+
+.sanskrit-consonants {
+    margin: 12px auto 20px;
+    border-collapse: collapse;
+}
+
+.sanskrit-consonants td {
+    padding: 4px 16px 4px 0;
+    vertical-align: middle;
+}
+
+.consonant-group {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    color: var(--ink2);
+    white-space: nowrap;
+    padding-right: 20px !important;
+}
+
+.consonant-note {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+}
+
+.sanskrit-bold {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-weight: 700;
+    font-size: 17px;
+    margin: 20px 0 8px;
+}
+
+.sanskrit-bold-final {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-weight: 700;
+    font-size: 17px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sanskrit-list, .sanskrit-two-col {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.sanskrit-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 32px;
+}
+
+.sanskrit-item {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    line-height: 1.7;
+}
+
+.sanskrit-item .translit {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    min-width: 40px;
+    flex-shrink: 0;
+}
+
+.sanskrit-dash {
+    flex-shrink: 0;
+}
+
+/* ── VERSE INDEX ── */
+.verse-index-intro {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    text-align: justify;
+}
+
+.verse-index-letter {
+    font-family: Windsor, serif;
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+    margin: 20px 0 8px;
+    color: var(--ink);
+}
+
+.verse-index-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.verse-index-table td {
+    padding: 1px 4px;
+    line-height: 1.5;
+}
+.vi-text { font-style: italic; }
+
+.vi-ref {
+    white-space: nowrap;
+    color: var(--ink3);
+    text-align: right;
+    padding-right: 8px;
+}
+
+.vi-ref a {
+    color: var(--ink3);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+}
+.vi-ref a:hover { color: var(--ink); }
+.vi-spacer { width: 24px; }
+.vi-spacer-row { }
+
+.vi-spacer-cell {
+    padding: 0;
+    height: 8px;
+}
+
+/* ── ЯКОРЯ ВО ВВЕДЕНИИ (из General Index) ── */
+span[id^="intro-"] {
+    scroll-margin-top: 70px;
+}

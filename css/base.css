@@ -1,0 +1,49 @@
+/* ════════════════════════════════════════════════════════════════
+   base.css
+   Сброс стилей, цвета и размеры (токены), светлая/тёмная тема, body, полоса прокрутки.
+   ════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+    --gold: #f0d080;
+    --paper:   #fff;
+    --paper2:  #f7f5ee;
+    --paper3:  #eeeae2;
+    --ink:     #000;
+    --ink2:    #000;
+    --ink3:    #000;
+    --rule:    rgb(90 65 30 / 22%);
+    --serif:   'IM Fell English', 'Times New Roman', georgia, serif;
+    --devan:   'Noto Serif Devanagari', serif;
+    --sidebar: 270px;
+    --trans:   0.2s ease;
+}
+
+[data-theme="dark"] {
+    --paper:  #180c01;
+    --paper2: #1b0e01;
+    --paper3: #201103;
+    --ink:    #fff;
+    --ink2:   #f7f5ee;
+    --ink3:   #eeeae2;
+    --rule:   rgb(200 170 100 / 18%);
+}
+
+/* ── BASE ── */
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--serif);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1.8;
+    transition: background var(--trans), color var(--trans);
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }

@@ -48,7 +48,7 @@ class Formatter {
             'Ananta','Agni','Aditi','Naimiṣāraṇya','Śaunaka','Aniruddha','Bhagavān',
             'Śañkarācārya','Rāmānujācārya','Madhvācārya','Maha-Viṣṇu','Bṛhaspati',
             'Pārvatī','Śaṅkara','Marīci','Bhṛgu','Aryamā','Yama','Rāma-kṛṣṇa','Brahmās',
-            'Māyā devī','Śikhaṇḍī','Śeṣa','Advaita','Uśanā','Kṛtavarmā','Śalya',
+            'Māyā devī','Śikhaṇḍī','Śeṣa','Advaita','Uśanā','Kṛtavarmā','Śalya', 'Ṛṣabhadeva'
         ]);
 
         // Санскритские слова — принудительный курсив
@@ -91,7 +91,7 @@ class Formatter {
             'sarva-gato','yogas','aho','kevalam','karau','muhyanti','bhavati',
             'avatare','dharmasya','govindam','yasmin','gurau','yatra','karhicit',
             'kim','asvatantra','iva','dvija','brahmajyoti','ananta','kavis',
-            'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'tatra'
+            'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'tatra', 'lokatrayam', 'atharva'
         ]);
 
         // Фразы — принудительный курсив

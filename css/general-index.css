@@ -1,0 +1,113 @@
+/* ════════════════════════════════════════════════════════════════
+   general-index.css
+   General Index (A–Z): алфавитная навигация, записи, ссылки на стихи.
+   ════════════════════════════════════════════════════════════════ */
+
+.gi-alpha-nav {
+    position: fixed;
+    top: 50px;
+    left: var(--sidebar);
+    right: 0;
+    background: var(--paper);
+    z-index: 40;
+    padding: 8px 48px 9px;
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+    transition: left var(--trans);
+}
+
+/* Когда сайдбар скрыт */
+.main.full .gi-alpha-nav {
+    left: 0;
+}
+
+/* Отступ чтобы контент не прятался за навигацию */
+.gi-body {
+    padding-top: 40px;
+}
+
+.gi-alpha-link {
+    display: inline-block;
+    margin: 0 4px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+}
+.gi-alpha-link:hover { border-bottom-color: var(--ink); }
+
+.gi-entry {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 4px;
+}
+
+.gi-subentry {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-left: 2em;
+}
+
+.gi-continuation {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-left: 3em;
+}
+
+.gi-note {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: var(--ink2);
+}
+
+.gi-letter {
+    font-family: Windsor, serif;
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+    margin: 24px 0 8px;
+}
+
+.gi-link {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+}
+.gi-link:hover { border-bottom-color: var(--ink); }
+.gi-uncertain { border-bottom: 2px dotted orange !important; }
+
+.gi-alpha-inactive {
+    display: inline-block;
+    margin: 0 4px;
+    color: var(--ink3);
+}
+
+.gi-body p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    text-indent: 0;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+}
+
+.gi-body em {
+    font-family:'Times New Roman',Times,serif;
+    font-style:italic;
+    font-size: 15px;
+}
+
+.gi-body .gi-entry {
+    margin-top: 3px;
+}
+
+.gi-body .gi-subentry {
+    padding-left: 2em;
+}
+
+.gi-body .gi-continuation {
+    padding-left: 3em;
+}

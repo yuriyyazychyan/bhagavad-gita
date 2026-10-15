@@ -1,0 +1,39 @@
+/* ════════════════════════════════════════════════════════════════
+   fonts.css
+   Подключение локальных шрифтов (папка fonts/).
+   ════════════════════════════════════════════════════════════════ */
+
+@font-face {
+    font-family: Windsor;
+    src: url('../fonts/Windsor_Bold_Extended.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Barmeno;
+    src: url('../fonts/Barmeno_Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Momentum;
+    src: url('../fonts/Momentum_W00_Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Momentum;
+    src: url('../fonts/Momentum_W00_Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CA Moskow';
+    src: url('../fonts/CA_Moskow_has_a_plan_W00_Reg.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}

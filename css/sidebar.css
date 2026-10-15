@@ -1,0 +1,132 @@
+/* ════════════════════════════════════════════════════════════════
+   sidebar.css
+   Боковая панель: оглавление (главы, список стихов, приложения) и переключатель книг.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── SIDEBAR ── */
+.sidebar {
+    width: var(--sidebar);
+    background: var(--paper2);
+    border-right: 1px solid var(--rule);
+    position: fixed; top: 50px; left: 0; bottom: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transition: transform var(--trans);
+    z-index: 50;
+}
+.sidebar.hidden { transform: translateX(calc(-1 * var(--sidebar))); }
+
+.sb-head {
+    padding: 16px 16px 8px;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: none;
+    letter-spacing: 0;
+    word-spacing: normal;
+    display: flex;
+    align-items: center;
+    transform: none;
+    color: var(--ink3);
+    border-bottom: 1px solid var(--rule);
+}
+
+.ch-row {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 8px 16px; cursor: pointer;
+    font-size: 14px; color: var(--ink2);
+    border-left: 2px solid transparent;
+    transition: all var(--trans); line-height: 1.4;
+}
+.ch-row:hover { background: var(--paper3); color: var(--ink); }
+.ch-row.on { background: var(--paper3); color: var(--ink); border-left-color: var(--ink3); }
+
+.ch-n {
+    font-family: 'Spectral SC', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink3);
+    min-width: 18px;
+    display: inline-block;
+    transform: scaleY(1.15);
+}
+
+.ch-vcount {
+    font-family: 'Spectral SC', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink3);
+    display: inline-block;
+    transform: scaleY(1.15);
+}
+.ch-label { flex: 1; }
+
+.toc-verses {
+    padding: 4px 0 8px 15px;
+    border-left: 2px solid var(--rule);
+    margin: 0 16px 4px;
+}
+
+.toc-verse {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    color: var(--ink3);
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all var(--trans);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.toc-verse:hover {
+    color: var(--ink);
+    background: var(--paper3);
+}
+
+/* ── TOC DASH LIST (children) ── */
+.toc-dash {
+    display: inline-block;
+    color: var(--ink3);
+    flex-shrink: 0;
+}
+
+/* ── SIDEBAR BOOK LIST ── */
+#sbBookList {
+padding: 8px 0;
+border-top: 1px solid var(--rule);
+}
+.sb-book-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.15s;
+    gap: 2px;
+}
+.sb-book-item:hover {
+    background: var(--paper2);
+}
+.sb-book-active {
+    background: var(--paper2);
+    border-left: 3px solid var(--ink2);
+    padding-left: 13px;
+}
+.sb-book-title {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.4;
+}
+.sb-book-year {
+    font-family: 'Spectral SC', serif;
+    font-size: 11px;
+    color: var(--ink3);
+}

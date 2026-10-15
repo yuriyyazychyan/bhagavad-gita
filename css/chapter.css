@@ -1,0 +1,95 @@
+/* ════════════════════════════════════════════════════════════════
+   chapter.css
+   Шапка главы. Вариант "word" — как в БГ («CHAPTER ONE» + иллюстрация + название); вариант "numeral" — см. ниже.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── ВАРИАНТ "word" (БГ) ── */
+.ch-opening { text-align: center; margin-bottom: 0; padding-top: 32px; }
+
+.ch-word {
+    font-family: Barmeno, sans-serif;
+    font-size: 21px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    word-spacing: 0.6em;
+    color: var(--ink);
+    margin-bottom: 12px;
+    text-align: center;
+    display: inline-block;
+    transform: scaleX(1.12);
+}
+
+.ch-eng-title {
+    font-family: Windsor, serif;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 34px;
+    color: var(--ink);
+    margin: 24px auto 0;
+    text-align: center;
+    max-width: 500px;
+}
+.ch-rule { display: none; }
+.ch-intro { display: none; }
+
+.ch-eng-title .hyphen {
+    font-size: 0.55em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* ── ВАРИАНТ "numeral" (как в скане Elevation) ────────────────────
+   Крупная цифра, под ней название тонким геометрическим шрифтом.
+   Включается в books/<id>/meta.json:   "chapterOpening": "numeral"
+   Новый вариант шапки: добавить метод в ChapterRenderer.js и блок
+   .ch-opening--<имя> здесь. */
+
+:root {
+    /* Шрифт цифры и названия. Barmeno уже подключён в fonts.css.
+       Если форма букв не совпадёт со сканом — поменяйте только эту строку. */
+    --ch-open-font: Barmeno, 'Jost', 'Futura', 'Century Gothic', sans-serif;
+    --ch-open-size: 44px;
+    --ch-open-line: 52px;
+}
+
+.chapter-content .ch-opening.ch-opening--numeral {
+    margin-bottom: 56px;      /* воздух между названием и первой цитатой */
+    padding-top: 32px;
+}
+
+.ch-opening--numeral .ch-num,
+.ch-opening--numeral .ch-name {
+    font-family: var(--ch-open-font);
+    font-weight: 400;
+    font-size: var(--ch-open-size);
+    line-height: var(--ch-open-line);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-align: center;
+}
+
+.ch-opening--numeral .ch-num {
+    margin-bottom: 12px;
+}
+
+/* max-width в em: название переносится примерно как в книге
+   («Choosing Human and / Animal Lives») при любом размере шрифта */
+.ch-opening--numeral .ch-name {
+    max-width: 11em;
+    margin: 0 auto;
+}
+
+@media (width <= 700px) {
+    :root {
+        --ch-open-size: 32px;
+        --ch-open-line: 38px;
+    }
+}
+
+/* Пример переопределения для одной книги (атрибут data-book ставит ChapterRenderer):
+body[data-book="elevation-to-krishna-consciousness"] {
+    --ch-open-size: 48px;
+}
+*/

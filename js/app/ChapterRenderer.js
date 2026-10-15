@@ -173,51 +173,169 @@ class ChapterRenderer {
 </div>`;
     }
 
-    // ── Глава без текста (в content.json её ещё нет) ─────────────────────
-    renderComingSoon(n) {
+    // ════════════════════════════════════════════════════════════════════
+    //  КНИГИ С ГЛАВАМИ (meta.type = "chapters")
+    //
+    //  Вид шапки главы выбирается в books/<id>/meta.json:
+    //      "chapterOpening": "word"      — «CHAPTER ONE» + иллюстрация + название (как БГ)
+    //      "chapterOpening": "numeral"   — крупная цифра + название (как скан Elevation)
+    //  Если поле не задано или значение неизвестно — используется "word".
+    //  Новый вариант: метод #openingXxx + строка в switch в #openingHtml
+    //  + CSS-блок .ch-opening--xxx в css/chapter.css.
+    //
+    //  Тип абзаца берётся из content.json, если задано поле "type":
+    //      "verse"       — санскритская цитата ("\n" внутри текста = перенос строки)
+    //      "translation" — перевод стиха (жирным)
+    //      "text"        — обычный абзац
+    //  Если поля нет — тип определяется автоматически.
+    // ════════════════════════════════════════════════════════════════════
+    // ── Шапка главы: выбор варианта по meta.chapterOpening ───────────────
+    #openingHtml(n, title) {
         const lib = this.library;
-        const chapter = lib.getChapter(n);
+
+        // Хук для CSS: body[data-book="<id>"] — можно переопределять оформление
+        // конкретной книги, не трогая остальные.
+        document.body.dataset.book = lib.bookId;
+
+        switch (lib.meta.chapterOpening) {
+            case 'numeral': return this.#openingNumeral(n, title);
+            case 'word':
+            default:        return this.#openingWord(n, title);
+        }
+    }
+
+    // Вариант "word": «ГЛАВА ПЕРВАЯ» + иллюстрация + название (как в БГ)
+    #openingWord(n, title) {
+        const lib = this.library;
         const isRu = window.lang === 'ru';
-        const title = chapter ? (isRu ? (chapter.ru ?? chapter.en) : (chapter.en ?? chapter.ru)) : '';
+        const word = (window.numWord && numWord(n)) || n;   // для глав > 18 — просто число
+        const illus = lib.meta.illustration
+            ? `<img src='${lib.meta.illustration}' class='ch-illustration'
+                            style='width:240px;height:240px;display:block;margin:0px auto 24px;'
+                            onerror="this.style.display='none'">`
+            : '';
 
-        document.getElementById('page').innerHTML = `
-        <div class="chapter-content">
-        <div class="ch-title" id="ch${n}">${title}</div>
-        <div class="empty">${isRu ? 'Текст этой главы будет добавлен...' : 'Text of this chapter coming soon...'}</div>
-        ${navButtonsHtml(n)}
+        return `<div class="ch-opening ch-opening--word">
+            <div class="ch-word">${isRu ? 'Глава' : 'Chapter'} ${word}</div>
+            ${illus}
+            <div class="ch-eng-title ch-title" id="ch${n}">${title}</div>
         </div>`;
+    }
 
-        const titleEl = document.getElementById('topTitle');
-        if (titleEl) titleEl.innerHTML = title;
+    // Вариант "numeral": крупная цифра + название (как в скане Elevation)
+    #openingNumeral(n, title) {
+        return `<div class="ch-opening ch-opening--numeral">
+            <div class="ch-num">${n}</div>
+            <div class="ch-name ch-title" id="ch${n}">${title}</div>
+        </div>`;
+    }
 
-        renderToc();
-        updateBm();
-        document.getElementById('overlay')?.classList.remove('on');
-        localStorage.setItem(lib.LS('chapter'), String(n));
-        window.scrollTo({top: 0, behavior: 'smooth'});
+    // ── Типографские кавычки: "…" → “…” ───────────────────────────────────
+    //    Шрифт IM Fell рисует прямую " как ”, поэтому открывающую меняем явно.
+    //    Одинарные ' не трогаем — по ним сверяются straightNames («Kṛṣṇa's»).
+    #smartQuotes(text) {
+        if (text.includes('<')) return text;    // в тексте есть HTML — не трогаем
+        return text
+            .replace(/(^|[\s(\[—–-])"/g, '$1“')
+            .replace(/"/g, '”');
+    }
+
+    // ── Перевод в кавычках: “…” (Bg. 4.1) [остальной текст] ───────────────
+    //    Возвращает { quote, ref, rest } или null
+    #splitTranslation(text) {
+        const withRef = text.match(/^\s*(["“][\s\S]*?["”])\s*(\([^()]*\d[^()]*\))\s*([\s\S]*)$/);
+        if (withRef) return { quote: withRef[1], ref: withRef[2], rest: withRef[3].trim() };
+
+        // Абзац целиком в кавычках (без ссылки)
+        const whole = text.match(/^\s*(["“][^"“”]*["”])\s*$/);
+        return whole ? { quote: whole[1], ref: '', rest: '' } : null;
+    }
+
+    // ── Санскритская цитата (та же логика, что в Formatter) ───────────────
+    #isSanskrit(text) {
+        const t = text.trim();
+        if (t.length < 5 || /\s—\s/.test(t)) return false;
+        const words = t.split(/\s+/);
+        if (words.length < 2) return false;
+        const skr = words.filter(w => Fmt.diacritics.test(w)).length;
+
+        // Признаки английского текста: «Слово», «;», точка в конце, служебные слова.
+        // Служебные слова ищем как отдельные слова (не внутри санскритского «nāthe»).
+        const hasEnglish =
+                  /[A-Z][a-z]/.test(t)
+            || /;/.test(t)
+            || /[.!?:]["“”]?$/.test(t)
+            || /(?<![\p{L}'’-])(?:the|is|are|and|of|to|in|that|this|we|he|his|who|with|for|not|by|be|was|were|has|have|you|your|our)(?![\p{L}'’-])/iu.test(t);
+
+        return (skr >= 1 && !hasEnglish) || skr / words.length > 0.5;
+    }
+
+    #detectKind(text) {
+        if (this.#splitTranslation(text)) return 'translation';
+        if (this.#isSanskrit(text)) return 'verse';
+        return 'text';
+    }
+
+    #translationHtml(quote, ref) {
+        return `<div class="ch-translation">${quote}${ref ? ` <span class="ch-ref">${ref}</span>` : ''}</div>`;
+    }
+
+    // ── Абзацы главы → HTML ───────────────────────────────────────────────
+    #paragraphsHtml(paragraphs, isRu) {
+        let html = '';
+        let verseLines = [];   // подряд идущие санскритские строки
+
+        const flushVerses = () => {
+            if (!verseLines.length) return;
+            html += verseLines.length === 1
+                ? `<p class="ch-verse">${verseLines[0]}</p>`
+                : `<div class="v-translit">${verseLines.join('<br>')}</div>`;
+            verseLines = [];
+        };
+
+        for (const para of paragraphs) {
+            const raw = ((isRu ? para.text_ru : para.text_en) || '').trim();
+            if (!raw) continue;
+            const text = this.#smartQuotes(raw);
+
+            const kind = para.type || this.#detectKind(text);
+
+            if (kind === 'verse') {
+                verseLines.push(...text.split('\n').map(s => s.trim()).filter(Boolean));
+                continue;
+            }
+
+            flushVerses();
+
+            if (kind === 'translation') {
+                const t = this.#splitTranslation(text);
+                html += t ? this.#translationHtml(t.quote, t.ref) : this.#translationHtml(text, '');
+                if (t?.rest) html += formatPurport(t.rest);
+            } else {
+                html += formatPurport(text);
+            }
+        }
+
+        flushVerses();
+        return html;
     }
 
     // ── Рендеринг главы из content.json ──────────────────────────────────
     renderChapterContent(n) {
-        const lib     = this.library;
+        const lib = this.library;
         const chapter = lib.getChapter(n);
         if (!chapter) return;
 
+        const isRu = window.lang === 'ru';
+        const title = isRu ? (chapter.ru ?? chapter.en) : (chapter.en ?? chapter.ru);
         const paragraphs = lib.content[String(n)] || [];
-        const isRu       = window.lang === 'ru';
-        const title       = isRu ? chapter.ru : chapter.en;
-
-        let html = `<div class="chapter-content"><div class="ch-title" id="ch${n}">${title}</div>`;
-        paragraphs.forEach(para => {
-            const text = (isRu ? para.text_ru : para.text_en) || '';
-            if (!text.trim()) return;
-            html += formatPurport(text);
-        });
-        html += navButtonsHtml(n);
-        html += '</div>';
 
         const page = document.getElementById('page');
-        page.innerHTML = html;
+        page.innerHTML = `<div class="chapter-content">
+            ${this.#openingHtml(n, title)}
+            ${this.#paragraphsHtml(paragraphs, isRu)}
+            ${navButtonsHtml(n)}
+        </div>`;
 
         const titleEl = document.getElementById('topTitle');
         if (titleEl) titleEl.innerHTML = title;
@@ -229,6 +347,30 @@ class ChapterRenderer {
         localStorage.setItem(lib.LS('lang'), window.lang);
         localStorage.setItem(lib.LS('chapter'), String(n));
         updateIllustration();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // ── Глава без текста (в content.json её ещё нет) ─────────────────────
+    renderComingSoon(n) {
+        const lib = this.library;
+        const chapter = lib.getChapter(n);
+        const isRu = window.lang === 'ru';
+        const title = chapter ? (isRu ? (chapter.ru ?? chapter.en) : (chapter.en ?? chapter.ru)) : '';
+
+        document.getElementById('page').innerHTML = `<div class="chapter-content">
+            ${this.#openingHtml(n, title)}
+            <div class="empty">${isRu ? 'Текст этой главы будет добавлен...' : 'Text of this chapter coming soon...'}</div>
+            ${navButtonsHtml(n)}
+        </div>`;
+
+        const titleEl = document.getElementById('topTitle');
+        if (titleEl) titleEl.innerHTML = title;
+
+        renderToc();
+        updateBm();
+        document.getElementById('overlay')?.classList.remove('on');
+        document.getElementById('bmpanel')?.classList.remove('on');
+        localStorage.setItem(lib.LS('chapter'), String(n));
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 

@@ -1,0 +1,69 @@
+/* ════════════════════════════════════════════════════════════════
+   book-chapters.css
+   Книги с главами (meta.type = "chapters"): абзацы, санскритские цитаты, переводы. Шапки глав — в chapter.css.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Размеры подогнаны под скан Elevation: цитата на санскрите крупнее текста,
+   перевод жирный, без красной строки. Меняются здесь одной строкой. */
+:root {
+    --ch-verse-size: 20px;
+}
+
+/* ── Воздух между шапкой главы и текстом ── */
+.chapter-content .ch-opening {
+    margin-bottom: 32px;
+}
+
+/* ── Основной текст (как .purport-body p в БГ) ── */
+.chapter-content p {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink2);
+    line-height: 24px;
+    margin-bottom: 0;
+    white-space: pre-line;   /* \n в тексте → перенос строки */
+    text-indent: 2em;        /* красная строка */
+    text-align: justify;     /* ровные края */
+}
+
+/* ── Санскритская цитата: одна строка по центру ── */
+.chapter-content .ch-verse {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: var(--ch-verse-size);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 26px;
+    text-align: center;
+    text-indent: 0;
+    margin: 20px 0;
+}
+
+/* ── Несколько цитат / строк стиха подряд: блок .v-translit из verse.css ── */
+.chapter-content .v-translit {
+    font-size: var(--ch-verse-size);
+    font-weight: 500;
+    line-height: 26px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* ── Перевод стиха: жирный, по ширине, без красной строки (как в скане) ── */
+.chapter-content .ch-translation {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 24px;
+    word-spacing: normal;
+    text-indent: 0;
+    text-align: justify;
+    margin: 16px 0;
+}
+
+/* Ссылка после перевода, например (Bg. 4.1) — обычным весом */
+.chapter-content .ch-translation .ch-ref {
+    font-weight: 500;
+}
