@@ -91,7 +91,8 @@ class Formatter {
             'sarva-gato','yogas','aho','kevalam','karau','muhyanti','bhavati',
             'avatare','dharmasya','govindam','yasmin','gurau','yatra','karhicit',
             'kim','asvatantra','iva','dvija','brahmajyoti','ananta','kavis',
-            'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'tatra', 'lokatrayam', 'atharva'
+            'bhagavad-bhakti-yogataḥ','nivasaty','santas', 'tatra', 'lokatrayam',
+            'atharva', 'ka'
         ]);
 
         // Фразы — принудительный курсив

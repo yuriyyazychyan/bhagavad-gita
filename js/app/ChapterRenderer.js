@@ -251,9 +251,19 @@ class ChapterRenderer {
         return whole ? { quote: whole[1], ref: '', rest: '' } : null;
     }
 
+    // ── Текст без HTML-тегов и сущностей (&nbsp;, &amp; …) ────────────────
+    //    Для определения типа абзаца. Без этого «;» внутри «&nbsp;», которым
+    //    отбиваются отступы строк стиха, принималось за признак английской
+    //    фразы, и стих рассыпался на отдельные абзацы.
+    #plain(text) {
+        return text
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/&(?:#\d+|#x[0-9a-f]+|[a-z][a-z0-9]*);/gi, ' ');
+    }
+
     // ── Санскритская цитата (та же логика, что в Formatter) ───────────────
     #isSanskrit(text) {
-        const t = text.trim();
+        const t = this.#plain(text).trim();
         if (t.length < 5 || /\s—\s/.test(t)) return false;
         const words = t.split(/\s+/);
         if (words.length < 2) return false;
